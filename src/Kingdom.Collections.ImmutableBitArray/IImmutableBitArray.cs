@@ -1,0 +1,109 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Kingdom.Collections
+{
+    public interface IImmutableBitArray : ICollection<bool>, ICloneable
+    {
+        /// <summary>
+        /// Gets the value of the bit at a specific position in the <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="index">The zero-based <paramref name="index"/> of the value to get.</param>
+        /// <returns>The value of the bit at position <paramref name="index"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.
+        /// There is no upper limit for <paramref name="index"/>, but does not expand the number of
+        /// elements within.</exception>
+        bool Get(int index);
+
+        /// <summary>
+        /// Sets the bit at a specific position in the <see cref="ImmutableBitArray"/> to the specified
+        /// <paramref name="value"/>.
+        /// </summary>
+        /// <param name="index">The zero-based <paramref name="index"/> of the bit to set.</param>
+        /// <param name="value">The Boolean <paramref name="value"/> to assign to the bit.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than
+        /// zero.</exception>
+        void Set(int index, bool value);
+
+        /// <summary>
+        /// Sets all bits in the <see cref="ImmutableBitArray"/> to the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The Boolean <paramref name="value"/> to assign to all bits.</param>
+        void SetAll(bool value);
+
+        /// <summary>
+        /// Gets or sets the value of the bit at a specific position in the
+        /// <see cref="ImmutableBitArray"/>. Ensures that the internals can support questions when
+        /// <paramref name="index"/> is greater than the current <see cref="Length"/>.
+        /// </summary>
+        /// <param name="index">The zero-based index of the value to get or set.</param>
+        /// <returns>The value of the bit at position index.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than
+        /// zero.</exception>
+        bool this[int index] { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of elements in the <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <returns>The number of elements in the <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">The property is set to a value that
+        /// is less than zero.</exception>
+        /// <seealso cref="Get"/>
+        /// <seealso cref="Set"/>
+        int Length { get; set; }
+
+        IEnumerable<byte> ToBytes();
+
+        IEnumerable<uint> ToInts();
+    }
+
+    public interface IImmutableBitArray<T> : IImmutableBitArray
+        where T : class, IImmutableBitArray<T>
+    {
+        /// <summary>
+        /// Performs an immutable bitwise AND operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="other">The <see cref="ImmutableBitArray"/> with which to perform the bitwise AND
+        /// operation.</param>
+        /// <returns> An immutable instance containing the result of the bitwise AND operation on
+        /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding elements
+        /// in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        T And(T other);
+
+        /// <summary>
+        /// Performs the bitwise OR operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="other">The <see cref="ImmutableBitArray"/> with which to perform the bitwise OR
+        /// operation.</param>
+        /// <returns>The current instance containing the result of the bitwise OR operation on     
+        /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding elements
+        /// in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        T Or(T other);
+
+        /// <summary>
+        /// Performs the bitwise exclusive OR operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="other">The <see cref="ImmutableBitArray"/> with which to perform the bitwise
+        /// exclusive OR operation.</param>
+        /// <returns>The current instance containing the result of the bitwise exclusive OR
+        /// operation on the elements in the current <see cref="ImmutableBitArray"/> against the
+        /// corresponding elements in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        T Xor(T other);
+
+        /// <summary>
+        /// Inverts all the bit values in the current <see cref="ImmutableBitArray"/>, so that elements
+        /// set to true are changed to false, and elements set to false are changed to true.
+        /// </summary>
+        /// <returns>The current instance with inverted bit values.</returns>
+        T Not();
+    }
+}
