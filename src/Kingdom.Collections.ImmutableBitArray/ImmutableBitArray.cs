@@ -422,6 +422,36 @@ namespace Kingdom.Collections
             }
         }
 
+        private static bool Equals(IImmutableBitArray a, IImmutableBitArray b)
+        {
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (a.Length == b.Length)
+            {
+                return a.SequenceEqual(b);
+            }
+
+            var min = Math.Min(a.Length, b.Length);
+            var aRemaining = a.Skip(min);
+            var bRemaining = b.Skip(min);
+
+            return !(aRemaining.Any(x => x) || bRemaining.Any(x => x))
+                   || a.Take(min).SequenceEqual(b.Take(min));
+        }
+
+        /// <summary>
+        /// Returns whether this instance Equals the <paramref name="other"/> instance.
+        /// </summary>
+        /// <param name="other">An <paramref name="other"/> instance.</param>
+        /// <returns>Whether this instance Equals the <paramref name="other"/> instance.</returns>
+        public bool Equals(ImmutableBitArray other)
+        {
+            return Equals(this, other);
+        }
+
         private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue,
             Func<int, T> getShifted, Func<T, T, T> mergeValue)
         {
