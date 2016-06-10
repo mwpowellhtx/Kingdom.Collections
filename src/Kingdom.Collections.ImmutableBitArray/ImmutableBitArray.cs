@@ -452,6 +452,58 @@ namespace Kingdom.Collections
             return Equals(this, other);
         }
 
+        private static int CompareTo(ImmutableBitArray a, ImmutableBitArray b)
+        {
+            if (ReferenceEquals(a, b))
+            {
+                return 0;
+            }
+
+            // If there are any remaining then we know that this is automatically greater.
+            var min = Math.Min(a.Length, b.Length);
+            var aRemaining = a.Skip(min);
+            var bRemaining = b.Skip(min);
+
+            if (aRemaining.Any(x => x))
+            {
+                return 1;
+            }
+
+            if (bRemaining.Any(x => x))
+            {
+                return -1;
+            }
+
+            // Examine the msb to the lsb in descending order. We iterate this regardless whether lengths were the same.
+            for (var i = min; i >= 0; i--)
+            {
+                var aValue = a.ElementAt(i);
+                var bValue = b.ElementAt(i);
+
+                if (aValue && !bValue)
+                {
+                    return 1;
+                }
+
+                if (bValue && !aValue)
+                {
+                    return -1;
+                }
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Returns the comparison of this instance with the <paramref name="other"/> instance.
+        /// </summary>
+        /// <param name="other">An <paramref name="other"/> instance.</param>
+        /// <returns>The comparison of this instance with the <paramref name="other"/> instance.</returns>
+        public int CompareTo(ImmutableBitArray other)
+        {
+            return CompareTo(this, other);
+        }
+
         private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue,
             Func<int, T> getShifted, Func<T, T, T> mergeValue)
         {

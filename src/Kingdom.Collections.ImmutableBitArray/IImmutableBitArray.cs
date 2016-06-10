@@ -72,7 +72,7 @@ namespace Kingdom.Collections
     /// Represents <typeparamref name="T"/> specific interface concerns.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IImmutableBitArray<T> : IImmutableBitArray, IEquatable<T>
+    public interface IImmutableBitArray<T> : IImmutableBitArray, IEquatable<T>, IComparable<T>
         where T : class, IImmutableBitArray<T>
     {
         /// <summary>
