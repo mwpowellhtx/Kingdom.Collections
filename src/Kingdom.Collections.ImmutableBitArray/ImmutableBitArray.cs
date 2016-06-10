@@ -326,9 +326,14 @@ namespace Kingdom.Collections
         /// <returns>A new instance with the bits shifted left by the <paramref name="count"/>.</returns>
         public ImmutableBitArray ShiftLeft(int count = 1, bool elastic = false)
         {
-            if (count < 1)
+            if (count < 0)
             {
-                throw new ArgumentException("count must be positive greater than zero", "count");
+                throw new ArgumentException("count must be greater than or equal to zero", "count");
+            }
+            // Allow for zero count. Consistent with idempotency rules, return its clone.
+            if (count == 0)
+            {
+                return (ImmutableBitArray) Clone();
             }
             var length = Length;
             // Here is a unique corner case of the shift left operation.
@@ -350,9 +355,14 @@ namespace Kingdom.Collections
         /// <returns>A new instance with the bits shifted right by the <paramref name="count"/>.</returns>
         public ImmutableBitArray ShiftRight(int count = 1, bool elastic = false)
         {
-            if (count < 1)
+            if (count < 0)
             {
-                throw new ArgumentException("count must be positive greater than zero", "count");
+                throw new ArgumentException("count must be greater than or equal to zero", "count");
+            }
+            // Allow for zero count. Consistent with idempotency rules, return its clone.
+            if (count == 0)
+            {
+                return (ImmutableBitArray)Clone();
             }
             var length = Length;
             // This one is a unique corner case of thie shift right operation.
@@ -545,7 +555,7 @@ namespace Kingdom.Collections
         /// <returns></returns>
         public static ImmutableBitArray FromBytes(IEnumerable<byte> bytes)
         {
-            return new ImmutableBitArray(bytes.ToArray());
+            return new ImmutableBitArray(bytes ?? new byte[0]);
         }
 
         /// <summary>
@@ -555,7 +565,7 @@ namespace Kingdom.Collections
         /// <returns></returns>
         public static ImmutableBitArray FromInts(IEnumerable<uint> uints)
         {
-            return new ImmutableBitArray(uints.ToArray());
+            return new ImmutableBitArray(uints ?? new uint[0]);
         }
 
         /// <summary>

@@ -19,6 +19,7 @@ namespace Kingdom.Collections
             const int half = size/2;
             // The default default use case is 1.
             yield return (int?) null;
+            yield return (int?) 0;
             yield return (int?) half;
             /* This is more of a limitation of the language << operator,
              * which is constrained to 0 to 31 bits shifted for integer types. */
