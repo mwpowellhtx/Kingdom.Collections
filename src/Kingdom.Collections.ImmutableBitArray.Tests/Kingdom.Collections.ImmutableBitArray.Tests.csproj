@@ -49,10 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ByteValuesValuesAttribute.cs" />
+    <Compile Include="Attributes\ElasticValuesAttribute.cs" />
     <Compile Include="Attributes\RandomIntValuesAttribute.cs" />
+    <Compile Include="Attributes\ShiftCountValuesAttribute.cs" />
+    <Compile Include="Attributes\SpecificIntValuesAttribute.cs" />
     <Compile Include="Attributes\UInt32ValuesValuesAttribute.cs" />
     <Compile Include="Attributes\ValuesValuesAttributeBase.cs" />
-    <Compile Include="Attributes\ValuesValuesAttributeUtils.cs" />
     <Compile Include="Fixtures\BoolValuesFixture.cs" />
     <Compile Include="Attributes\BoolValuesValuesAttribute.cs" />
     <Compile Include="Fixtures\ByteValuesFixture.cs" />

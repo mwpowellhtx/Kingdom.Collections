@@ -215,5 +215,109 @@ namespace Kingdom.Collections
 
             CollectionAssert.AreEquivalent(bCheckValues, b.ToBytes());
         }
+
+        /// <summary>
+        /// Verifies the eighty percent use cases of the shift left operation.
+        /// Leaving corner cases for more targeted test methods.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="count"></param>
+        /// <param name="elastic"></param>
+        [Test]
+        public void Verify_That_SkipLeft_Correct([SpecificIntValues] uint value,
+            [ShiftCountValues] int? count, [ElasticValues] bool elastic)
+        {
+            var actualCount = count ?? 1;
+            // This is a constraint of the language itself, not of the bit array.
+            Assert.That(actualCount, Is.LessThanOrEqualTo(31));
+            var bytes = BitConverter.GetBytes(value);
+            VerifyShiftOperationCorrect(new ImmutableBitArrayFixture(bytes),
+                arr => arr.InternalShiftLeft(actualCount, elastic),
+                value << actualCount, actualCount, elastic);
+        }
+
+        /// <summary>
+        /// Verifies the eighty percent use cases of the shift left operation.
+        /// Leaving corner cases for more targeted test methods.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="count"></param>
+        /// <param name="elastic"></param>
+        [Test]
+        public void Verify_That_ShiftRight_Correct([SpecificIntValues] uint value,
+            [ShiftCountValues] int? count, [ElasticValues] bool elastic)
+        {
+            var actualCount = count ?? 1;
+            // This is a constraint of the language itself, not of the bit array.
+            Assert.That(actualCount, Is.LessThanOrEqualTo(31));
+            var bytes = BitConverter.GetBytes(value);
+            VerifyShiftOperationCorrect(new ImmutableBitArrayFixture(bytes),
+                arr => arr.InternalShiftRight(actualCount, elastic),
+                value >> actualCount, -actualCount, elastic);
+        }
+
+        private static void VerifyShiftOperationCorrect(ImmutableBitArrayFixture fixture,
+            Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture> shift,
+            uint expectedValue, int count, bool elastic)
+        {
+            Assert.That(fixture, Is.Not.Null);
+
+            const int size = sizeof(uint)*8;
+
+            Assert.That(fixture, Has.Count.EqualTo(size));
+            Assert.That(fixture, Has.Length.EqualTo(size));
+
+            var shifted = shift(fixture);
+            var expectedCount = elastic ? Math.Max(size + count, 0) : size;
+
+            Assert.That(shifted, Is.Not.SameAs(fixture));
+            Assert.That(shifted, Has.Count.EqualTo(expectedCount));
+            Assert.That(shifted, Has.Length.EqualTo(expectedCount));
+
+            var shiftedValues = shifted.ToInts();
+
+            // Does not matter, per se, what the second element is, but the first element should be this.
+            Assert.That(shiftedValues.ElementAt(0), Is.EqualTo(expectedValue));
+        }
+
+        [Test]
+        [TestCase((uint) 0x12341234, 96, true)]
+        [TestCase((uint) 0x23452345, 128, false)]
+        [TestCase((uint) 0x34563456, 192, true)]
+        [TestCase((uint) 0x45674567, 256, false)]
+        public void Verify_That_ShiftLeft_ArbitrarilyLongCount(uint value, int count, bool elastic)
+        {
+            // Virtually the same in approach saving for a couple of left/right, positive/negative arguments.
+            VerifyThatShiftOperationArbitrarilyLongCountCorrect(
+                new ImmutableBitArrayFixture(BitConverter.GetBytes(value)),
+                arr => arr.InternalShiftLeft(count, elastic), count, elastic);
+        }
+
+        [Test]
+        [TestCase((uint) 0x12341234, 96, true)]
+        [TestCase((uint) 0x23452345, 128, false)]
+        [TestCase((uint) 0x34563456, 192, true)]
+        [TestCase((uint) 0x45674567, 256, false)]
+        public void Verify_That_ShiftRight_ArbitrarilyLongCount(uint value, int count, bool elastic)
+        {
+            // Virtually the same in approach saving for a couple of left/right, positive/negative arguments.
+            VerifyThatShiftOperationArbitrarilyLongCountCorrect(
+                new ImmutableBitArrayFixture(BitConverter.GetBytes(value)),
+                arr => arr.InternalShiftRight(count, elastic), -count, elastic);
+        }
+
+        private static void VerifyThatShiftOperationArbitrarilyLongCountCorrect(ImmutableBitArrayFixture fixture, 
+            Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture> shift, int count,  bool elastic)
+        {
+            Assert.That(fixture, Is.Not.Null);
+
+            var shifted = shift(fixture);
+            Assert.That(shifted, Is.Not.SameAs(fixture));
+
+            var expectedCount = elastic ? Math.Max(fixture.Length + count, 0) : fixture.Length;
+
+            Assert.That(shifted, Has.Count.EqualTo(expectedCount));
+            Assert.That(shifted, Has.Length.EqualTo(expectedCount));
+        }
     }
 }

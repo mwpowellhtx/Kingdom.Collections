@@ -317,6 +317,55 @@ namespace Kingdom.Collections
         }
 
         /// <summary>
+        /// Shifts the current <see cref="ImmutableBitArray"/> left by the
+        /// <paramref name="count"/> number of bits. Optionally expands the
+        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// </summary>
+        /// <param name="count">The number of bits to shift left.</param>
+        /// <param name="elastic">Optionally expands the length of the bit array.</param>
+        /// <returns>A new instance with the bits shifted left by the <paramref name="count"/>.</returns>
+        public ImmutableBitArray ShiftLeft(int count = 1, bool elastic = false)
+        {
+            if (count < 1)
+            {
+                throw new ArgumentException("count must be positive greater than zero", "count");
+            }
+            var length = Length;
+            // Here is a unique corner case of the shift left operation.
+            if (!elastic && length == 0)
+            {
+                return new ImmutableBitArray(new bool[0]);
+            }
+            var values = Enumerable.Range(0, count).Select(_ => false).Concat(_values);
+            return new ImmutableBitArray(elastic ? values : values.Take(length));
+        }
+
+        /// <summary>
+        /// Shifts the current <see cref="ImmutableBitArray"/> right by the
+        /// <paramref name="count"/> number of bits. Optionally contracts the
+        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// </summary>
+        /// <param name="count">The number of bits to shift right.</param>
+        /// <param name="elastic">Optionally contracts the length of bit array.</param>
+        /// <returns>A new instance with the bits shifted right by the <paramref name="count"/>.</returns>
+        public ImmutableBitArray ShiftRight(int count = 1, bool elastic = false)
+        {
+            if (count < 1)
+            {
+                throw new ArgumentException("count must be positive greater than zero", "count");
+            }
+            var length = Length;
+            // This one is a unique corner case of thie shift right operation.
+            if (length == 0 || (elastic && count >= length))
+            {
+                return new ImmutableBitArray(new bool[0]);
+            }
+            var values = _values.Concat(Enumerable.Range(0, count).Select(_ => false));
+            var skipped = values.Skip(count);
+            return new ImmutableBitArray(elastic ? skipped.Take(length - count) : skipped);
+        }
+
+        /// <summary>
         /// Gets the value of the bit at a specific position in the <see cref="ImmutableBitArray"/>.
         /// </summary>
         /// <param name="index">The zero-based <paramref name="index"/> of the value to get.</param>

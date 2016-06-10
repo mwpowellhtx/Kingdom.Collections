@@ -2,6 +2,7 @@
 
 namespace Kingdom.Collections
 {
+    using NUnit.Framework;
     /// <summary>
     /// Helps by exposing <see cref="ImmutableBitArray._values"/> into the unit tests
     /// for verification.
@@ -50,22 +51,44 @@ namespace Kingdom.Collections
 
         internal ImmutableBitArrayFixture InternalAnd(ImmutableBitArrayFixture other)
         {
-            return new ImmutableBitArrayFixture(And(other));
+            var result = And(other);
+            Assert.That(result, Is.Not.Null);
+            return new ImmutableBitArrayFixture(result);
         }
 
         internal ImmutableBitArrayFixture InternalOr(ImmutableBitArrayFixture other)
         {
-            return new ImmutableBitArrayFixture(Or(other));
+            var result = Or(other);
+            Assert.That(result, Is.Not.Null);
+            return new ImmutableBitArrayFixture(result);
         }
 
         internal ImmutableBitArrayFixture InternalXor(ImmutableBitArrayFixture other)
         {
-            return new ImmutableBitArrayFixture(Xor(other));
+            var result = Xor(other);
+            Assert.That(result, Is.Not.Null);
+            return new ImmutableBitArrayFixture(result);
         }
 
         internal ImmutableBitArrayFixture InternalNot()
         {
-            return new ImmutableBitArrayFixture(Not());
+            var result = Not();
+            Assert.That(result, Is.Not.Null);
+            return new ImmutableBitArrayFixture(result);
+        }
+
+        internal ImmutableBitArrayFixture InternalShiftLeft(int count = 1, bool elastic = false)
+        {
+            var result = ShiftLeft(count, elastic);
+            Assert.That(result, Is.Not.Null);
+            return new ImmutableBitArrayFixture(result);
+        }
+
+        internal ImmutableBitArrayFixture InternalShiftRight(int count = 1, bool elastic = false)
+        {
+            var result = ShiftRight(count, elastic);
+            Assert.That(result, Is.Not.Null);
+            return new ImmutableBitArrayFixture(result);
         }
 
         public override object Clone()

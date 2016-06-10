@@ -120,5 +120,25 @@ namespace Kingdom.Collections
         /// </summary>
         /// <returns>The current instance with inverted bit values.</returns>
         T Not();
+
+        /// <summary>
+        /// Shifts the current <see cref="ImmutableBitArray"/> left by the
+        /// <paramref name="count"/> number of bits. Optionally expands the
+        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// </summary>
+        /// <param name="count">The number of bits to shift left.</param>
+        /// <param name="elastic">Optionally expands the length of the bit array.</param>
+        /// <returns>A new instance with the bits shifted left by the <paramref name="count"/>.</returns>
+        T ShiftLeft(int count = 1, bool elastic = false);
+
+        /// <summary>
+        /// Shifts the current <see cref="ImmutableBitArray"/> right by the
+        /// <paramref name="count"/> number of bits. Optionally contracts the
+        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// </summary>
+        /// <param name="count">The number of bits to shift right.</param>
+        /// <param name="elastic">Optionally contracts the length of bit array.</param>
+        /// <returns>A new instance with the bits shifted right by the <paramref name="count"/>.</returns>
+        T ShiftRight(int count = 1, bool elastic = false);
     }
 }
