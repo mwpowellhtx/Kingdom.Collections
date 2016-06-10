@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Kingdom.Collections
 {
+    /// <summary>
+    /// Represents all the non-type specific interface bit array concerns.
+    /// </summary>
     public interface IImmutableBitArray : ICollection<bool>, ICloneable
     {
         /// <summary>
@@ -52,11 +55,23 @@ namespace Kingdom.Collections
         /// <seealso cref="Set"/>
         int Length { get; set; }
 
+        /// <summary>
+        /// Returns the internal array in terms of an array of <see cref="byte"/>s.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<byte> ToBytes();
 
+        /// <summary>
+        /// Returns the internal array in terms of an array of <see cref="uint"/>s.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<uint> ToInts();
     }
 
+    /// <summary>
+    /// Represents <typeparamref name="T"/> specific interface concerns.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IImmutableBitArray<T> : IImmutableBitArray
         where T : class, IImmutableBitArray<T>
     {

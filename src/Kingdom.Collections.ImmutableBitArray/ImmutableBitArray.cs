@@ -407,11 +407,21 @@ namespace Kingdom.Collections
                 shift => (uint) 1 << shift, (a, b) => a | b);
         }
 
+        /// <summary>
+        /// Returns a newly created bit array based on the <paramref name="bytes"/>.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public static ImmutableBitArray FromBytes(IEnumerable<byte> bytes)
         {
             return new ImmutableBitArray(bytes.ToArray());
         }
 
+        /// <summary>
+        /// Returns a newly created bit array based on the <paramref name="uints"/>.
+        /// </summary>
+        /// <param name="uints"></param>
+        /// <returns></returns>
         public static ImmutableBitArray FromInts(IEnumerable<uint> uints)
         {
             return new ImmutableBitArray(uints.ToArray());
