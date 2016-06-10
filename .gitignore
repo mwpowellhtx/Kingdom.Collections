@@ -1,0 +1,11 @@
+obj/
+bin/
+_ReSharper.Caches/
+packages/
+
+*.suo
+*.DotSettings
+*.user
+*.nupkg
+
+!.nuget/
