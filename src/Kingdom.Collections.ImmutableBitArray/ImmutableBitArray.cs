@@ -207,7 +207,7 @@ namespace Kingdom.Collections
             get { return false; }
         }
 
-        private static List<bool> VerifyLength(List<bool> values, int expectedLength)
+        private static void VerifyLength(List<bool> values, int expectedLength)
         {
             while (expectedLength < values.Count)
             {
@@ -218,8 +218,6 @@ namespace Kingdom.Collections
             {
                 values.Add(false);
             }
-
-            return values;
         }
 
         /// <summary>
@@ -236,13 +234,20 @@ namespace Kingdom.Collections
             set { VerifyLength(_values, value); }
         }
 
-        private static ImmutableBitArray BitwiseFunc(ImmutableBitArray a, ImmutableBitArray b,
-            Func<bool, bool, bool> func)
+        private static ImmutableBitArray BitwiseFunc(IEnumerable<IList<bool>> valuesArr,
+            Func<IList<bool>, bool> func)
         {
-            var length = Math.Max(a.Length, b.Length);
-            var values = VerifyLength(a._values.ToList(), length);
-            var otherValues = VerifyLength(b._values, length);
-            return new ImmutableBitArray(values.Zip(otherValues, func).ToArray());
+            // ReSharper disable once PossibleMultipleEnumeration
+            var maxCount = valuesArr.Max(arr => arr.Count);
+            var values = new List<bool>();
+            for (var index = 0; index < maxCount; index++)
+            {
+                var i = index;
+                // ReSharper disable once PossibleMultipleEnumeration
+                var slice = valuesArr.Select(arr => i < arr.Count && arr[i]).ToList();
+                values.Add(func(slice));
+            }
+            return new ImmutableBitArray(values);
         }
 
         /// <summary>
@@ -258,11 +263,28 @@ namespace Kingdom.Collections
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public ImmutableBitArray And(ImmutableBitArray other)
         {
-            if (other == null)
+            return And(new[] {other});
+        }
+
+        /// <summary>
+        /// Performs an immutable bitwise AND operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="others">The <see cref="ImmutableBitArray"/>(s) with which to perform the
+        /// bitwise AND operation.</param>
+        /// <returns> An immutable instance containing the result of the bitwise AND operation on
+        /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding
+        /// elements in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        public ImmutableBitArray And(IEnumerable<ImmutableBitArray> others)
+        {
+            if (others == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("others");
             }
-            return BitwiseFunc(this, other, (a, b) => a && b);
+            return BitwiseFunc(new[] {this}.Concat(others).Select(o => o._values)
+                .ToList(), slice => slice.All(x => x));
         }
 
         /// <summary>
@@ -278,11 +300,28 @@ namespace Kingdom.Collections
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public ImmutableBitArray Or(ImmutableBitArray other)
         {
-            if (other == null)
+            return Or(new[] {other});
+        }
+
+        /// <summary>
+        /// Performs the bitwise OR operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="others">The <see cref="ImmutableBitArray"/>(s) with which to perform the
+        /// bitwise OR operation.</param>
+        /// <returns>The current instance containing the result of the bitwise OR operation on     
+        /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding
+        /// elements in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        public ImmutableBitArray Or(IEnumerable<ImmutableBitArray> others)
+        {
+            if (others == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("others");
             }
-            return BitwiseFunc(this, other, (a, b) => a || b);
+            return BitwiseFunc(new[] {this}.Concat(others).Select(x => x._values)
+                .ToList(), slide => slide.Any(x => x));
         }
 
         /// <summary>
@@ -298,12 +337,34 @@ namespace Kingdom.Collections
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public ImmutableBitArray Xor(ImmutableBitArray other)
         {
-            if (other == null)
+            return Xor(new[] {other});
+        }
+
+        /// <summary>
+        /// Performs the bitwise exclusive OR operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="others">The <see cref="ImmutableBitArray"/> with which to perform the
+        /// bitwise exclusive OR operation.</param>
+        /// <returns>The current instance containing the result of the bitwise exclusive OR
+        /// operation on the elements in the current <see cref="ImmutableBitArray"/> against the
+        /// corresponding elements in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        public ImmutableBitArray Xor(IEnumerable<ImmutableBitArray> others)
+        {
+            if (others == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("others");
             }
-            // http://en.wikipedia.org/wiki/Exclusive_or
-            return BitwiseFunc(this, other, (a, b) => a != b);
+            return BitwiseFunc(new[] {this}.Concat(others).Select(x => x._values)
+                .ToList(), slice =>
+                {
+                    // http://en.wikipedia.org/wiki/Exclusive_or
+                    var count = slice.Count(x => x);
+                    // XOR means this: false = all false or all true; true is a mixed result
+                    return !(count == 0 || count == slice.Count);
+                });
         }
 
         /// <summary>

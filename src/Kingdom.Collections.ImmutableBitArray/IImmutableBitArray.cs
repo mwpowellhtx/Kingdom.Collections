@@ -89,6 +89,19 @@ namespace Kingdom.Collections
         T And(T other);
 
         /// <summary>
+        /// Performs an immutable bitwise AND operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="others">The <see cref="ImmutableBitArray"/> with which to perform the
+        /// bitwise AND operation.</param>
+        /// <returns> An immutable instance containing the result of the bitwise AND operation on
+        /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding elements
+        /// in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        T And(IEnumerable<T> others);
+
+        /// <summary>
         /// Performs the bitwise OR operation on the elements in the current
         /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
         /// <see cref="ImmutableBitArray"/>.
@@ -102,6 +115,19 @@ namespace Kingdom.Collections
         T Or(T other);
 
         /// <summary>
+        /// Performs the bitwise OR operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="others">The <see cref="ImmutableBitArray"/>(s) with which to perform the
+        /// bitwise OR operation.</param>
+        /// <returns>The current instance containing the result of the bitwise OR operation on     
+        /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding elements
+        /// in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        T Or(IEnumerable<T> others);
+
+        /// <summary>
         /// Performs the bitwise exclusive OR operation on the elements in the current
         /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
         /// <see cref="ImmutableBitArray"/>.
@@ -113,6 +139,19 @@ namespace Kingdom.Collections
         /// corresponding elements in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         T Xor(T other);
+
+        /// <summary>
+        /// Performs the bitwise exclusive OR operation on the elements in the current
+        /// <see cref="ImmutableBitArray"/> against the corresponding elements in the specified
+        /// <see cref="ImmutableBitArray"/>.
+        /// </summary>
+        /// <param name="others">The <see cref="ImmutableBitArray"/>(s) with which to perform the
+        /// bitwise exclusive OR operation.</param>
+        /// <returns>The current instance containing the result of the bitwise exclusive OR
+        /// operation on the elements in the current <see cref="ImmutableBitArray"/> against the
+        /// corresponding elements in the specified <see cref="ImmutableBitArray"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        T Xor(IEnumerable<T> others);
 
         /// <summary>
         /// Inverts all the bit values in the current <see cref="ImmutableBitArray"/>, so that elements
