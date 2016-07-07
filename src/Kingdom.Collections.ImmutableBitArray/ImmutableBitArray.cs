@@ -509,8 +509,9 @@ namespace Kingdom.Collections
             var aRemaining = a.Skip(min);
             var bRemaining = b.Skip(min);
 
-            return !(aRemaining.Any(x => x) || bRemaining.Any(x => x))
-                   || a.Take(min).SequenceEqual(b.Take(min));
+            // Not sure what I was thinking with the previous version.
+            return a.Take(min).SequenceEqual(b.Take(min))
+                   && !(aRemaining.Any(x => x) || bRemaining.Any(x => x));
         }
 
         /// <summary>
