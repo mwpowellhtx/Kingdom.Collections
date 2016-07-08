@@ -4,7 +4,7 @@
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>Kingdom.Collections.ImmutableBitArray</id>
     <title>Kingdom.Collections.ImmutableBitArray</title>
-    <version>1.4.1</version>
+    <version>1.5.0</version>
     <authors>Michael W. Powell</authors>
     <owners>mwpowellhtx</owners>
     <projectUrl>http://github.com/mwpowellhtx/ImmutableBitArray</projectUrl>
