@@ -59,7 +59,7 @@ namespace Kingdom.Collections
         /// Returns the internal array in terms of an array of <see cref="byte"/>s.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<byte> ToBytes();
+        IEnumerable<byte> ToBytes(bool msb = true);
 
         /// <summary>
         /// Returns the internal array in terms of an array of <see cref="uint"/>s.

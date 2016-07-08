@@ -598,14 +598,21 @@ namespace Kingdom.Collections
             return values;
         }
 
-        public IEnumerable<byte> ToBytes()
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{Byte}"/> in either <paramref name="msb"/>.
+        /// </summary>
+        /// <param name="msb"></param>
+        /// <returns></returns>
+        public IEnumerable<byte> ToBytes(bool msb = true)
         {
-            return ToValues<byte>(() => sizeof(byte)*8, () => 0,
+            var values = ToValues<byte>(() => sizeof(byte)*8, () => 0,
                 shift => (byte) (1 << shift), (a, b) => (byte) (a | b));
+            return msb ? values.Reverse() : values;
         }
 
         public IEnumerable<uint> ToInts()
         {
+            // TODO: TBD: whether/how to handle msb?
             return ToValues<uint>(() => sizeof(uint)*8, () => 0,
                 shift => (uint) 1 << shift, (a, b) => a | b);
         }
@@ -614,10 +621,12 @@ namespace Kingdom.Collections
         /// Returns a newly created bit array based on the <paramref name="bytes"/>.
         /// </summary>
         /// <param name="bytes"></param>
+        /// <param name="msb"></param>
         /// <returns></returns>
-        public static ImmutableBitArray FromBytes(IEnumerable<byte> bytes)
+        public static ImmutableBitArray FromBytes(IEnumerable<byte> bytes, bool msb = true)
         {
-            return new ImmutableBitArray(bytes ?? new byte[0]);
+            bytes = (msb ? bytes.Reverse() : bytes) ?? new byte[0];
+            return new ImmutableBitArray(bytes);
         }
 
         /// <summary>
@@ -627,7 +636,9 @@ namespace Kingdom.Collections
         /// <returns></returns>
         public static ImmutableBitArray FromInts(IEnumerable<uint> uints)
         {
-            return new ImmutableBitArray(uints ?? new uint[0]);
+            // TODO: TBD: whether/how to handle msb?
+            uints = uints ?? new uint[0];
+            return new ImmutableBitArray(uints);
         }
 
         /// <summary>
