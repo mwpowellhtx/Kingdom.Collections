@@ -64,7 +64,7 @@ namespace Kingdom.Collections
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImmutableBitArray"/> class that contains
-        /// bit values copied from the specified array of bytes.
+        /// bit values copied from the specified array of bytes in LSB.
         /// </summary>
         /// <param name="bytes">An array of bytes containing the values to copy, where each byte
         /// represents eight consecutive bits.</param>
@@ -78,7 +78,7 @@ namespace Kingdom.Collections
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImmutableBitArray"/> class that contains
-        /// bit values copied from the specified array of 32-bit integers.
+        /// bit values copied from the specified array of 32-bit integers in LSB.
         /// </summary>
         /// <param name="uints">An array of integers containing the values to copy, where each
         /// integer represents 32 consecutive bits.</param>
@@ -577,7 +577,7 @@ namespace Kingdom.Collections
         }
 
         private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue,
-            Func<int, T> getShifted, Func<T, T, T> mergeValue)
+            Func<int, T> getShifted, Func<T, T, T> mergeValue, bool msb)
         {
             var size = getSize();
             var defaultValue = getDefaultValue();
@@ -587,13 +587,28 @@ namespace Kingdom.Collections
                 var j = i/size;
                 if (values.Count < j + 1)
                 {
-                    values.Add(defaultValue);
+                    if (msb)
+                    {
+                        values.Insert(0, defaultValue);
+                    }
+                    else
+                    {
+                        values.Add(defaultValue);
+                    }
                 }
                 if (!_values[i])
                 {
                     continue;
                 }
-                values[j] = mergeValue(values[j], getShifted(i%size));
+                if (msb)
+                {
+                    // TODO: TBD: this may need to be a little bit different for Int32 vs. Byte...
+                    values[0] = mergeValue(values[0], getShifted(i % size));
+                }
+                else
+                {
+                    values[j] = mergeValue(values[j], getShifted(i % size));
+                }
             }
             return values;
         }
@@ -605,16 +620,21 @@ namespace Kingdom.Collections
         /// <returns></returns>
         public IEnumerable<byte> ToBytes(bool msb = true)
         {
-            var values = ToValues<byte>(() => sizeof(byte)*8, () => 0,
-                shift => (byte) (1 << shift), (a, b) => (byte) (a | b));
-            return msb ? values.Reverse() : values;
+            // This should be equally as quick whether MSB or not.
+            return ToValues<byte>(() => sizeof(byte)*8, () => 0,
+                shift => (byte) (1 << shift), (a, b) => (byte) (a | b), msb);
         }
 
-        public IEnumerable<uint> ToInts()
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{UInt32}"/> in either <paramref name="msb"/>.
+        /// </summary>
+        /// <param name="msb"></param>
+        /// <returns></returns>
+        public IEnumerable<uint> ToInts(bool msb = true)
         {
             // TODO: TBD: whether/how to handle msb?
             return ToValues<uint>(() => sizeof(uint)*8, () => 0,
-                shift => (uint) 1 << shift, (a, b) => a | b);
+                shift => (uint) 1 << shift, (a, b) => a | b, msb);
         }
 
         /// <summary>

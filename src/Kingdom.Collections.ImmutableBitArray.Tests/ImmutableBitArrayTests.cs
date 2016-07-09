@@ -48,7 +48,8 @@ namespace Kingdom.Collections
         [Test]
         public void Verify_That_Byte_Values_Ctor_Correct([ByteValuesValues] ByteValuesFixture fixture)
         {
-            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values.ToArray()), s => s.ToBytes());
+            // Ditto in LSB order.
+            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values.ToArray()), s => s.ToBytes(false));
         }
 
         [Test]
@@ -186,11 +187,13 @@ namespace Kingdom.Collections
             Assert.That(b, Is.Not.SameAs(c));
             Assert.That(a.Values, Is.Not.SameAs(c.Values));
             Assert.That(b.Values, Is.Not.SameAs(c.Values));
-
+            
             var cCheckValue = checker(aValue, bValue);
             var cCheckValues = BitConverter.GetBytes(cCheckValue);
 
-            CollectionAssert.AreEquivalent(cCheckValues, c.ToBytes());
+            /* Asserting that the collections are equivalent is incorret, they must be equal.
+             * That is, they must be the same size and order of the elements. */
+            CollectionAssert.AreEqual(cCheckValues, c.ToBytes(false));
         }
 
         [Test]
@@ -213,7 +216,8 @@ namespace Kingdom.Collections
             var bCheckValue = checker(value);
             var bCheckValues = BitConverter.GetBytes(bCheckValue);
 
-            CollectionAssert.AreEquivalent(bCheckValues, b.ToBytes());
+            // Ditto before, must be the same count and values in the same order.
+            CollectionAssert.AreEqual(bCheckValues, b.ToBytes(false));
         }
 
         /// <summary>
@@ -274,7 +278,7 @@ namespace Kingdom.Collections
             Assert.That(shifted, Has.Count.EqualTo(expectedCount));
             Assert.That(shifted, Has.Length.EqualTo(expectedCount));
 
-            var shiftedValues = shifted.ToInts();
+            var shiftedValues = shifted.ToInts(false);
 
             // Does not matter, per se, what the second element is, but the first element should be this.
             Assert.That(shiftedValues.ElementAt(0), Is.EqualTo(expectedValue));

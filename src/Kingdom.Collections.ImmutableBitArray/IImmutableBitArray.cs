@@ -56,16 +56,18 @@ namespace Kingdom.Collections
         int Length { get; set; }
 
         /// <summary>
-        /// Returns the internal array in terms of an array of <see cref="byte"/>s.
+        /// Returns an <see cref="IEnumerable{Byte}"/> corresponding to <paramref name="msb"/>.
         /// </summary>
+        /// <param name="msb"></param>
         /// <returns></returns>
         IEnumerable<byte> ToBytes(bool msb = true);
 
         /// <summary>
-        /// Returns the internal array in terms of an array of <see cref="uint"/>s.
+        /// Returns an <see cref="IEnumerable{UInt32}"/> corresponding to <paramref name="msb"/>.
         /// </summary>
+        /// <param name="msb"></param>
         /// <returns></returns>
-        IEnumerable<uint> ToInts();
+        IEnumerable<uint> ToInts(bool msb = true);
     }
 
     /// <summary>

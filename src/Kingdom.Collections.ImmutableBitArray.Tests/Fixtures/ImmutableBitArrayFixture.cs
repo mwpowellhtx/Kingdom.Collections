@@ -24,11 +24,19 @@ namespace Kingdom.Collections
         {
         }
 
+        /// <summary>
+        /// Construct the fixture with <paramref name="bytes"/> in LSB.
+        /// </summary>
+        /// <param name="bytes"></param>
         public ImmutableBitArrayFixture(byte[] bytes)
             : base(bytes)
         {
         }
 
+        /// <summary>
+        /// Construct the fixture with <paramref name="values"/> in LSB.
+        /// </summary>
+        /// <param name="values"></param>
         public ImmutableBitArrayFixture(uint[] values)
             : base(values)
         {
