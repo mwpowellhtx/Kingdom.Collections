@@ -1,21 +1,20 @@
 ﻿<?xml version='1.0'?>
 <package xmlns:xsd="http://www.w3.org/2001/XMLSchema"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <id>Kingdom.Collections.ImmutableBitArray</id>
-    <title>Kingdom.Collections.ImmutableBitArray</title>
-    <version>1.5.1</version>
-    <authors>Michael W. Powell</authors>
-    <owners>mwpowellhtx</owners>
-    <projectUrl>http://github.com/mwpowellhtx/ImmutableBitArray</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The framework BitArray is helpful but it has a serious flaw in the fact that it is not immutable. This is the primary motivation for working on this package in order to achieve just such an ImmutableBitArray. Reflexive operations can modify an instance but otherwise bitwise operations should yield a wholely new instance.</description>
-    <tags>immutable BitArray ImmutableBitArray uint bool IEnumerable ICollection IClonable</tags>
-    <language>en-US</language>
-  </metadata>
-  <files>
-    <file src="bin\Release\Kingdom.Collections.ImmutableBitArray.dll" target="lib\net45" />
-    <file src="bin\Release\Kingdom.Collections.ImmutableBitArray.pdb" target="lib\net45" />
-    <file src="bin\Release\Kingdom.Collections.ImmutableBitArray.xml" target="lib\net45" />
-  </files>
+    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+        <id>$id$</id>
+        <title>$id$</title>
+        <version>1.5.2</version>
+        <authors>Michael W. Powell</authors>
+        <owners>$author$</owners>
+        <projectUrl>http://github.com/mwpowellhtx/ImmutableBitArray</projectUrl>
+        <summary>Immutable and idempotent bit array implementation for dotnet.</summary>
+        <description>The framework BitArray is helpful but it has a serious flaw in the fact that it is not immutable. This is the primary motivation for working on this package in order to achieve just such an ImmutableBitArray. Reflexive operations can modify an instance but otherwise bitwise operations should yield a wholely new instance.</description>
+        <tags>immutable BitArray ImmutableBitArray uint bool IEnumerable ICollection IClonable</tags>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <language>en-US</language>
+    </metadata>
+    <files>
+        <file src="bin\$configuration$\$id$.pdb" target="lib\net45" />
+    </files>
 </package>
