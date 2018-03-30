@@ -6,6 +6,8 @@ namespace Kingdom.Collections
     /// <summary>
     /// Represents all the non-type specific interface bit array concerns.
     /// </summary>
+    /// <inheritdoc cref="ICollection{T}"/>
+    /// <inheritdoc cref="ICloneable"/>
     public interface IImmutableBitArray : ICollection<bool>, ICloneable
     {
         /// <summary>
@@ -74,6 +76,9 @@ namespace Kingdom.Collections
     /// Represents <typeparamref name="T"/> specific interface concerns.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <inheritdoc cref="IImmutableBitArray"/>
+    /// <inheritdoc cref="IEquatable{T}"/>
+    /// <inheritdoc cref="IComparable{T}"/>
     public interface IImmutableBitArray<T> : IImmutableBitArray, IEquatable<T>, IComparable<T>
         where T : class, IImmutableBitArray<T>
     {
