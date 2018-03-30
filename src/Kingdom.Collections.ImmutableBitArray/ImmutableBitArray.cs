@@ -6,15 +6,23 @@ using System.Linq;
 namespace Kingdom.Collections
 {
     /// <summary>
-    /// Provides a &quot;morally equivalent&quot; (in huge quotes, so called) implementation
-    /// of <see cref="ImmutableBitArray"/>, similar to the framework
-    /// <see cref="System.Collections.BitArray"/>. This became necessary because we noticed
-    /// that the framework implementation is not immutable in critical places, and it is a
-    /// fairly simple thing to implement.
+    /// Provides a &quot;morally equivalent&quot; (in huge quotes, so called) implementation of
+    /// <see cref="ImmutableBitArray"/>, similar to the framework <see cref="BitArray"/>. This
+    /// became necessary because we noticed that the framework implementation is not immutable
+    /// in critical places, and it is a fairly simple thing to implement. Admitedly, immutable
+    /// is perhaps not the best name when idempotence is closer to what I wanted to achieve here.
+    /// Especially concerning operations such as twos complement, which should most definitely
+    /// leave the original instance unchanged.
     /// </summary>
+    /// <inheritdoc cref="IImmutableBitArray{T}"/>
+    /// <see cref="!:http://en.wikipedia.org/wiki/Idempotence"/>
+    /// <see cref="!:http://en.wikipedia.org/wiki/Immutable_object"/>
     public class ImmutableBitArray : IImmutableBitArray<ImmutableBitArray>
     {
         // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// Values backing field.
+        /// </summary>
         protected List<bool> _values;
 
         private void SetValues<T>(IEnumerable<T> values, Func<int> getSize,
@@ -22,15 +30,17 @@ namespace Kingdom.Collections
         {
             if (values == null)
             {
-                throw new ArgumentNullException("values");
+                throw new ArgumentNullException(nameof(values));
             }
+
             // ReSharper disable once PossibleMultipleEnumeration
             var count = values.Count();
             var size = getSize();
-            if ((long) count*size > int.MaxValue)
+            if ((long) count * size > int.MaxValue)
             {
-                throw new ArgumentException("values bit length exceeds Int32.MaxValue", "values");
+                throw new ArgumentException("values bit length exceeds Int32.MaxValue", nameof(values));
             }
+
             _values = new List<bool>();
             var innerRange = Enumerable.Range(0, size).ToArray();
             for (var i = 0; i < count; i++)
@@ -53,9 +63,9 @@ namespace Kingdom.Collections
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImmutableBitArray"/> class that contains
-        /// bit values copied from the specified array of <see cref="Boolean"/>s.
+        /// bit values copied from the specified array of <see cref="bool"/>s.
         /// </summary>
-        /// <param name="values">An array of <see cref="Boolean"/>s to copy</param>
+        /// <param name="values">An array of <see cref="bool"/>s to copy</param>
         /// <exception cref="ArgumentNullException"><paramref name="values"/> is null</exception>
         public ImmutableBitArray(IEnumerable<bool> values)
         {
@@ -73,7 +83,7 @@ namespace Kingdom.Collections
         /// than <see cref="int.MaxValue"/>.</exception>
         public ImmutableBitArray(IEnumerable<byte> bytes)
         {
-            SetValues(bytes, () => sizeof(byte)*8, (arr, i, j) => (arr.ElementAt(i) & 1 << j) != 0);
+            SetValues(bytes, () => sizeof(byte) * 8, (arr, i, j) => (arr.ElementAt(i) & 1 << j) != 0);
         }
 
         /// <summary>
@@ -87,7 +97,8 @@ namespace Kingdom.Collections
         /// than <see cref="int.MaxValue"/>.</exception>
         public ImmutableBitArray(IEnumerable<uint> uints)
         {
-            SetValues(uints, () => sizeof(uint)*8, (arr, i, j) => (arr.ElementAt(i) & 1 << j) != 0);
+            SetValues(uints, () => sizeof(uint) * 8
+                , (arr, i, j) => (arr.ElementAt(i) & 1 << j) != 0);
         }
 
         /// <summary>
@@ -97,6 +108,7 @@ namespace Kingdom.Collections
         /// <param name="length">The number of bit values in the new <see cref="ImmutableBitArray"/>.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than
         /// zero.</exception>
+        /// <inheritdoc />
         public ImmutableBitArray(int length)
             : this(length, false)
         {
@@ -107,15 +119,16 @@ namespace Kingdom.Collections
         /// the specified number of bit values, which are initially set to the specified value.
         /// </summary>
         /// <param name="length">The number of bit values in the new <see cref="ImmutableBitArray"/>.</param>
-        /// <param name="defaultValue">The <see cref="Boolean"/> value to assign to each bit.</param>
+        /// <param name="defaultValue">The <see cref="bool"/> value to assign to each bit.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than
         /// zero.</exception>
         public ImmutableBitArray(int length, bool defaultValue)
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
+
             _values = Enumerable.Range(0, length).Select(_ => defaultValue).ToList();
         }
 
@@ -123,6 +136,7 @@ namespace Kingdom.Collections
         /// Returns an enumerator that iterates through the <see cref="ImmutableBitArray"/>.
         /// </summary>
         /// <returns>An <see cref="IEnumerator"/> for the entire <see cref="ImmutableBitArray"/>.</returns>
+        /// <inheritdoc />
         public IEnumerator<bool> GetEnumerator()
         {
             return _values.GetEnumerator();
@@ -132,21 +146,37 @@ namespace Kingdom.Collections
         /// Returns an enumerator that iterates through the <see cref="ImmutableBitArray"/>.
         /// </summary>
         /// <returns>An <see cref="IEnumerator"/> for the entire <see cref="ImmutableBitArray"/>.</returns>
+        /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Adds the <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <inheritdoc />
         public void Add(bool value)
         {
             _values.Add(value);
         }
 
+        /// <summary>
+        /// Clears the Values.
+        /// </summary>
+        /// <inheritdoc />
         public void Clear()
         {
             _values.Clear();
         }
 
+        /// <summary>
+        /// Returns whether Contains the <paramref name="item"/>.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        /// <inheritdoc />
         public bool Contains(bool item)
         {
             return _values.Any(x => x == item);
@@ -171,11 +201,18 @@ namespace Kingdom.Collections
         /// <exception cref="InvalidCastException">The type of the source <see cref="ImmutableBitArray"/>
         /// cannot be cast automatically to the type of the destination
         /// <paramref name="array"/>.</exception>
+        /// <inheritdoc />
         public void CopyTo(bool[] array, int arrayIndex)
         {
             _values.CopyTo(array, arrayIndex);
         }
 
+        /// <summary>
+        /// Removes the <paramref name="item"/> from the Collection.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        /// <inheritdoc />
         public bool Remove(bool item)
         {
             var i = _values.IndexOf(item);
@@ -193,21 +230,17 @@ namespace Kingdom.Collections
         /// Gets the number of elements contained in the <see cref="ImmutableBitArray"/>.
         /// </summary>
         /// <returns>The number of elements contained in the <see cref="ImmutableBitArray"/>.</returns>
-        public int Count
-        {
-            get { return _values.Count; }
-        }
+        /// <inheritdoc />
+        public int Count => _values.Count;
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="ImmutableBitArray"/> is read-only.
         /// </summary>
         /// <returns>This property is always false.</returns>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        /// <inheritdoc />
+        public bool IsReadOnly => false;
 
-        private static void VerifyLength(List<bool> values, int expectedLength)
+        private static void VerifyLength(IList<bool> values, int expectedLength)
         {
             while (expectedLength < values.Count)
             {
@@ -228,6 +261,7 @@ namespace Kingdom.Collections
         /// is less than zero.</exception>
         /// <seealso cref="Get"/>
         /// <seealso cref="Set"/>
+        /// <inheritdoc />
         public int Length
         {
             get { return _values.Count; }
@@ -247,6 +281,7 @@ namespace Kingdom.Collections
                 var slice = valuesArr.Select(arr => i < arr.Count && arr[i]).ToList();
                 values.Add(func(slice));
             }
+
             return new ImmutableBitArray(values);
         }
 
@@ -261,10 +296,8 @@ namespace Kingdom.Collections
         /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding elements
         /// in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
-        public ImmutableBitArray And(ImmutableBitArray other)
-        {
-            return And(new[] {other});
-        }
+        /// <inheritdoc />
+        public ImmutableBitArray And(ImmutableBitArray other) => And(new[] {other});
 
         /// <summary>
         /// Performs an immutable bitwise AND operation on the elements in the current
@@ -277,12 +310,14 @@ namespace Kingdom.Collections
         /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding
         /// elements in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        /// <inheritdoc />
         public ImmutableBitArray And(IEnumerable<ImmutableBitArray> others)
         {
             if (others == null)
             {
-                throw new ArgumentNullException("others");
+                throw new ArgumentNullException(nameof(others));
             }
+
             return BitwiseFunc(new[] {this}.Concat(others).Select(o => o._values)
                 .ToList(), slice => slice.All(x => x));
         }
@@ -298,6 +333,7 @@ namespace Kingdom.Collections
         /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding elements
         /// in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         public ImmutableBitArray Or(ImmutableBitArray other)
         {
             return Or(new[] {other});
@@ -314,12 +350,14 @@ namespace Kingdom.Collections
         /// the elements in the current <see cref="ImmutableBitArray"/> against the corresponding
         /// elements in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        /// <inheritdoc />
         public ImmutableBitArray Or(IEnumerable<ImmutableBitArray> others)
         {
             if (others == null)
             {
-                throw new ArgumentNullException("others");
+                throw new ArgumentNullException(nameof(others));
             }
+
             return BitwiseFunc(new[] {this}.Concat(others).Select(x => x._values)
                 .ToList(), slide => slide.Any(x => x));
         }
@@ -335,10 +373,8 @@ namespace Kingdom.Collections
         /// operation on the elements in the current <see cref="ImmutableBitArray"/> against the
         /// corresponding elements in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
-        public ImmutableBitArray Xor(ImmutableBitArray other)
-        {
-            return Xor(new[] {other});
-        }
+        /// <inheritdoc />
+        public ImmutableBitArray Xor(ImmutableBitArray other) => Xor(new[] {other});
 
         /// <summary>
         /// Performs the bitwise exclusive OR operation on the elements in the current
@@ -351,20 +387,22 @@ namespace Kingdom.Collections
         /// operation on the elements in the current <see cref="ImmutableBitArray"/> against the
         /// corresponding elements in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="others"/> is null.</exception>
+        /// <inheritdoc />
         public ImmutableBitArray Xor(IEnumerable<ImmutableBitArray> others)
         {
             if (others == null)
             {
-                throw new ArgumentNullException("others");
+                throw new ArgumentNullException(nameof(others));
             }
+
             return BitwiseFunc(new[] {this}.Concat(others).Select(x => x._values)
                 .ToList(), slice =>
-                {
-                    // http://en.wikipedia.org/wiki/Exclusive_or
-                    var count = slice.Count(x => x);
-                    // XOR means this: false = all false or all true; true is a mixed result
-                    return !(count == 0 || count == slice.Count);
-                });
+            {
+                // http://en.wikipedia.org/wiki/Exclusive_or
+                var count = slice.Count(x => x);
+                // XOR means this: false = all false or all true; true is a mixed result
+                return !(count == 0 || count == slice.Count);
+            });
         }
 
         /// <summary>
@@ -372,10 +410,8 @@ namespace Kingdom.Collections
         /// set to true are changed to false, and elements set to false are changed to true.
         /// </summary>
         /// <returns>The current instance with inverted bit values.</returns>
-        public ImmutableBitArray Not()
-        {
-            return new ImmutableBitArray(_values.Select(x => !x).ToArray());
-        }
+        /// <inheritdoc />
+        public ImmutableBitArray Not() => new ImmutableBitArray(_values.Select(x => !x).ToArray());
 
         /// <summary>
         /// Shifts the current <see cref="ImmutableBitArray"/> left by the
@@ -385,25 +421,49 @@ namespace Kingdom.Collections
         /// <param name="count">The number of bits to shift left.</param>
         /// <param name="elastic">Optionally expands the length of the bit array.</param>
         /// <returns>A new instance with the bits shifted left by the <paramref name="count"/>.</returns>
+        /// <inheritdoc />
         public ImmutableBitArray ShiftLeft(int count = 1, bool elastic = false)
         {
             if (count < 0)
             {
-                throw new ArgumentException("count must be greater than or equal to zero", "count");
+                throw new ArgumentException("count must be greater than or equal to zero", nameof(count));
             }
+
             // Allow for zero count. Consistent with idempotency rules, return its clone.
             if (count == 0)
             {
                 return (ImmutableBitArray) Clone();
             }
+
             var length = Length;
             // Here is a unique corner case of the shift left operation.
             if (!elastic && length == 0)
             {
                 return new ImmutableBitArray(new bool[0]);
             }
-            var values = Enumerable.Range(0, count).Select(_ => false).Concat(_values);
-            return new ImmutableBitArray(elastic ? values : values.Take(length));
+
+            var values = Enumerable.Range(0, count).Select(_ => false).Concat(_values).ToArray();
+
+            if (!elastic)
+            {
+                // Inelastic Shifting is great, only take the Length of the original source.
+                values = values.Take(length).ToArray();
+            }
+            else
+            {
+                while (count-- > 0)
+                {
+                    if (values.Last())
+                    {
+                        break;
+                    }
+
+                    // Restrict the width when Clear Values permit us to do so.
+                    values = values.Take(values.Length - 1).ToArray();
+                }
+            }
+
+            return new ImmutableBitArray(values);
         }
 
         /// <summary>
@@ -414,25 +474,33 @@ namespace Kingdom.Collections
         /// <param name="count">The number of bits to shift right.</param>
         /// <param name="elastic">Optionally contracts the length of bit array.</param>
         /// <returns>A new instance with the bits shifted right by the <paramref name="count"/>.</returns>
+        /// <inheritdoc />
         public ImmutableBitArray ShiftRight(int count = 1, bool elastic = false)
         {
             if (count < 0)
             {
-                throw new ArgumentException("count must be greater than or equal to zero", "count");
+                throw new ArgumentException("count must be greater than or equal to zero", nameof(count));
             }
+
             // Allow for zero count. Consistent with idempotency rules, return its clone.
             if (count == 0)
             {
-                return (ImmutableBitArray)Clone();
+                return (ImmutableBitArray) Clone();
             }
+
             var length = Length;
             // This one is a unique corner case of thie shift right operation.
             if (length == 0 || (elastic && count >= length))
             {
                 return new ImmutableBitArray(new bool[0]);
             }
+
             var values = _values.Concat(Enumerable.Range(0, count).Select(_ => false));
             var skipped = values.Skip(count);
+            /* TODO: TBD: not sure 'elastic' is quite the right description in this case;
+             more like whether we should allow shrinkage... along similar lines as with
+             ShiftLeft, the conditions of which may not be so concise as first thought...
+             may need/want to re-consider what this is for ShiftRight... */
             return new ImmutableBitArray(elastic ? skipped.Take(length - count) : skipped);
         }
 
@@ -444,10 +512,8 @@ namespace Kingdom.Collections
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than zero.
         /// There is no upper limit for <paramref name="index"/>, but does not expand the number of
         /// elements within.</exception>
-        public bool Get(int index)
-        {
-            return index < _values.Count && _values[index];
-        }
+        /// <inheritdoc />
+        public bool Get(int index) => index < _values.Count && _values[index];
 
         /// <summary>
         /// Sets the bit at a specific position in the <see cref="ImmutableBitArray"/> to the specified
@@ -457,12 +523,14 @@ namespace Kingdom.Collections
         /// <param name="value">The Boolean <paramref name="value"/> to assign to the bit.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than
         /// zero.</exception>
+        /// <inheritdoc />
         public void Set(int index, bool value)
         {
             if (index > Length - 1)
             {
                 Length = index + 1;
             }
+
             _values[index] = value;
         }
 
@@ -475,6 +543,7 @@ namespace Kingdom.Collections
         /// <returns>The value of the bit at position index.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than
         /// zero.</exception>
+        /// <inheritdoc />
         public bool this[int index]
         {
             get { return Get(index); }
@@ -485,6 +554,7 @@ namespace Kingdom.Collections
         /// Sets all bits in the <see cref="ImmutableBitArray"/> to the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">The Boolean <paramref name="value"/> to assign to all bits.</param>
+        /// <inheritdoc />
         public void SetAll(bool value)
         {
             for (var i = 0; i < _values.Count; i++)
@@ -519,12 +589,10 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="other">An <paramref name="other"/> instance.</param>
         /// <returns>Whether this instance Equals the <paramref name="other"/> instance.</returns>
-        public bool Equals(ImmutableBitArray other)
-        {
-            return Equals(this, other);
-        }
+        /// <inheritdoc />
+        public bool Equals(ImmutableBitArray other) => Equals(this, other);
 
-        private static int CompareTo(ImmutableBitArray a, ImmutableBitArray b)
+        private static int CompareTo(IImmutableBitArray a, IImmutableBitArray b)
         {
             if (ReferenceEquals(a, b))
             {
@@ -571,10 +639,8 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="other">An <paramref name="other"/> instance.</param>
         /// <returns>The comparison of this instance with the <paramref name="other"/> instance.</returns>
-        public int CompareTo(ImmutableBitArray other)
-        {
-            return CompareTo(this, other);
-        }
+        /// <inheritdoc />
+        public int CompareTo(ImmutableBitArray other) => CompareTo(this, other);
 
         private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue,
             Func<int, T> getShifted, Func<T, T, T> mergeValue, bool msb)
@@ -584,7 +650,7 @@ namespace Kingdom.Collections
             var values = new List<T>();
             for (var i = 0; i < _values.Count; i++)
             {
-                var j = i/size;
+                var j = i / size;
                 if (values.Count < j + 1)
                 {
                     if (msb)
@@ -596,10 +662,12 @@ namespace Kingdom.Collections
                         values.Add(defaultValue);
                     }
                 }
+
                 if (!_values[i])
                 {
                     continue;
                 }
+
                 if (msb)
                 {
                     // TODO: TBD: this may need to be a little bit different for Int32 vs. Byte...
@@ -610,6 +678,7 @@ namespace Kingdom.Collections
                     values[j] = mergeValue(values[j], getShifted(i % size));
                 }
             }
+
             return values;
         }
 
@@ -618,10 +687,11 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="msb"></param>
         /// <returns></returns>
+        /// <inheritdoc />
         public IEnumerable<byte> ToBytes(bool msb = true)
         {
             // This should be equally as quick whether MSB or not.
-            return ToValues<byte>(() => sizeof(byte)*8, () => 0,
+            return ToValues<byte>(() => sizeof(byte) * 8, () => 0,
                 shift => (byte) (1 << shift), (a, b) => (byte) (a | b), msb);
         }
 
@@ -630,10 +700,11 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="msb"></param>
         /// <returns></returns>
+        /// <inheritdoc />
         public IEnumerable<uint> ToInts(bool msb = true)
         {
             // TODO: TBD: whether/how to handle msb?
-            return ToValues<uint>(() => sizeof(uint)*8, () => 0,
+            return ToValues<uint>(() => sizeof(uint) * 8, () => 0,
                 shift => (uint) 1 << shift, (a, b) => a | b, msb);
         }
 
@@ -665,9 +736,7 @@ namespace Kingdom.Collections
         /// Creates a copy of the <see cref="ImmutableBitArray"/>.
         /// </summary>
         /// <returns>A copy of the <see cref="ImmutableBitArray"/>.</returns>
-        public virtual object Clone()
-        {
-            return new ImmutableBitArray(this);
-        }
+        /// <inheritdoc />
+        public virtual object Clone() => new ImmutableBitArray(this);
     }
 }
