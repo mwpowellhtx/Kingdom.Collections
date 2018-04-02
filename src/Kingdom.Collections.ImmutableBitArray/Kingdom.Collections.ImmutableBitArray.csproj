@@ -48,6 +48,7 @@
     </Compile>
     <Compile Include="ImmutableBitArray.cs" />
     <Compile Include="IImmutableBitArray.cs" />
+    <Compile Include="ImmutableBitArray.Elasticity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

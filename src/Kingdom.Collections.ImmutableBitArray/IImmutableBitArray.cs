@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Kingdom.Collections
 {
+    using Elasticity = ImmutableBitArray.Elasticity;
+    using static ImmutableBitArray.Elasticity;
+
     /// <summary>
     /// Represents all the non-type specific interface bit array concerns.
     /// </summary>
@@ -170,21 +173,23 @@ namespace Kingdom.Collections
         /// <summary>
         /// Shifts the current <see cref="ImmutableBitArray"/> left by the
         /// <paramref name="count"/> number of bits. Optionally expands the
-        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// bit array depending on the value of <paramref name="elasticity"/>.
         /// </summary>
         /// <param name="count">The number of bits to shift left.</param>
-        /// <param name="elastic">Optionally expands the length of the bit array.</param>
+        /// <param name="elasticity">Optionally provides for <see cref="Expansion"/> or
+        /// <see cref="Contraction"/> of the bit array following the Shift operation.</param>
         /// <returns>A new instance with the bits shifted left by the <paramref name="count"/>.</returns>
-        T ShiftLeft(int count = 1, bool elastic = false);
+        T ShiftLeft(int count = 1, Elasticity elasticity = None);
 
         /// <summary>
         /// Shifts the current <see cref="ImmutableBitArray"/> right by the
         /// <paramref name="count"/> number of bits. Optionally contracts the
-        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// bit array depending on the value of <paramref name="elasticity"/>.
         /// </summary>
         /// <param name="count">The number of bits to shift right.</param>
-        /// <param name="elastic">Optionally contracts the length of bit array.</param>
+        /// <param name="elasticity">Optionally provides for <see cref="Expansion"/> or
+        /// <see cref="Contraction"/> of the bit array following the shift operation.</param>
         /// <returns>A new instance with the bits shifted right by the <paramref name="count"/>.</returns>
-        T ShiftRight(int count = 1, bool elastic = false);
+        T ShiftRight(int count = 1, Elasticity elasticity = None);
     }
 }

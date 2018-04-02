@@ -17,7 +17,7 @@ namespace Kingdom.Collections
     /// <inheritdoc cref="IImmutableBitArray{T}"/>
     /// <see cref="!:http://en.wikipedia.org/wiki/Idempotence"/>
     /// <see cref="!:http://en.wikipedia.org/wiki/Immutable_object"/>
-    public class ImmutableBitArray : IImmutableBitArray<ImmutableBitArray>
+    public partial class ImmutableBitArray : IImmutableBitArray<ImmutableBitArray>
     {
         // ReSharper disable once InconsistentNaming
         /// <summary>
@@ -25,28 +25,29 @@ namespace Kingdom.Collections
         /// </summary>
         protected List<bool> _values;
 
-        private void SetValues<T>(IEnumerable<T> values, Func<int> getSize,
-            Func<IEnumerable<T>, int, int, bool> testValue)
+        private static IEnumerable<bool> ExtractValues<T>(IEnumerable<T> values
+            , Func<int> getSize, Func<T, int, bool> maskShifted)
         {
             if (values == null)
             {
                 throw new ArgumentNullException(nameof(values));
             }
 
-            // ReSharper disable once PossibleMultipleEnumeration
-            var count = values.Count();
             var size = getSize();
-            if ((long) count * size > int.MaxValue)
-            {
-                throw new ArgumentException("values bit length exceeds Int32.MaxValue", nameof(values));
-            }
-
-            _values = new List<bool>();
-            var innerRange = Enumerable.Range(0, size).ToArray();
-            for (var i = 0; i < count; i++)
+            // ReSharper disable once PossibleMultipleEnumeration
+            if ((long) values.Count() * size > int.MaxValue)
             {
                 // ReSharper disable once PossibleMultipleEnumeration
-                _values.AddRange(innerRange.Select(j => testValue(values, i, j)));
+                throw new ArgumentException($"values bit length {values.LongCount()} exceeds Int32.MaxValue", nameof(values));
+            }
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            foreach (var x in values)
+            {
+                for (var j = 0; j < size; j++)
+                {
+                    yield return maskShifted(x, j);
+                }
             }
         }
 
@@ -56,6 +57,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="other">The <see cref="ImmutableBitArray"/> to copy.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null</exception>
+        /// <inheritdoc />
         public ImmutableBitArray(ImmutableBitArray other)
             : this(other._values)
         {
@@ -69,7 +71,7 @@ namespace Kingdom.Collections
         /// <exception cref="ArgumentNullException"><paramref name="values"/> is null</exception>
         public ImmutableBitArray(IEnumerable<bool> values)
         {
-            SetValues(values.ToArray(), () => 1, (arr, i, j) => arr.ElementAt(i));
+            _values = ExtractValues(values, () => 1, (x, j) => x).ToList();
         }
 
         /// <summary>
@@ -83,7 +85,10 @@ namespace Kingdom.Collections
         /// than <see cref="int.MaxValue"/>.</exception>
         public ImmutableBitArray(IEnumerable<byte> bytes)
         {
-            SetValues(bytes, () => sizeof(byte) * 8, (arr, i, j) => (arr.ElementAt(i) & 1 << j) != 0);
+            // ReSharper disable once PossibleMultipleEnumeration
+            /* The Functional Phrase parameter is CRITICAL to this working properly,
+             not that the Size is not. */
+            _values = ExtractValues(bytes, () => sizeof(byte) * 8, (x, j) => (x & 1 << j) != 0).ToList();
         }
 
         /// <summary>
@@ -97,8 +102,10 @@ namespace Kingdom.Collections
         /// than <see cref="int.MaxValue"/>.</exception>
         public ImmutableBitArray(IEnumerable<uint> uints)
         {
-            SetValues(uints, () => sizeof(uint) * 8
-                , (arr, i, j) => (arr.ElementAt(i) & 1 << j) != 0);
+            // ReSharper disable once PossibleMultipleEnumeration
+            /* The Functional Phrase parameter is CRITICAL to this working properly,
+             not that the Size is not. */
+            _values = ExtractValues(uints, () => sizeof(uint) * 8, (x, j) => (x & 1 << j) != 0).ToList();
         }
 
         /// <summary>
@@ -414,95 +421,73 @@ namespace Kingdom.Collections
         public ImmutableBitArray Not() => new ImmutableBitArray(_values.Select(x => !x).ToArray());
 
         /// <summary>
-        /// Shifts the current <see cref="ImmutableBitArray"/> left by the
-        /// <paramref name="count"/> number of bits. Optionally expands the
-        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// Specifies the blueprint how to Concatenate the <paramref name="values"/> and
+        /// <paramref name="band"/> in relation to each other.
         /// </summary>
-        /// <param name="count">The number of bits to shift left.</param>
-        /// <param name="elastic">Optionally expands the length of the bit array.</param>
-        /// <returns>A new instance with the bits shifted left by the <paramref name="count"/>.</returns>
-        /// <inheritdoc />
-        public ImmutableBitArray ShiftLeft(int count = 1, bool elastic = false)
+        /// <param name="values"></param>
+        /// <param name="band"></param>
+        /// <returns></returns>
+        private delegate IEnumerable<bool> ShiftConcatCallback(IEnumerable<bool> values, IEnumerable<bool> band);
+
+        /// <summary>
+        /// Performs the core <see cref="ShiftLeft"/> or <see cref="ShiftRight"/> functionality
+        /// with respect to how to treat the values and band. It is a bit redundant in terms of
+        /// <see cref="Length"/> usage. This also assumes that <paramref name="count"/>
+        /// preconditions have already been addressed or otherwise dealt with accordingly.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="elasticity"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        private IEnumerable<bool> ShiftConcat(int count, Elasticity elasticity, ShiftConcatCallback callback)
         {
             if (count < 0)
             {
-                throw new ArgumentException("count must be greater than or equal to zero", nameof(count));
-            }
-
-            // Allow for zero count. Consistent with idempotency rules, return its clone.
-            if (count == 0)
-            {
-                return (ImmutableBitArray) Clone();
+                throw new ArgumentException($"count ({count}) must be greater than or equal to zero", nameof(count));
             }
 
             var length = Length;
-            // Here is a unique corner case of the shift left operation.
-            if (!elastic && length == 0)
+
+            // Allow for zero count, consistent with idempotency rules, return its clone.
+            if (count == 0)
             {
-                return new ImmutableBitArray(new bool[0]);
+                return _values.Shrink(length, elasticity);
             }
 
-            var values = Enumerable.Range(0, count).Select(_ => false).Concat(_values).ToArray();
+            var values = callback(_values, Enumerable.Range(0, count).Select(_ => false));
 
-            if (!elastic)
-            {
-                // Inelastic Shifting is great, only take the Length of the original source.
-                values = values.Take(length).ToArray();
-            }
-            else
-            {
-                while (count-- > 0)
-                {
-                    if (values.Last())
-                    {
-                        break;
-                    }
-
-                    // Restrict the width when Clear Values permit us to do so.
-                    values = values.Take(values.Length - 1).ToArray();
-                }
-            }
-
-            return new ImmutableBitArray(values);
+            return values.Truncate(length, elasticity).Shrink(length, elasticity);
         }
 
         /// <summary>
+        /// Shifts the current <see cref="ImmutableBitArray"/> left by the
+        /// <paramref name="count"/> number of bits. Optionally expands the
+        /// bit array depending on the value of <paramref name="elasticity"/>.
+        /// </summary>
+        /// <param name="count">The number of bits to shift left.</param>
+        /// <param name="elasticity">Optionally provides for <see cref="Elasticity.Expansion"/>
+        /// or <see cref="Elasticity.Contraction"/> of the bit array following the Shift
+        /// operation.</param>
+        /// <returns>A new instance with the bits shifted left by the <paramref name="count"/>.</returns>
+        /// <see cref="ShiftConcat"/>
+        /// <inheritdoc />
+        public ImmutableBitArray ShiftLeft(int count = 1, Elasticity elasticity = Elasticity.None)
+            => new ImmutableBitArray(ShiftConcat(count, elasticity, (v, b) => b.Concat(v)));
+
+        /// <summary>
         /// Shifts the current <see cref="ImmutableBitArray"/> right by the
-        /// <paramref name="count"/> number of bits. Optionally contracts the
-        /// bit array depending on the value of <paramref name="elastic"/>.
+        /// <paramref name="count"/> number of bits. Optionally contracts the bit array depending
+        /// on the value of <paramref name="elasticity"/>.
         /// </summary>
         /// <param name="count">The number of bits to shift right.</param>
-        /// <param name="elastic">Optionally contracts the length of bit array.</param>
+        /// <param name="elasticity">Optionally provides for <see cref="Elasticity.Expansion"/>
+        /// or <see cref="Elasticity.Contraction"/> of the bit array following the Shift
+        /// operation.</param>
         /// <returns>A new instance with the bits shifted right by the <paramref name="count"/>.</returns>
+        /// <see cref="ShiftConcat"/>
         /// <inheritdoc />
-        public ImmutableBitArray ShiftRight(int count = 1, bool elastic = false)
-        {
-            if (count < 0)
-            {
-                throw new ArgumentException("count must be greater than or equal to zero", nameof(count));
-            }
-
-            // Allow for zero count. Consistent with idempotency rules, return its clone.
-            if (count == 0)
-            {
-                return (ImmutableBitArray) Clone();
-            }
-
-            var length = Length;
-            // This one is a unique corner case of thie shift right operation.
-            if (length == 0 || (elastic && count >= length))
-            {
-                return new ImmutableBitArray(new bool[0]);
-            }
-
-            var values = _values.Concat(Enumerable.Range(0, count).Select(_ => false));
-            var skipped = values.Skip(count);
-            /* TODO: TBD: not sure 'elastic' is quite the right description in this case;
-             more like whether we should allow shrinkage... along similar lines as with
-             ShiftLeft, the conditions of which may not be so concise as first thought...
-             may need/want to re-consider what this is for ShiftRight... */
-            return new ImmutableBitArray(elastic ? skipped.Take(length - count) : skipped);
-        }
+        public ImmutableBitArray ShiftRight(int count = 1, Elasticity elasticity = Elasticity.None)
+            => new ImmutableBitArray(ShiftConcat(count, elasticity, (v, b) => v.Concat(b).Skip(count)));
 
         /// <summary>
         /// Gets the value of the bit at a specific position in the <see cref="ImmutableBitArray"/>.
@@ -642,44 +627,39 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         public int CompareTo(ImmutableBitArray other) => CompareTo(this, other);
 
-        private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue,
-            Func<int, T> getShifted, Func<T, T, T> mergeValue, bool msb)
+        private delegate T MergeCallback<T>(T a, T b);
+
+        private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue
+            , Func<int, T> getShifted, MergeCallback<T> mergeCb)
         {
-            var size = getSize();
-            var defaultValue = getDefaultValue();
-            var values = new List<T>();
-            for (var i = 0; i < _values.Count; i++)
+            for (int i = 0, size = getSize(); i < _values.Count; i += size)
             {
-                var j = i / size;
-                if (values.Count < j + 1)
+                var current = getDefaultValue();
+
+                for (var j = 0; j < size && i + j < _values.Count; j++)
                 {
-                    if (msb)
+                    // Bypass what is not there.
+                    if (!_values[i + j])
                     {
-                        values.Insert(0, defaultValue);
+                        continue;
                     }
-                    else
-                    {
-                        values.Add(defaultValue);
-                    }
+
+                    // Only merge that which is there.
+                    current = mergeCb(current, getShifted(j));
                 }
 
-                if (!_values[i])
-                {
-                    continue;
-                }
-
-                if (msb)
-                {
-                    // TODO: TBD: this may need to be a little bit different for Int32 vs. Byte...
-                    values[0] = mergeValue(values[0], getShifted(i % size));
-                }
-                else
-                {
-                    values[j] = mergeValue(values[j], getShifted(i % size));
-                }
+                yield return current;
             }
+        }
 
-            return values;
+        private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue,
+            Func<int, T> getShifted, MergeCallback<T> mergeCb, bool msb)
+        {
+            Func<IEnumerable<T>> getValues = () => ToValues(getSize, getDefaultValue, getShifted, mergeCb);
+            foreach (var x in msb ? getValues().Reverse() : getValues())
+            {
+                yield return x;
+            }
         }
 
         /// <summary>
@@ -691,8 +671,8 @@ namespace Kingdom.Collections
         public IEnumerable<byte> ToBytes(bool msb = true)
         {
             // This should be equally as quick whether MSB or not.
-            return ToValues<byte>(() => sizeof(byte) * 8, () => 0,
-                shift => (byte) (1 << shift), (a, b) => (byte) (a | b), msb);
+            return ToValues(() => sizeof(byte) * 8, () => default(byte)
+                , shift => (byte) (1 << shift), (a, b) => (byte) (a | b), msb);
         }
 
         /// <summary>
@@ -704,8 +684,8 @@ namespace Kingdom.Collections
         public IEnumerable<uint> ToInts(bool msb = true)
         {
             // TODO: TBD: whether/how to handle msb?
-            return ToValues<uint>(() => sizeof(uint) * 8, () => 0,
-                shift => (uint) 1 << shift, (a, b) => a | b, msb);
+            return ToValues(() => sizeof(uint) * 8, () => default(uint)
+                , shift => (uint) 1 << shift, (a, b) => a | b, msb);
         }
 
         /// <summary>
