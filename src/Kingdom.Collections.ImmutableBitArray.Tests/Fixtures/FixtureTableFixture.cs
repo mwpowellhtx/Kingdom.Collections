@@ -7,6 +7,7 @@ using System.Linq;
 namespace Kingdom.Collections
 {
     using NUnit.Framework;
+    using static Guid;
 
     /// <summary>
     /// This class represents the real rub, just besides the infrastructure work on the database
@@ -14,7 +15,7 @@ namespace Kingdom.Collections
     /// is saved and restored in a certain order. This class does no verification on the validity
     /// of the data, other than that the data itself saved and was gotten in the given order.
     /// </summary>
-    internal class FixtureTableFixture : ConnectionOrientedFixture
+    public class FixtureTableFixture : ConnectionOrientedFixture
     {
         private readonly string _tableName;
 
@@ -35,17 +36,17 @@ namespace Kingdom.Collections
 
             Run(GetConnectionString(_databaseName), conn =>
             {
-                RunNonQuery(conn, string.Format(
-                    @"IF OBJECT_ID('{0}', 'U') IS NULL
-CREATE TABLE [dbo].[{0}] (
+                RunNonQuery(conn,
+                    $@"IF OBJECT_ID('{tableName}', 'U') IS NULL
+CREATE TABLE [dbo].[{tableName}] (
     [Id] [UNIQUEIDENTIFIER]
-        CONSTRAINT [PK_{0}] PRIMARY KEY
-        CONSTRAINT [DF_{0}_Id] DEFAULT NEWSEQUENTIALID(),
+        CONSTRAINT [PK_{tableName}] PRIMARY KEY
+        CONSTRAINT [DF_{tableName}_Id] DEFAULT NEWSEQUENTIALID(),
     [Bytes] [VARBINARY](MAX) NULL
-        CONSTRAINT [DF_{0}_Bytes] DEFAULT NULL,
+        CONSTRAINT [DF_{tableName}_Bytes] DEFAULT NULL,
     [CreatedOn] [DATETIME] NOT NULL
-        CONSTRAINT [DF_{0}_CreatedOn] DEFAULT GETUTCDATE()
-)", tableName));
+        CONSTRAINT [DF_{tableName}_CreatedOn] DEFAULT GETUTCDATE()
+)");
             });
         }
 
@@ -78,10 +79,9 @@ CREATE TABLE [dbo].[{0}] (
                 };
 
                 record = RunQuery(conn,
-                    string.Format(
-                        @"DECLARE @results AS TABLE(Id UNIQUEIDENTIFIER, Bytes VARBINARY(MAX), CreatedOn DATETIME);
-INSERT INTO {0} ([Bytes]) OUTPUT inserted.* INTO @results VALUES (@bytes);
-SELECT * FROM @results;", _tableName),
+                    $@"DECLARE @results AS TABLE(Id UNIQUEIDENTIFIER, Bytes VARBINARY(MAX), CreatedOn DATETIME);
+INSERT INTO {_tableName} ([Bytes]) OUTPUT inserted.* INTO @results VALUES (@bytes);
+SELECT * FROM @results;",
                     reader => new Record
                     {
                         Id = (Guid) reader["Id"],
@@ -92,10 +92,13 @@ SELECT * FROM @results;", _tableName),
             });
 
             // Comparing CreatedOn does not really prove anything for what we want here.
-            Assert.That(record, Is.Not.Null);
-            Assert.That(record.Id, Is.Not.EqualTo(Guid.Empty));
-            Assert.That(record.Bytes, Is.Not.SameAs(bytes));
-            CollectionAssert.AreEqual(record.Bytes, bytes);
+            Assert.NotNull(record);
+            Assert.That(record.Id, Is.Not.EqualTo(Empty)); // nunit
+            // xunit: Assert.NotEqual(Empty, record.Id);
+            Assert.That(record.Bytes, Is.Not.SameAs(bytes)); // nunit
+            // xunit: Assert.NotSame(bytes, record.Bytes);
+            CollectionAssert.AreEqual(bytes, record.Bytes); // nunit
+            // xunit: Assert.Equal(bytes, record.Bytes);
 
             return record;
         }

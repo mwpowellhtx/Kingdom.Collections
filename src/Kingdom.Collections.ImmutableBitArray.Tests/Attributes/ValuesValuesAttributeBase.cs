@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using CombinatorialValuesAttribute = ValuesAttribute; // xunit bridge
 
-    internal abstract class ValuesValuesAttributeBase : ValuesAttribute
+    public abstract class ValuesValuesAttributeBase : CombinatorialValuesAttribute
     {
         private static int GetMaximumShift(int value)
         {
@@ -14,13 +15,14 @@ namespace Kingdom.Collections
             while (1 << ++shift < value)
             {
             }
+
             return shift - 1;
         }
 
         private static IEnumerable<int> GetShifts()
         {
             const int max = short.MaxValue;
-            const int middle = max/2;
+            const int middle = max / 2;
             yield return 2;
             yield return GetMaximumShift(middle);
             yield return GetMaximumShift(max);
@@ -29,10 +31,7 @@ namespace Kingdom.Collections
         private static readonly Lazy<IEnumerable<int>> LazyShifts
             = new Lazy<IEnumerable<int>>(GetShifts);
 
-        private static IEnumerable<int> Shifts
-        {
-            get { return LazyShifts.Value; }
-        }
+        private static IEnumerable<int> Shifts => LazyShifts.Value;
 
         protected static object[] GetValuesFixtures<TFixture, TValue>(
             Func<int, IEnumerable<TFixture>> factory)

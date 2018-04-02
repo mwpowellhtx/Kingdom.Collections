@@ -3,23 +3,22 @@
 namespace Kingdom.Collections
 {
     using NUnit.Framework;
+
     /// <summary>
     /// Helps by exposing <see cref="ImmutableBitArray._values"/> into the unit tests
     /// for verification.
     /// </summary>
-    internal class ImmutableBitArrayFixture : ImmutableBitArray
+    /// <inheritdoc cref="ImmutableBitArray"/>
+    public class ImmutableBitArrayFixture : ImmutableBitArray
     {
-        internal List<bool> Values
-        {
-            get { return _values; }
-        }
+        internal List<bool> Values => _values;
 
        public ImmutableBitArrayFixture(ImmutableBitArray other)
             : base(other)
         {
         }
 
-        public ImmutableBitArrayFixture(bool[] values)
+        public ImmutableBitArrayFixture(IEnumerable<bool> values)
             : base(values)
         {
         }
@@ -28,7 +27,8 @@ namespace Kingdom.Collections
         /// Construct the fixture with <paramref name="bytes"/> in LSB.
         /// </summary>
         /// <param name="bytes"></param>
-        public ImmutableBitArrayFixture(byte[] bytes)
+        /// <inheritdoc />
+        public ImmutableBitArrayFixture(IEnumerable<byte> bytes)
             : base(bytes)
         {
         }
@@ -37,7 +37,8 @@ namespace Kingdom.Collections
         /// Construct the fixture with <paramref name="values"/> in LSB.
         /// </summary>
         /// <param name="values"></param>
-        public ImmutableBitArrayFixture(uint[] values)
+        /// <inheritdoc />
+        public ImmutableBitArrayFixture(IEnumerable<uint> values)
             : base(values)
         {
         }
@@ -60,42 +61,46 @@ namespace Kingdom.Collections
         internal ImmutableBitArrayFixture InternalAnd(ImmutableBitArrayFixture other)
         {
             var result = And(other);
-            Assert.That(result, Is.Not.Null);
+            Assert.NotNull(result);
             return new ImmutableBitArrayFixture(result);
         }
 
         internal ImmutableBitArrayFixture InternalOr(ImmutableBitArrayFixture other)
         {
             var result = Or(other);
-            Assert.That(result, Is.Not.Null);
+            Assert.NotNull(result);
             return new ImmutableBitArrayFixture(result);
         }
 
         internal ImmutableBitArrayFixture InternalXor(ImmutableBitArrayFixture other)
         {
             var result = Xor(other);
-            Assert.That(result, Is.Not.Null);
+            Assert.NotNull(result);
             return new ImmutableBitArrayFixture(result);
         }
 
         internal ImmutableBitArrayFixture InternalNot()
         {
             var result = Not();
-            Assert.That(result, Is.Not.Null);
+            Assert.NotNull(result);
             return new ImmutableBitArrayFixture(result);
         }
 
-        internal ImmutableBitArrayFixture InternalShiftLeft(int count = 1, bool elastic = false)
+        internal ImmutableBitArrayFixture InternalShiftLeft(int count = 1, Elasticity elasticity = Elasticity.None)
         {
-            var result = ShiftLeft(count, elastic);
-            Assert.That(result, Is.Not.Null);
+            var result = ShiftLeft(count, elasticity);
+            Assert.NotNull(result); // nunit/xunit
+            Assert.That(result, Is.Not.SameAs(this)); // nunit
+            // xunit: Assert.NotSame(this, result);
             return new ImmutableBitArrayFixture(result);
         }
 
-        internal ImmutableBitArrayFixture InternalShiftRight(int count = 1, bool elastic = false)
+        internal ImmutableBitArrayFixture InternalShiftRight(int count = 1, Elasticity elasticity = Elasticity.None)
         {
-            var result = ShiftRight(count, elastic);
-            Assert.That(result, Is.Not.Null);
+            var result = ShiftRight(count, elasticity);
+            Assert.NotNull(result); // nunit/xunit
+            Assert.That(result, Is.Not.SameAs(this)); // nunit
+            // xunit: Assert.NotSame(this, result);
             return new ImmutableBitArrayFixture(result);
         }
 

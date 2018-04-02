@@ -7,8 +7,6 @@ namespace Kingdom.Collections
 
     public class DatabaseSerializationTests : TestFixtureBase
     {
-        private DatabaseFixture Db { get; set; }
-
         public override void TestFixtureSetUp()
         {
             base.TestFixtureSetUp();
@@ -18,17 +16,21 @@ namespace Kingdom.Collections
 
         public override void TestFixtureTearDown()
         {
-            Db.Dispose();
+            Db?.Dispose();
+            Db = null;
 
             base.TestFixtureTearDown();
         }
+
+        private DatabaseFixture Db { get; set; }
 
         /// <summary>
         /// Verifies that bit array serialization is correct.
         /// </summary>
         /// <param name="mask"></param>
-        [Test]
-        public void VerifyThatBitArraySerializesCorrectly([SerializedMaskValues] uint mask)
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
+        public void Verify_Bit_Array_serializes_correctly([SerializedMaskValues] uint mask)
         {
             var subject = CreateBitArray(mask);
 
@@ -38,8 +40,9 @@ namespace Kingdom.Collections
             CreateBitArray(record.Bytes,
                 s =>
                 {
-                    Assert.That(s.Length, Is.EqualTo(record.Bytes.Length*8));
-                    Assert.That(s.Equals(subject));
+                    Assert.That(s, Has.Length.EqualTo(record.Bytes.Length * 8)); // nunit
+                    // xunit: Assert.Equal(record.Bytes.Length * 8, s.Length);
+                    Assert.True(s.Equals(subject));
                 });
         }
 
@@ -47,14 +50,12 @@ namespace Kingdom.Collections
             Action<ImmutableBitArrayFixture> verify = null)
         {
             verify = verify ?? (x => { });
-
-            Assert.That(subject, Is.Not.Null);
-
+            Assert.NotNull(subject);
             verify(subject);
-
             return subject;
         }
 
+        // ReSharper disable once UnusedMethodReturnValue.Local
         private static ImmutableBitArrayFixture CreateBitArray(byte[] bytes,
             Action<ImmutableBitArrayFixture> verify)
         {
@@ -71,14 +72,13 @@ namespace Kingdom.Collections
             var result = VerifyBitArray(new ImmutableBitArrayFixture(new[] {mask}),
                 s =>
                 {
-                    Assert.That(s.Length, Is.EqualTo(sizeof(uint)*8));
-
+                    Assert.That(s, Has.Length.EqualTo(sizeof(uint) * 8)); // nunit
+                    // xunit: Assert.Equal(sizeof(uint) * 8, s.Length);
                     // Reverse these bytes because they are in reverse order.
                     var maskBytes = BitConverter.GetBytes(mask).ToArray();
-
                     var subjectBytes = s.ToBytes(false).ToArray();
-
-                    CollectionAssert.AreEqual(subjectBytes, maskBytes);
+                    CollectionAssert.AreEqual(maskBytes, subjectBytes); // nunit
+                    // xunit: Assert.Equal(maskBytes, subjectBytes);
                 });
 
             return result;

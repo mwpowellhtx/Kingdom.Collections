@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    internal class UInt32ValuesValuesAttribute : ValuesValuesAttributeBase
+    public class UInt32ValuesValuesAttribute : ValuesValuesAttributeBase
     {
         private static IEnumerable<UInt32ValuesFixture> GetValuesFixtures(int length)
         {
@@ -14,8 +14,9 @@ namespace Kingdom.Collections
                 yield return new UInt32ValuesFixture {Values = values};
                 yield break;
             }
-            var middle = values.Length/2;
-            const int maxShifts = sizeof(uint)*8;
+
+            var middle = values.Length / 2;
+            const int maxShifts = sizeof(uint) * 8;
             for (var shift = 0; shift < maxShifts; shift += 2)
             {
                 values[middle] |= (uint) (1 << shift);
@@ -23,7 +24,7 @@ namespace Kingdom.Collections
             }
         }
 
-        private static readonly Lazy<object[]> LazyValues = new Lazy<object[]>(
+        private static Lazy<object[]> LazyValues { get; } = new Lazy<object[]>(
             () => GetValuesFixtures<UInt32ValuesFixture, uint>(GetValuesFixtures));
 
         internal UInt32ValuesValuesAttribute()

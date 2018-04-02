@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    internal class ByteValuesValuesAttribute : ValuesValuesAttributeBase
+    public class ByteValuesValuesAttribute : ValuesValuesAttributeBase
     {
         private static IEnumerable<ByteValuesFixture> GetValuesFixtures(int length)
         {

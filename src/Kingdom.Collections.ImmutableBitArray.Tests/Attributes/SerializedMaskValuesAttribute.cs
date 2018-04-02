@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace Kingdom.Collections
 {
-using NUnit.Framework;
+    using CombinatorialValuesAttribute = ValuesAttribute;
 
-    public class SerializedMaskValuesAttribute : ValuesAttribute
+    public class SerializedMaskValuesAttribute : CombinatorialValuesAttribute
     {
         private static IEnumerable<object> GetValues()
         {
@@ -20,7 +21,7 @@ using NUnit.Framework;
             yield return (uint) 0x15263748;
         }
 
-        private static readonly Lazy<object[]> LazyValues
+        private static Lazy<object[]> LazyValues { get; }
             = new Lazy<object[]>(() => GetValues().ToArray());
 
         public SerializedMaskValuesAttribute()

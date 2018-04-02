@@ -14,6 +14,8 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,7 +42,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,8 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\tools\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Attributes\ByteValuesValuesAttribute.cs" />
-    <Compile Include="Attributes\ElasticValuesAttribute.cs" />
+    <Compile Include="Attributes\ElasticityValuesAttribute.cs" />
     <Compile Include="Attributes\RandomIntValuesAttribute.cs" />
     <Compile Include="Attributes\SerializedMaskValuesAttribute.cs" />
     <Compile Include="Attributes\ShiftCountValuesAttribute.cs" />
@@ -62,7 +71,6 @@
     <Compile Include="Fixtures\BoolValuesFixture.cs" />
     <Compile Include="Attributes\BoolValuesValuesAttribute.cs" />
     <Compile Include="Fixtures\ByteValuesFixture.cs" />
-    <Compile Include="Fixtures\Disposable.cs" />
     <Compile Include="Fixtures\FixtureTableFixture.cs" />
     <Compile Include="Fixtures\IConnectionFactory.cs" />
     <Compile Include="Fixtures\ImmutableBitArrayFixture.cs" />
@@ -75,9 +83,6 @@
     <Compile Include="Attributes\ValueValuesAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj">
       <Project>{80b5a5db-b981-4beb-8026-1deefdaf2435}</Project>
       <Name>Kingdom.Collections.ImmutableBitArray</Name>
@@ -85,6 +90,10 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

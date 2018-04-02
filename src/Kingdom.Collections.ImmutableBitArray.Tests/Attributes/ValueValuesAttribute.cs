@@ -1,27 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using CombinatorialValuesAttribute = ValuesAttribute; // xunit bridge
 
-    public class ValueValuesAttribute : ValuesAttribute
+    public class ValueValuesAttribute : CombinatorialValuesAttribute
     {
-        private static object[] Values { get; set; }
-
         private static IEnumerable<object> GetValueValues()
         {
             yield return false;
             yield return true;
         }
 
-        static ValueValuesAttribute()
-        {
-            Values = GetValueValues().ToArray();
-        }
+        private static Lazy<object[]> PrivateValues { get; }
+            = new Lazy<object[]>(() => GetValueValues().ToArray());
 
         public ValueValuesAttribute()
-            : base(Values)
+            : base(PrivateValues.Value)
         {
         }
     }

@@ -1,23 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using CombinatorialValuesAttribute = ValuesAttribute; // xunit bridge
 
     /// <summary>
     /// 
     /// </summary>
-    /// <see cref="https://msdn.microsoft.com/en-us/library/a1sway8w.aspx">&lt;&lt; Operator (C# Reference)</see>
-    internal class ShiftCountValuesAttribute : ValuesAttribute
+    /// <see cref="!:https://msdn.microsoft.com/en-us/library/a1sway8w.aspx">&lt;&lt; Operator (C# Reference)</see>
+    /// <inheritdoc />
+    public class ShiftCountValuesAttribute : CombinatorialValuesAttribute
     {
         private static IEnumerable<object> GetValues()
         {
             const int size = sizeof(uint)*8;
             // Save the zero case for a separate test where we are explicitly expecting an exception.
             const int half = size/2;
-            // The default default use case is 1.
+            // Signal for "default shift", that is, default use case is count one (1).
             yield return (int?) null;
             yield return (int?) 0;
             yield return (int?) half;
@@ -26,7 +28,7 @@ namespace Kingdom.Collections
             yield return (int?) size - 1;
         }
 
-        private static readonly Lazy<object[]> LazyValues
+        private static Lazy<object[]> LazyValues { get; }
             = new Lazy<object[]>(() => GetValues().ToArray());
 
         internal ShiftCountValuesAttribute()

@@ -6,22 +6,22 @@ using NUnit.Framework;
 namespace Kingdom.Collections
 {
     using CombinatorialValuesAttribute = ValuesAttribute; // xunit bridge
+    using static ImmutableBitArray.Elasticity;
 
-    public class SpecificIntValuesAttribute : CombinatorialValuesAttribute
+    public class ElasticityValuesAttribute : CombinatorialValuesAttribute
     {
         private static IEnumerable<object> GetValues()
         {
-            const uint nibble = 0x0001;
-            yield return nibble;
-            yield return nibble << 8;
-            yield return nibble << 16;
-            yield return nibble << 24;
+            yield return None;
+            yield return Expansion;
+            yield return Contraction;
+            yield return Both;
         }
 
         private static Lazy<object[]> LazyValues { get; }
             = new Lazy<object[]>(() => GetValues().ToArray());
 
-        internal SpecificIntValuesAttribute()
+        internal ElasticityValuesAttribute()
             : base(LazyValues.Value)
         {
         }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using CombinatorialValuesAttribute = ValuesAttribute; // xunit bridge
 
-    public class LengthValuesAttribute : ValuesAttribute
+    public class LengthValuesAttribute : CombinatorialValuesAttribute
     {
         private static IEnumerable<object> GetLengthValues()
         {

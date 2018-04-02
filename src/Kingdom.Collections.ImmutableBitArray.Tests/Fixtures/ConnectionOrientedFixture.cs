@@ -7,8 +7,10 @@ using System.Linq;
 namespace Kingdom.Collections
 {
     using NUnit.Framework;
+    using static Guid;
+    using static ConnectionState;
 
-    internal abstract class ConnectionOrientedFixture : Disposable
+    public abstract class ConnectionOrientedFixture : IDisposable
     {
         protected static string GetConnectionString(string databaseName = "master")
         {
@@ -32,8 +34,10 @@ namespace Kingdom.Collections
         {
             conn.Open();
 
-            Assert.That(conn.State, Is.EqualTo(ConnectionState.Open));
-            Assert.That(conn.ClientConnectionId, Is.Not.EqualTo(Guid.Empty));
+            Assert.That(conn.State, Is.EqualTo(Open)); // nunit
+            // xunit: Assert.Equal(Open, conn.State);
+            Assert.That(conn.ClientConnectionId, Is.Not.EqualTo(Empty)); // nunit
+            // xunit: Assert.NotEqual(Empty, conn.ClientConnectionId);
         }
 
         /// <summary>
@@ -49,8 +53,10 @@ namespace Kingdom.Collections
         {
             var conn = new SqlConnection(connectionString);
 
-            Assert.That(conn.State, Is.EqualTo(ConnectionState.Closed));
-            Assert.That(conn.ClientConnectionId, Is.EqualTo(Guid.Empty));
+            Assert.That(conn.State, Is.EqualTo(Closed)); // nunit
+            // xunit: Assert.Equal(Closed, conn.State);
+            Assert.That(conn.ClientConnectionId, Is.EqualTo(Empty)); // nunit
+            // xunit: Assert.Equal(Empty, conn.ClientConnectionId);
 
             verify = verify ?? VerifySqlConnectionOpen;
 
@@ -102,6 +108,18 @@ namespace Kingdom.Collections
                     }
                 }
             }
+        }
+
+        public bool IsDisposed { get; private set; }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            IsDisposed = true;
         }
     }
 }

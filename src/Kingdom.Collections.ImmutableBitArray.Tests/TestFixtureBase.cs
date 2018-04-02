@@ -1,9 +1,10 @@
-﻿namespace Kingdom.Collections
+﻿using System;
+
+namespace Kingdom.Collections
 {
     using NUnit.Framework;
 
-    [TestFixture]
-    public class TestFixtureBase
+    public abstract class TestFixtureBase : IDisposable
     {
         [TestFixtureSetUp]
         public virtual void TestFixtureSetUp()
@@ -23,6 +24,18 @@
         [TearDown]
         public virtual void TearDown()
         {
+        }
+
+        public bool IsDisposed { get; private set; }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            IsDisposed = true;
         }
     }
 }

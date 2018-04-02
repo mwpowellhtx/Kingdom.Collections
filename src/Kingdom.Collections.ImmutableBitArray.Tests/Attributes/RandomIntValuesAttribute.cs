@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using CombinatorialValuesAttribute = ValuesAttribute;
 
-    internal class RandomIntValuesAttribute : ValuesAttribute
+    public class RandomIntValuesAttribute : CombinatorialValuesAttribute
     {
         private static readonly Lazy<Random> LazyRnd = new Lazy<Random>(
-            () => new Random((int) DateTime.UtcNow.Ticks%int.MaxValue));
+            () => new Random((int) DateTime.UtcNow.Ticks % int.MaxValue));
 
-        private static Random Rnd
-        {
-            get { return LazyRnd.Value; }
-        }
+        private static Random Rnd => LazyRnd.Value;
 
         private static IEnumerable<object> GetRandomValues()
         {
             return Enumerable.Range(0, 4).Select(_ => (uint) Rnd.Next()).Cast<object>();
         }
 
-        private static readonly Lazy<object[]> LazyValues
+        private static Lazy<object[]> LazyValues { get; }
             = new Lazy<object[]>(() => GetRandomValues().ToArray());
 
         internal RandomIntValuesAttribute()

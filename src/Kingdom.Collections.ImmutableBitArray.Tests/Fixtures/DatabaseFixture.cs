@@ -2,16 +2,17 @@
 
 namespace Kingdom.Collections
 {
-    internal class DatabaseFixture : ConnectionOrientedFixture
+    public class DatabaseFixture : ConnectionOrientedFixture
     {
-        public FixtureTableFixture FixtureTable { get; private set; }
+        public FixtureTableFixture FixtureTable { get; }
 
         private string DatabaseName { get; set; }
 
         private Guid DatabaseId
         {
+            // ReSharper disable once UnusedMember.Local
             get { return Guid.Parse(DatabaseName); }
-            set { DatabaseName = value.ToString("D"); }
+            set { DatabaseName = $"{value:D}"; }
         }
 
         internal DatabaseFixture(Guid? did = null)

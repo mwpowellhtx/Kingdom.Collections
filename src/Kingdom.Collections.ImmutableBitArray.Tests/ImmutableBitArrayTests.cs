@@ -5,26 +5,31 @@ using System.Linq;
 namespace Kingdom.Collections
 {
     using NUnit.Framework;
+    using Elasticity = ImmutableBitArray.Elasticity;
+    using static BitConverter;
+    using static ImmutableBitArrayFixture;
+    using static ImmutableBitArray.Elasticity;
 
     public class ImmutableBitArrayTests : TestFixtureBase
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         private ImmutableBitArrayFixture Subject { get; set; }
 
-        public override void TearDown()
+        protected override void Dispose(bool disposing)
         {
             Subject = null;
-
-            base.TearDown();
+            base.Dispose(disposing);
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_Length_Ctor_Correct([LengthValues] int length)
         {
             VerifyLengthBasedCtor(length);
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_Length_Value_Ctor_Correct([LengthValues] int length, [ValueValues] bool value)
         {
             VerifyLengthBasedCtor(length, value);
@@ -33,29 +38,35 @@ namespace Kingdom.Collections
         private void VerifyLengthBasedCtor(int expectedLength, bool expectedValue = false)
         {
             var s = Subject = new ImmutableBitArrayFixture(expectedLength, expectedValue);
-            Assert.That(s, Has.Count.EqualTo(expectedLength));
-            Assert.That(s, Has.Length.EqualTo(expectedLength));
-            Assert.That(s.Values, Has.Count.EqualTo(expectedLength));
-            Assert.That(s.Values.All(x => x == expectedValue));
+            Assert.That(s, Has.Count.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, s.Count);
+            Assert.That(s.Values, Has.Count.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, s.Length);
+            Assert.That(s, Has.Length.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, s.Values.Count);
+            Assert.True(s.Values.All(x => x == expectedValue));
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_Bool_Values_Ctor_Correct([BoolValuesValues] BoolValuesFixture fixture)
         {
-            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values.ToArray()), s => s);
+            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values), s => s);
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_Byte_Values_Ctor_Correct([ByteValuesValues] ByteValuesFixture fixture)
         {
             // Ditto in LSB order.
-            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values.ToArray()), s => s.ToBytes(false));
+            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values), s => s.ToBytes(false));
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_UInt32_Values_Ctor_Correct([UInt32ValuesValues] UInt32ValuesFixture fixture)
         {
-            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values.ToArray()), s => s.ToInts());
+            VerifyValuesBasedCtor(fixture, f => new ImmutableBitArrayFixture(f.Values), s => s.ToInts(false));
         }
 
         private void VerifyValuesBasedCtor<TFixture, TValue>(TFixture fixture,
@@ -66,29 +77,34 @@ namespace Kingdom.Collections
             var s = Subject = getFixturedArray(fixture);
             var expectedLength = fixture.ExpectedLength;
 
-            Assert.That(s, Has.Count.EqualTo(expectedLength));
-            Assert.That(s, Has.Length.EqualTo(expectedLength));
+            Assert.That(s, Has.Count.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, s.Count);
+            Assert.That(s, Has.Length.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, s.Length);
 
-            var expectedValues = fixture.Values;
-            var actualValues = getValues(s);
+            var expectedValues = fixture.Values.ToArray();
+            var actualValues = getValues(s).ToArray();
 
-            CollectionAssert.AreEquivalent(expectedValues, actualValues);
+            CollectionAssert.AreEqual(expectedValues, actualValues); // nunit
+            // xunit: Assert.Equal(expectedValues, actualValues);
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_Copy_Ctor_Correct([RandomIntValues] uint value)
         {
-            var bytes = BitConverter.GetBytes(value);
-            VerifyThatCopyCtorCorrect(() => ImmutableBitArrayFixture.FromBytes(bytes),
-                a => new ImmutableBitArrayFixture(a));
+            var bytes = GetBytes(value);
+            VerifyThatCopyCtorCorrect(() => FromBytes(bytes)
+                , a => new ImmutableBitArrayFixture(a));
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_Clone_Correct([RandomIntValues] uint value)
         {
-            var bytes = BitConverter.GetBytes(value);
-            VerifyThatCopyCtorCorrect(() => ImmutableBitArrayFixture.FromBytes(bytes),
-                a => a.Clone() as ImmutableBitArrayFixture);
+            var bytes = GetBytes(value);
+            VerifyThatCopyCtorCorrect(() => FromBytes(bytes)
+                , a => a.Clone() as ImmutableBitArrayFixture);
         }
 
         private void VerifyThatCopyCtorCorrect(Func<ImmutableBitArrayFixture> factory,
@@ -96,109 +112,127 @@ namespace Kingdom.Collections
         {
             var s = Subject = factory();
             var copied = copier(s);
-            Assert.That(s, Is.Not.SameAs(copied));
-            Assert.That(s.Values, Is.Not.SameAs(copied.Values));
-            CollectionAssert.AreEquivalent(s, copied);
-            CollectionAssert.AreEquivalent(s.Values, copied.Values);
+            Assert.That(s, Is.Not.SameAs(copied)); // nunit
+            // xunit: Assert.NotSame(copied, s);
+            Assert.That(s.Values, Is.Not.SameAs(copied.Values)); // nunit
+            // xunit: Assert.NotSame(copied.Values, s.Values);
+            CollectionAssert.AreEqual(s, copied); // nunit
+            // xunit: Assert.Equal(s, copied);
+            CollectionAssert.AreEqual(s.Values, copied.Values); // nunit
+            // xunit: Assert.Equal(s.Values, copied.Values);
         }
 
-        [Test]
-        public void Verify_That_SetAll_Correct([LengthValues] int length,
-            [ValueValues] bool value)
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
+        public void Verify_That_SetAll_Correct([LengthValues] int length, [ValueValues] bool value)
         {
             VerifyThatSetAllCorrect(new ImmutableBitArrayFixture(length, value), value, !value);
         }
 
-        private static void VerifyThatSetAllCorrect(IImmutableBitArray fixture,
-            bool sourceValue, bool destinationValue)
+        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
+        private static void VerifyThatSetAllCorrect(IImmutableBitArray fixture, bool sourceValue
+            , bool destinationValue)
         {
-            var allSource = fixture.All(x => x == sourceValue);
-            Assert.That(allSource);
-
+            Assert.True(fixture.All(x => x == sourceValue));
             fixture.SetAll(destinationValue);
+            Assert.True(fixture.All(x => x == destinationValue));
 
-            var allDestination = fixture.All(x => x == destinationValue);
-            Assert.That(allDestination);
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_SetGet_Correct([LengthValues] int length)
         {
-            VerifyThatSetGetCorrect(new ImmutableBitArrayFixture(length), length,
-                (arr, i) => arr.Get(i), (arr, i, value) => arr.Set(i, value));
+            VerifyThatSetGetCorrect(new ImmutableBitArrayFixture(length), length
+                , (arr, i) => arr.Get(i), (arr, i, value) => arr.Set(i, value));
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_Indexer_Correct([LengthValues] int length)
         {
-            VerifyThatSetGetCorrect(new ImmutableBitArrayFixture(length), length,
-                (arr, i) => arr[i], (arr, i, value) => arr[i] = value);
+            VerifyThatSetGetCorrect(new ImmutableBitArrayFixture(length), length
+                , (arr, i) => arr[i], (arr, i, value) => arr[i] = value);
         }
 
+        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
         private static void VerifyThatSetGetCorrect(IImmutableBitArray fixture, int length,
             Func<IImmutableBitArray, int, bool> getValue, Action<IImmutableBitArray, int, bool> setValue)
         {
-            Assert.That(fixture, Is.Not.Null);
-            Assert.That(fixture, Has.Count.EqualTo(length));
-            Assert.That(fixture, Has.Length.EqualTo(length));
+            Assert.NotNull(fixture);
+            Assert.That(fixture, Has.Count.EqualTo(length)); // nunit
+            // xunit: Assert.Equal(length, fixture.Count);
+            Assert.That(fixture, Has.Length.EqualTo(length)); // nunit
+            // xunit: Assert.Equal(length, fixture.Length);
 
             for (var i = 0; i < fixture.Count; i++)
             {
                 var value = getValue(fixture, i);
-                Assert.That(value, Is.False);
+                Assert.False(value);
 
                 setValue(fixture, i, true);
 
                 value = getValue(fixture, i);
-                Assert.That(value, Is.True);
+                Assert.True(value);
             }
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_BinaryOperation_And_Correct(
             [RandomIntValues] uint aValue, [RandomIntValues] uint bValue)
         {
-            VerifyThatBinaryOperationCorrect(aValue, bValue, (a, b) => a.InternalAnd(b), (a, b) => a & b);
+            VerifyThatBinaryOperationCorrect(aValue, bValue
+                , (a, b) => a.InternalAnd(b), (a, b) => a & b);
         }
 
-        [Test]
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
         public void Verify_That_BinaryOperation_Or_Correct(
             [RandomIntValues] uint aValue, [RandomIntValues] uint bValue)
         {
-            VerifyThatBinaryOperationCorrect(aValue, bValue, (a, b) => a.InternalOr(b), (a, b) => a | b);
+            VerifyThatBinaryOperationCorrect(aValue, bValue
+                , (a, b) => a.InternalOr(b), (a, b) => a | b);
         }
 
-        [Test]
-        public void Verify_That_BinaryOperation_Xor_Correct(
-            [RandomIntValues] uint aValue, [RandomIntValues] uint bValue)
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
+        public void Verify_That_BinaryOperation_Xor_Correct([RandomIntValues] uint aValue
+            , [RandomIntValues] uint bValue)
         {
-            VerifyThatBinaryOperationCorrect(aValue, bValue, (a, b) => a.InternalXor(b), (a, b) => a ^ b);
+            VerifyThatBinaryOperationCorrect(aValue, bValue
+                , (a, b) => a.InternalXor(b), (a, b) => a ^ b);
         }
 
         private static void VerifyThatBinaryOperationCorrect(uint aValue, uint bValue,
             Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture, ImmutableBitArrayFixture> operation,
             Func<uint, uint, uint> checker)
         {
-            var a = ImmutableBitArrayFixture.FromBytes(BitConverter.GetBytes(aValue));
-            var b = ImmutableBitArrayFixture.FromBytes(BitConverter.GetBytes(bValue));
+            var a = FromBytes(GetBytes(aValue));
+            var b = FromBytes(GetBytes(bValue));
             var c = operation(a, b);
 
-            Assert.That(a, Is.Not.SameAs(c));
-            Assert.That(b, Is.Not.SameAs(c));
-            Assert.That(a.Values, Is.Not.SameAs(c.Values));
-            Assert.That(b.Values, Is.Not.SameAs(c.Values));
+            Assert.That(a, Is.Not.SameAs(c)); // nunit
+            // xunit: Assert.NotSame(c, a);
+            Assert.That(b, Is.Not.SameAs(c)); // nunit
+            // xunit:  Assert.NotSame(c, b);
+            Assert.That(a.Values, Is.Not.SameAs(c.Values)); // nunit
+            // xunit: Assert.NotSame(c.Values, a.Values);
+            Assert.That(b.Values, Is.Not.SameAs(c.Values)); // nunit
+            // xunit: Assert.NotSame(c.Values, b.Values);
             
             var cCheckValue = checker(aValue, bValue);
-            var cCheckValues = BitConverter.GetBytes(cCheckValue);
+            var cCheckValues = GetBytes(cCheckValue);
 
             /* Asserting that the collections are equivalent is incorret, they must be equal.
              * That is, they must be the same size and order of the elements. */
-            CollectionAssert.AreEqual(cCheckValues, c.ToBytes(false));
+            CollectionAssert.AreEqual(cCheckValues, c.ToBytes(false)); // nunit
+            // xunit: Assert.Equal(cCheckValues, c.ToBytes(false));
         }
 
-        [Test]
-        public void Verify_That_BinaryOperation_Not_Correct(
-            [RandomIntValues] uint value)
+        [Test, Combinatorial] // nunit
+        // xunit: [Theory, CombinatorialData]
+        public void Verify_That_BinaryOperation_Not_Correct([RandomIntValues] uint value)
         {
             VerifyThatUnaryOperationCorrect(value, a => a.InternalNot(), a => ~a);
         }
@@ -207,121 +241,120 @@ namespace Kingdom.Collections
             Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture> operation,
             Func<uint, uint> checker)
         {
-            var a = ImmutableBitArrayFixture.FromBytes(BitConverter.GetBytes(value));
+            var a = FromBytes(GetBytes(value));
             var b = operation(a);
 
-            Assert.That(a, Is.Not.SameAs(b));
-            Assert.That(a.Values, Is.Not.SameAs(b.Values));
+            Assert.That(a, Is.Not.SameAs(b)); // nunit
+            // xunit: Assert.NotSame(b, a);
+            Assert.That(a.Values, Is.Not.EqualTo(b.Values)); // nunit
+            // xunit: Assert.NotSame(b.Values, a.Values);
 
             var bCheckValue = checker(value);
-            var bCheckValues = BitConverter.GetBytes(bCheckValue);
+            var bCheckValues = GetBytes(bCheckValue);
 
             // Ditto before, must be the same count and values in the same order.
-            CollectionAssert.AreEqual(bCheckValues, b.ToBytes(false));
+            CollectionAssert.AreEqual(bCheckValues, b.ToBytes(false)); // nunit
+            // xunit: Assert.Equal(bCheckValues, b.ToBytes(false));
+        }
+
+        /* TODO: TBD: not going to worry about pulling the "arbitrarily long count" shift left/right
+         forward. If it becomes necessary at some later point, then I will reconsider it, but for now,
+         this is about as concise a revamping of the issue as could be determined. */
+        private static int CalculateExpectedLengthAfterShift(uint value, int shift, Elasticity elasticity)
+        {
+            const int size = sizeof(uint) * 8;
+
+            /* Determine which Bit Positions are set in the Value. As it turns out, all the Elasticity
+             hoops we jumped through before are neatly captured by these calculations. */
+            var bits = (from i in Enumerable.Range(0, size)
+                where (value & (1 << i)) != 0
+                select i + shift).ToArray();
+
+            // TODO: TBD: arguably, "shift zero" should probably be its own corner case...
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (elasticity)
+            {
+                case Expansion:
+                    // Nothing Expands, per se, in this use case.
+                    return size + Math.Max(0, shift);
+                case Contraction:
+                    var selected = from x in bits where x < size && x >= 0 select x;
+                    // ReSharper disable once PossibleMultipleEnumeration
+                    return selected.Any()
+                        // ReSharper disable once PossibleMultipleEnumeration
+                        ? selected.Max() + 1
+                        : 0;
+                case Both:
+                    return bits.Any(x => x >= 0) ? bits.Max() + 1 : 0;
+                case None:
+                    return size;
+            }
+
+            throw new InvalidOperationException();
         }
 
         /// <summary>
-        /// Verifies the eighty percent use cases of the shift left operation.
-        /// Leaving corner cases for more targeted test methods.
+        /// Verifies that <see cref="IImmutableBitArray{T}.ShiftLeft"/> behavior is correct.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="count"></param>
-        /// <param name="elastic"></param>
-        [Test]
-        public void Verify_That_SkipLeft_Correct([SpecificIntValues] uint value,
-            [ShiftCountValues] int? count, [ElasticValues] bool elastic)
+        /// <param name="elasticity"></param>
+        [Test, Combinatorial] // nunit
+        // xunit: [Test, CombinatorialData]
+        public void Verify_That_ShiftLeft_Correct([SpecificIntValues] uint value
+            , [ShiftCountValues] int? count, [ElasticityValues] Elasticity elasticity)
         {
-            var actualCount = count ?? 1;
-            // This is a constraint of the language itself, not of the bit array.
-            Assert.That(actualCount, Is.LessThanOrEqualTo(31));
-            var bytes = BitConverter.GetBytes(value);
-            VerifyShiftOperationCorrect(new ImmutableBitArrayFixture(bytes),
-                arr => arr.InternalShiftLeft(actualCount, elastic),
-                value << actualCount, actualCount, elastic);
+            var subject = Subject = new ImmutableBitArrayFixture(GetBytes(value));
+
+            var expectedLength = CalculateExpectedLengthAfterShift(value, count ?? 1, elasticity);
+
+            var shifted = count.HasValue
+                ? subject.InternalShiftLeft(count.Value, elasticity)
+                : subject.InternalShiftLeft(elasticity: elasticity);
+
+            Assert.That(shifted, Has.Length.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, shifted.Length);
+            Assert.That(shifted, Has.Count.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, shifted.Count);
+
+            // Admittedly, this is a fairly narrow corner case.
+            if (shifted.Any() && elasticity == Contraction)
+            {
+                Assert.That(shifted.Last(), Is.True); // nunit
+                // xunit: Assert.True(shifted.Last());
+            }
         }
 
         /// <summary>
-        /// Verifies the eighty percent use cases of the shift left operation.
-        /// Leaving corner cases for more targeted test methods.
+        /// Verifies that <see cref="IImmutableBitArray{T}.ShiftRight"/> behavior is correct.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="count"></param>
-        /// <param name="elastic"></param>
-        [Test]
-        public void Verify_That_ShiftRight_Correct([SpecificIntValues] uint value,
-            [ShiftCountValues] int? count, [ElasticValues] bool elastic)
+        /// <param name="elasticity"></param>
+        [Test, Combinatorial] // nunit
+        // xunit: [Test, CombinatorialData]
+        public void Verify_That_ShiftRight_Correct([SpecificIntValues] uint value
+            , [ShiftCountValues] int? count, [ElasticityValues] Elasticity elasticity)
         {
-            var actualCount = count ?? 1;
-            // This is a constraint of the language itself, not of the bit array.
-            Assert.That(actualCount, Is.LessThanOrEqualTo(31));
-            var bytes = BitConverter.GetBytes(value);
-            VerifyShiftOperationCorrect(new ImmutableBitArrayFixture(bytes),
-                arr => arr.InternalShiftRight(actualCount, elastic),
-                value >> actualCount, -actualCount, elastic);
-        }
+            var subject = Subject = new ImmutableBitArrayFixture(GetBytes(value));
 
-        private static void VerifyShiftOperationCorrect(ImmutableBitArrayFixture fixture,
-            Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture> shift,
-            uint expectedValue, int count, bool elastic)
-        {
-            Assert.That(fixture, Is.Not.Null);
+            var expectedLength = CalculateExpectedLengthAfterShift(value, -(count ?? 1), elasticity);
 
-            const int size = sizeof(uint)*8;
+            var shifted = count.HasValue
+                ? subject.InternalShiftRight(count.Value, elasticity)
+                : subject.InternalShiftRight(elasticity: elasticity);
 
-            Assert.That(fixture, Has.Count.EqualTo(size));
-            Assert.That(fixture, Has.Length.EqualTo(size));
+            Assert.That(shifted, Has.Length.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, shifted.Length);
+            Assert.That(shifted, Has.Count.EqualTo(expectedLength)); // nunit
+            // xunit: Assert.Equal(expectedLength, shifted.Count);
 
-            var shifted = shift(fixture);
-            var expectedCount = elastic ? Math.Max(size + count, 0) : size;
-
-            Assert.That(shifted, Is.Not.SameAs(fixture));
-            Assert.That(shifted, Has.Count.EqualTo(expectedCount));
-            Assert.That(shifted, Has.Length.EqualTo(expectedCount));
-
-            var shiftedValues = shifted.ToInts(false);
-
-            // Does not matter, per se, what the second element is, but the first element should be this.
-            Assert.That(shiftedValues.ElementAt(0), Is.EqualTo(expectedValue));
-        }
-
-        [Test]
-        [TestCase((uint) 0x12341234, 96, true)]
-        [TestCase((uint) 0x23452345, 128, false)]
-        [TestCase((uint) 0x34563456, 192, true)]
-        [TestCase((uint) 0x45674567, 256, false)]
-        public void Verify_That_ShiftLeft_ArbitrarilyLongCount(uint value, int count, bool elastic)
-        {
-            // Virtually the same in approach saving for a couple of left/right, positive/negative arguments.
-            VerifyThatShiftOperationArbitrarilyLongCountCorrect(
-                new ImmutableBitArrayFixture(BitConverter.GetBytes(value)),
-                arr => arr.InternalShiftLeft(count, elastic), count, elastic);
-        }
-
-        [Test]
-        [TestCase((uint) 0x12341234, 96, true)]
-        [TestCase((uint) 0x23452345, 128, false)]
-        [TestCase((uint) 0x34563456, 192, true)]
-        [TestCase((uint) 0x45674567, 256, false)]
-        public void Verify_That_ShiftRight_ArbitrarilyLongCount(uint value, int count, bool elastic)
-        {
-            // Virtually the same in approach saving for a couple of left/right, positive/negative arguments.
-            VerifyThatShiftOperationArbitrarilyLongCountCorrect(
-                new ImmutableBitArrayFixture(BitConverter.GetBytes(value)),
-                arr => arr.InternalShiftRight(count, elastic), -count, elastic);
-        }
-
-        private static void VerifyThatShiftOperationArbitrarilyLongCountCorrect(ImmutableBitArrayFixture fixture, 
-            Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture> shift, int count,  bool elastic)
-        {
-            Assert.That(fixture, Is.Not.Null);
-
-            var shifted = shift(fixture);
-            Assert.That(shifted, Is.Not.SameAs(fixture));
-
-            var expectedCount = elastic ? Math.Max(fixture.Length + count, 0) : fixture.Length;
-
-            Assert.That(shifted, Has.Count.EqualTo(expectedCount));
-            Assert.That(shifted, Has.Length.EqualTo(expectedCount));
+            // Admittedly, this is a fairly narrow corner case.
+            if (shifted.Any() && elasticity == Contraction)
+            {
+                Assert.That(shifted.Last(), Is.True); // nunit
+                // xunit: Assert.True(shifted.Last());
+            }
         }
     }
 }
