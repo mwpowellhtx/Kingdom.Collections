@@ -1,0 +1,23 @@
+﻿<?xml version='1.0'?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+        <id>$id$</id>
+        <title>$id$</title>
+        <version>1.1</version>
+        <authors>Michael W. Powell</authors>
+        <owners>$author$</owners>
+        <projectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</projectUrl>
+        <summary>Java-like ordinal and bitwise enumeration support for dotnet.</summary>
+        <description>The framework Enumerations provides a solid baseline of features emulating Java's enumeration structure for .NET. Simple Ordinal based Enumerations are supported, as are more complex Flags-like Bitwise Enumerations.</description>
+        <tags>Enumerations Enumeration enumerated values Ordinal Bitwise Java dotnet bitwise shift left right and or xor not ones twos complement Flags Boolean bool ICollection ICloneable</tags>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <language>en-US</language>
+        <dependencies>
+            <dependency id="Kingdom.Collections.ImmutableBitArray" version="[1.6,2)" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\$configuration$\$id$.pdb" target="lib\net45" />
+    </files>
+</package>
