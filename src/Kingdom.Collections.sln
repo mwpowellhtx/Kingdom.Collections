@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.ImmutableBitArray", "Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj", "{80B5A5DB-B981-4BEB-8026-1DEEFDAF2435}"
 EndProject
@@ -12,6 +12,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F8D4C0
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.Enumerations", "Kingdom.Collections.Enumerations\Kingdom.Collections.Enumerations.csproj", "{007D52C4-6662-48FA-8AE7-8A01B46EBA09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7FD4A0ED-49CB-41C8-8E65-CCAB6E652E8E}"
+	ProjectSection(SolutionItems) = preProject
+		tools\Common\CommonAssemblyInfo.cs = tools\Common\CommonAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{E1374B06-2C96-40BE-8AE0-DAB8F37808A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CF1D8556-4E2C-4721-B8CC-9407A92465ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.Enumerations.Tests", "Kingdom.Collections.Enumerations.Tests\Kingdom.Collections.Enumerations.Tests.csproj", "{3557D09F-2FED-4535-A974-7A26042D3174}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.Enumerations.Tests.Tests", "Kingdom.Collections.Enumerations.Tests.Tests\Kingdom.Collections.Enumerations.Tests.Tests.csproj", "{81F0159A-E3C3-4354-859C-62FC68D05882}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{1D03AD33-02D2-406C-B4FE-361773F67D8E}"
+	ProjectSection(SolutionItems) = preProject
+		tools\NuGet\copy-local.cmd = tools\NuGet\copy-local.cmd
+		tools\NuGet\package.cmd = tools\NuGet\package.cmd
 	EndProjectSection
 EndProject
 Global
@@ -28,8 +49,27 @@ Global
 		{756FE55E-1ECC-43C5-82FF-B4B21AC46620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{756FE55E-1ECC-43C5-82FF-B4B21AC46620}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{756FE55E-1ECC-43C5-82FF-B4B21AC46620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{007D52C4-6662-48FA-8AE7-8A01B46EBA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{007D52C4-6662-48FA-8AE7-8A01B46EBA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{007D52C4-6662-48FA-8AE7-8A01B46EBA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{007D52C4-6662-48FA-8AE7-8A01B46EBA09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3557D09F-2FED-4535-A974-7A26042D3174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3557D09F-2FED-4535-A974-7A26042D3174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3557D09F-2FED-4535-A974-7A26042D3174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3557D09F-2FED-4535-A974-7A26042D3174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F0159A-E3C3-4354-859C-62FC68D05882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F0159A-E3C3-4354-859C-62FC68D05882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F0159A-E3C3-4354-859C-62FC68D05882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F0159A-E3C3-4354-859C-62FC68D05882}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80B5A5DB-B981-4BEB-8026-1DEEFDAF2435} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
+		{756FE55E-1ECC-43C5-82FF-B4B21AC46620} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
+		{007D52C4-6662-48FA-8AE7-8A01B46EBA09} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
+		{3557D09F-2FED-4535-A974-7A26042D3174} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
+		{81F0159A-E3C3-4354-859C-62FC68D05882} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
 	EndGlobalSection
 EndGlobal
