@@ -10,6 +10,8 @@ set nupkg_ext=.nupkg
 pushd packages
 
 call :publishpackage Kingdom.Collections.ImmutableBitArray
+call :publishpackage Kingdom.Collections.Enumerations
+call :publishpackage Kingdom.Collections.Enumerations.Tests
 
 popd
 
