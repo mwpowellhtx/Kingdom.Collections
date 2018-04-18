@@ -20,6 +20,10 @@ Instead of containing unit testing within the suite as a done deal, I opted to e
 
 The testing framework is fairly robust and does depend upon [NUnit](http://nunit.org/) [2.6.4](http://www.nuget.org/packages/NUnit/2.6.4), at least for the time being. I may pursue a migration path, or add additional support, into [xunit](http://xunit.github.io/), for example, but this will depend heavily upon there being competent provisional [combinatorial](http://github.com/AArnott/Xunit.Combinatorial/) support. That, or firing the combinatorial author altogether and forge my own combinatorial path; however, bandwidth is the key contraint where these ambitions are concerned.
 
+## Data Structures
+
+As it turns out, there is not much work that is truly required to support Data Structure Patterns such as Stacks, Queues, and even one of my favorites, Deques, or Double-ended Queues. Additionally, the unit testing around these follows an extremely cohesive testing paradigm, which makes it that much easier to support.
+
 ## Future Goals
 
 The next couple of things I want to pursue in this suite is to provide an Visual Studio extension for purposes of generating at least your boilerplate ``Enumeration`` details. I think such behavior should include the ability to specify whether the ``Enumeration`` is of an ``Ordinal`` or ``Bitwise`` variety, and, if bitwise, should also automatically generate things such as your bitwise operators. There are many ways I could approach this, I have not decided on the particulars just yet, but I welcome the feedback, posted issues, requests, etc.
