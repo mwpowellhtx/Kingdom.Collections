@@ -12,7 +12,9 @@ pushd packages
 call :publishpackage Kingdom.Collections.ImmutableBitArray
 call :publishpackage Kingdom.Collections.Enumerations
 call :publishpackage Kingdom.Collections.Enumerations.Tests
-
+call :publishpackage Kingdom.Collections.Stacks
+call :publishpackage Kingdom.Collections.Queues
+call :publishpackage Kingdom.Collections.Deques
 popd
 
 goto :end

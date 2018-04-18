@@ -12,6 +12,9 @@ pushd ..\..
 call :packproject Kingdom.Collections.ImmutableBitArray
 call :packproject Kingdom.Collections.Enumerations
 call :packproject Kingdom.Collections.Enumerations.Tests
+call :packproject Kingdom.Collections.Stacks
+call :packproject Kingdom.Collections.Queues
+call :packproject Kingdom.Collections.Deques
 
 popd
 
