@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kingdom.Collections</RootNamespace>
     <AssemblyName>Kingdom.Collections.DataStructures.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\tools\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="DataStructureTestsBase.cs" />
     <Compile Include="DequeAddBackRemoveFrontDataStructureTests.cs" />
     <Compile Include="IntegerBasedDataStructureTestsBase.cs" />
@@ -53,24 +57,24 @@
     <Compile Include="StackDataStructureTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kingdom.Collections.Deques\Kingdom.Collections.Deques.csproj">
-      <Project>{90f722c1-757a-40a0-a268-6d0345a39d55}</Project>
-      <Name>Kingdom.Collections.Deques</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kingdom.Collections.Queues\Kingdom.Collections.Queues.csproj">
-      <Project>{d1f98bc1-ba49-4f1f-a908-896d146f43c4}</Project>
-      <Name>Kingdom.Collections.Queues</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kingdom.Collections.Stacks\Kingdom.Collections.Stacks.csproj">
-      <Project>{c5d074c1-9414-4e2f-9584-32cc58d28b77}</Project>
-      <Name>Kingdom.Collections.Stacks</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kingdom.Collections.Deques\Kingdom.Collections.Deques.csproj">
+      <Project>{5cf194c2-4cf3-43ed-802e-dc1fbc14594f}</Project>
+      <Name>Kingdom.Collections.Deques</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kingdom.Collections.Queues\Kingdom.Collections.Queues.csproj">
+      <Project>{fd6a7a6d-1277-4b4b-9231-c53770a196ea}</Project>
+      <Name>Kingdom.Collections.Queues</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kingdom.Collections.Stacks\Kingdom.Collections.Stacks.csproj">
+      <Project>{ee4bddfb-b6f0-41de-8a14-52b74540ff35}</Project>
+      <Name>Kingdom.Collections.Stacks</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
