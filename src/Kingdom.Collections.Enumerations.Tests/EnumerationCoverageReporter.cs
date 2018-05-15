@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
     using static String;
 
     /// <summary>
@@ -66,8 +66,7 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         public void Report(params string[] names)
         {
-            CollectionAssert.IsNotEmpty(names); // nunit
-            // xunit: Assert.NotEmpty(names);
+            Assert.NotEmpty(names);
 
             foreach (var name in names)
             {
@@ -144,16 +143,10 @@ namespace Kingdom.Collections
             try
             {
                 // Then, we expect each of the Values to be Evaluated.
-                Assert.That(coverage, Has.Count.EqualTo(__values.Length)); // nunit
-                // xunit: Assert.Equal(__values.Length, coverage.Count);
+                Assert.Equal(__values.Length, coverage.Count);
 
                 // Each of the Values shall be Evaluated at least Once.
-                Assert.True(coverage.Values.All(x =>
-                {
-                    Assert.That(x, Is.GreaterThan(0));
-                    return x > 0;
-                })); // nunit
-                // xunit: Assert.All(coverage.Values, count => Assert.True(count > 0));
+                Assert.All(coverage.Values, count => Assert.True(count > 0));
             }
             catch (Exception ex)
             {

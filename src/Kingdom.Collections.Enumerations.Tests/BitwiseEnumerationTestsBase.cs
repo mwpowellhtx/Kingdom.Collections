@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
+    using Xunit.Abstractions;
+    using Xunit.Sdk;
     using static Type;
     using static BindingFlags;
 
@@ -49,29 +50,23 @@ namespace Kingdom.Collections
         public virtual void Verify_Bitwise_Enumeration_bits(byte[] bytes, string name, string displayName)
         {
             Assert.NotNull(bytes);
-            CollectionAssert.IsNotEmpty(bytes); // nunit
-            // xunit: Assert.NotEmpty(bytes);
+            Assert.NotEmpty(bytes);
 
             // There must be at least one Non Zero Byte.
-            Assert.That(bytes.Any(x => x > 0)); // nunit
-            // xunit: Assert.Contains(bytes, x => x > 0);
+            Assert.Contains(bytes, x => x > 0);
 
             Assert.NotNull(name);
-            CollectionAssert.IsNotEmpty(name); // nunit
-            // xunit: Assert.NotEmpty(name);
+            Assert.NotEmpty(name);
 
             Assert.NotNull(displayName);
-            CollectionAssert.IsNotEmpty(displayName); // nunit
-            // xunit: Assert.NotEmpty(displayName);
+            Assert.NotEmpty(displayName);
 
             // TODO: fold in checking the GroupName
             var value = NullInstance.GetByBytes(bytes);
 
-            Assert.That(NullInstance.GetByName(name), Is.SameAs(value)); // nunit
-            // xunit: Assert.Same(value, NullInstance.GetByName(name));
+            Assert.Same(value, NullInstance.GetByName(name));
 
-            Assert.That(NullInstance.GetByDisplayName(displayName), Is.SameAs(value)); // nunit
-            // xunit: Assert.Same(value, NullInstance.GetByDisplayName(displayName));
+            Assert.Same(value, NullInstance.GetByDisplayName(displayName));
 
             Reporter.Report(value.Name);
         }

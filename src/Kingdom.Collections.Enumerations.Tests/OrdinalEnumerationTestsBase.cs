@@ -3,7 +3,9 @@ using System.Reflection;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
+    using Xunit.Abstractions;
+    using Xunit.Sdk;
     using static Type;
     using static BindingFlags;
 
@@ -49,21 +51,17 @@ namespace Kingdom.Collections
             Assert.True(ordinal > 0);
 
             Assert.NotNull(name);
-            CollectionAssert.IsNotEmpty(name); // nunit
-            // xunit: Assert.NotEmpty(name);
+            Assert.NotEmpty(name);
 
             Assert.NotNull(displayName);
-            CollectionAssert.IsNotEmpty(displayName); // nunit
-            // xunit: Assert.NotEmpty(displayName);
+            Assert.NotEmpty(displayName);
 
             // TODO: fold in checking the GroupName
             var value = NullInstance.GetByOrdinal(ordinal);
 
-            Assert.That(NullInstance.GetByName(name), Is.SameAs(value)); // nunit
-            // xunit: Assert.Same(value, NullInstance.GetByName(name));
+            Assert.Same(value, NullInstance.GetByName(name));
 
-            Assert.That(NullInstance.GetByDisplayName(displayName), Is.SameAs(value)); // nunit
-            // xunit: Assert.Same(value, NullInstance.GetByDisplayName(displayName));
+            Assert.Same(value, NullInstance.GetByDisplayName(displayName));
 
             Reporter.Report(value.Name);
         }
@@ -94,8 +92,7 @@ namespace Kingdom.Collections
         {
             var result = OrdinalEnumeration<T>.FromOrdinal(ordinal);
             Assert.NotNull(result);
-            Assert.That(result.Ordinal, Is.EqualTo(ordinal)); // nunit
-            // xunit: Assert.Equal(ordinal, result.Ordinal);
+            Assert.Equal(ordinal, result.Ordinal);
             return result.Verify(verify);
         }
 

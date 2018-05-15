@@ -2,7 +2,9 @@
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
+    using Xunit.Abstractions;
+    using Xunit.Sdk;
 
     /// <summary>
     /// Provides <see cref="Enumeration"/> based test support.
@@ -34,7 +36,7 @@ namespace Kingdom.Collections
         /// <summary>
         /// By definition, Enumerations are not to have Public Constructors.
         /// </summary>
-        [Test]
+        [Fact]
         public abstract void Shall_not_have_any_Public_Ctors();
 
         /// <summary>

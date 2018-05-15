@@ -5,7 +5,9 @@ using System.Reflection;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
+    using Xunit.Abstractions;
+    using Xunit.Sdk;
     using static String;
     using static BindingFlags;
 
@@ -48,7 +50,7 @@ namespace Kingdom.Collections
         /// <summary>
         /// Reports whether the Enumeration <typeparamref name="T"/> Has Expected Constructors.
         /// </summary>
-        [Test]
+        [Fact]
         public abstract void Has_expected_Ctors();
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <see cref="EnumerationTestsBase{T}.NullInstance"/>
         /// <see cref="DerivedEnumerationTestExtensionMethods.ShallHaveAtLeastOneValue{T}"/>
-        [Test]
+        [Fact]
         public void Shall_have_at_least_One_Value() => NullInstance.ShallHaveAtLeastOneValue(Reporter);
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace Kingdom.Collections
         /// <see cref="EnumerationTestsBase{T}.NullInstance"/>
         /// <see cref="DerivedEnumerationTestExtensionMethods.ShallAllHaveConsistentBitLengths{T}"/>
         /// <see cref="DerivedEnumerationTestsBase{T}.Reporter"/>
-        [Test]
+        [Fact]
         public void Values_shall_all_have_consistent_Bits_Length()
             => NullInstance.ShallAllHaveConsistentBitLengths(false, Reporter);
 
@@ -80,7 +82,7 @@ namespace Kingdom.Collections
         /// <see cref="DerivedEnumerationTestExtensionMethods.ValueBitsShallBeUniquelyAssigned{T}"/>
         /// <see cref="DerivedEnumerationTestsBase{T}.Reporter"/>
         /// <see cref="EnumerationTestsBase{T}.OutputHelper"/>
-        [Test]
+        [Fact]
         public void Value_Bits_shall_be_uniquely_assigned()
             => NullInstance.ValueBitsShallBeUniquelyAssigned(Reporter, OutputHelper);
     }
@@ -106,8 +108,7 @@ namespace Kingdom.Collections
         {
             var result = Enumeration<T>.FromName(name);
             Assert.NotNull(result);
-            Assert.That(result.Name, Is.EqualTo(name)); // nunit
-            // xunit: Assert.Equals(name, result.Name);
+            Assert.Equal(name, result.Name);
             return result.Verify(verify);
         }
 
@@ -126,8 +127,7 @@ namespace Kingdom.Collections
         {
             var result = Enumeration<T>.FromDisplayName(displayName);
             Assert.NotNull(result);
-            Assert.That(result.DisplayName, Is.EqualTo(displayName)); // nunit
-            // xunit: Assert.Equal(displayName, result.DisplayName);
+            Assert.Equal(displayName, result.DisplayName);
             return result.Verify(verify);
         }
 
@@ -155,8 +155,7 @@ namespace Kingdom.Collections
             }
 
             // We do not care about the Value apart from identifying the underlying Enumeration Type.
-            CollectionAssert.IsEmpty(typeof(T).GetConstructors(Public | Instance)); // nunit
-            // xunit: Assert.Empty(typeof(T).GetConstructors(Public | Instance));
+            Assert.Empty(typeof(T).GetConstructors(Public | Instance));
         }
 
         /// <summary>
@@ -215,11 +214,10 @@ namespace Kingdom.Collections
             var values = Enumeration<T>.GetValues(ignoreNulls).ToArray();
 
             Assert.NotNull(values);
-            CollectionAssert.IsNotEmpty(values); // nunit
-            // xunit: Assert.NotEmpty(values);
+            Assert.NotEmpty(values);
 
             // We do not care that it was One Byte or One Hundred, only that it was Consistent.
-            Assert.That(values.Select(x =>
+            Assert.Single(values.Select(x =>
             {
                 Assert.NotNull(x);
                 /* There must be some Bits for this to work...
@@ -230,20 +228,7 @@ namespace Kingdom.Collections
                 var result = x.Bits.Length;
                 reporter?.Report(x.Name);
                 return result;
-            }).Distinct().ToArray(), Has.Length.EqualTo(1)); // nunit
-
-            // xunit: Assert.Single(values.Select(x =>
-            //{
-            //    Assert.NotNull(x);
-            //    /* There must be some Bits for this to work...
-            //     Yes, while we could Assert NotEmpty here, I am trying to keep the thrown
-            //     Exceptions as distinct as possible, not least of which for unit test
-            //     purposes. */
-            //    Assert.True(x.Bits.Any());
-            //    var result = x.Bits.Length;
-            //    reporter?.Report(x.Name);
-            //    return result;
-            //}).Distinct());
+            }).Distinct());
         }
 
         /// <summary>
@@ -277,13 +262,7 @@ namespace Kingdom.Collections
             }).ToArray();
 
             // The Bits must All be assigned to Something.
-           Assert.True(values.All(x =>
-           {
-               var any = x.Bits.Any();
-               Assert.True(any);
-               return any;
-           })); // nunit
-            // xunit: Assert.All(values, x => Assert.True(x.Bits.Any()));
+           Assert.All(values, x => Assert.True(x.Bits.Any()));
 
             /* This step is key; Bits must all be Uniquely Assigned, that is, Groups of One.
              It does not matter if those Bits originated as a pure Bitwise Enumeration, or
@@ -292,29 +271,19 @@ namespace Kingdom.Collections
 
             try
             {
-                Assert.That(grouped, Has.Length.EqualTo(values.Length)); // nunit
-                // xunit: Assert.Equal(values.Length, grouped.Length);
+                Assert.Equal(values.Length, grouped.Length);
             }
-            catch (Exception)
+            catch (EqualException)
             {
-                Func<string> listDuplicates = () => grouped
-                    .Where(g => g.Count() > 1)
+                // Again, C# 7 awesomeness; a lambda implemented LOCAL FUNCTION!
+                string ListDuplicates() => grouped.Where(g => g.Count() > 1)
                     .SelectMany(g => from x in g select x.Name)
                     .OrderBy(x => x)
                     .Aggregate(Empty, (g, x) => IsNullOrEmpty(g) ? $"'{x}'" : $"{g}, '{x}'");
-                outputHelper?.WriteLine($"Some Enumerated values have Duplicate Bits: {listDuplicates()}");
+
+                outputHelper?.WriteLine($"Some Enumerated values have Duplicate Bits: {ListDuplicates()}");
                 throw;
             }
-            // xunit: catch (EqualException)
-            //{
-            //    Func<string> listDuplicates = () => grouped
-            //        .Where(g => g.Count() > 1)
-            //        .SelectMany(g => from x in g select x.Name)
-            //        .OrderBy(x => x)
-            //        .Aggregate(Empty, (g, x) => IsNullOrEmpty(g) ? $"'{x}'" : $"{g}, '{x}'");
-            //    outputHelper?.WriteLine($"Some Enumerated values have Duplicate Bits: {listDuplicates()}");
-            //    throw;
-            //}
         }
     }
 }
