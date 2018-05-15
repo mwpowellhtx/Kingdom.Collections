@@ -15,7 +15,7 @@
     <Description>Provides a simple set of list based extensions for Double-ended Queue, or Deque, operation.</Description>
     <PackageTags>Collections IList List IEnumerable enqueue dequeue front back try many item additional count any onto</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.0-dev010</Version>
+    <Version>1.1.0-dev013</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
