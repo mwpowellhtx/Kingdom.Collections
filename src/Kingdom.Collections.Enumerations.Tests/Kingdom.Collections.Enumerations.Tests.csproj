@@ -64,11 +64,8 @@
     <Compile Include="DerivedEnumerationTestsBase.cs" />
     <Compile Include="EnumerationCoverageReporter.cs" />
     <Compile Include="EnumerationTestsBase.cs" />
-    <Compile Include="IClassFixture.cs" />
-    <Compile Include="ITestOutputHelper.cs" />
     <Compile Include="OrdinalEnumerationTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestOutputHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Kingdom.Collections.Enumerations.Tests.nuspec" />
