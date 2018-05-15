@@ -2,14 +2,14 @@
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
 
     public abstract class IndependentEnumerationTestBase<T> : IDisposable
         where T : Enumeration<T>
     {
         protected static readonly T NullInstance = null;
 
-        [Test]
+        [Fact]
         public void Values_collection_is_always_returned_regardless()
         {
             Assert.NotNull(Enumeration<T>.Values);

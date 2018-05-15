@@ -1,54 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Kingdom.Collections.Bitwises
 {
-    using NUnit.Framework;
+    using Xunit;
+    using Xunit.Abstractions;
     using static CardinalDirection;
 
     public class CardinalDirectionTests : BitwiseEnumerationTestsBase<CardinalDirection>
     {
-        //// xunit
-        //public CardinalDirectionTests(ITestOutputHelper outputHelper, EnumerationCoverageReporter<CardinalDirection> reporter)
-        //    : base(outputHelper, reporter)
-        //{
-        //}
-
-        // nunit
-        public CardinalDirectionTests()
-            : base(new TestOutputHelper(), new EnumerationCoverageReporter<CardinalDirection>())
+        /// <summary>
+        /// Life cycle management is critical here, especially with subtle differences between
+        /// XUnit and NUnit run time approaches. XUnit will manage the life cycles of the
+        /// injected parameters for us. Whereas, with NUnit, we should provide new'ed up
+        /// instances to the base class ourselves.
+        /// </summary>
+        /// <param name="outputHelper"></param>
+        /// <param name="reporter"></param>
+        /// <inheritdoc />
+        public CardinalDirectionTests(ITestOutputHelper outputHelper
+            , EnumerationCoverageReporter<CardinalDirection> reporter)
+            : base(outputHelper, reporter)
         {
         }
 
-        // xunit: public static readonly IEnumerable<object[]> TestValues;
-        public static readonly IEnumerable<TestCaseData> TestValues; // nunit
+        public static readonly IEnumerable<object[]> TestValues;
 
         private static IEnumerable<object[]> GetTestValues()
         {
-            Func<int, byte[]> next = x => new[] {(byte) (1 << x)};
-            Func<string, string> getDisplayName = s => s.GetHumanReadableCamelCase();
+            // Yay for C# 7 goodness! Function implemetned LOCAL FUNCTIONS!
+            byte[] Next(int x) => new[] {(byte) (1 << x)};
+            string GetDisplayName(string s) => s.GetHumanReadableCamelCase();
             var shift = -1;
-            yield return new object[] {next(++shift), nameof(North), nameof(North)};
-            yield return new object[] {next(++shift), nameof(NorthWest), getDisplayName(nameof(NorthWest))};
-            yield return new object[] {next(++shift), nameof(West), nameof(West)};
-            yield return new object[] {next(++shift), nameof(SouthWest), getDisplayName(nameof(SouthWest))};
-            yield return new object[] {next(++shift), nameof(South), nameof(South)};
-            yield return new object[] {next(++shift), nameof(SouthEast), getDisplayName(nameof(SouthEast))};
-            yield return new object[] {next(++shift), nameof(East), nameof(East)};
-            yield return new object[] {next(++shift), nameof(NorthEast), getDisplayName(nameof(NorthEast))};
+            yield return new object[] {Next(++shift), nameof(North), nameof(North)};
+            yield return new object[] {Next(++shift), nameof(NorthWest), GetDisplayName(nameof(NorthWest))};
+            yield return new object[] {Next(++shift), nameof(West), nameof(West)};
+            yield return new object[] {Next(++shift), nameof(SouthWest), GetDisplayName(nameof(SouthWest))};
+            yield return new object[] {Next(++shift), nameof(South), nameof(South)};
+            yield return new object[] {Next(++shift), nameof(SouthEast), GetDisplayName(nameof(SouthEast))};
+            yield return new object[] {Next(++shift), nameof(East), nameof(East)};
+            yield return new object[] {Next(++shift), nameof(NorthEast), GetDisplayName(nameof(NorthEast))};
         }
 
         static CardinalDirectionTests()
         {
-            TestValues = GetTestValues()
-                    .Select(x => new TestCaseData(x)) // nunit
-                ;
+            TestValues = GetTestValues();
         }
 
 #pragma warning disable xUnit1008 // Test data attribute should only be used on a Theory
-        [Test, TestCaseSource(nameof(TestValues))] // nunit
-        // xunit: [MemberData(nameof(TestValues))]
+        [MemberData(nameof(TestValues))]
         public override void Verify_Bitwise_Enumeration_bits(byte[] bytes, string name, string displayName)
         {
             base.Verify_Bitwise_Enumeration_bits(bytes, name, displayName);
