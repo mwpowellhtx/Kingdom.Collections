@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
     using static String;
 
-    [TestFixture]
-    public abstract class DataStructureTestsBase<T, TList>
+    public abstract class DataStructureTestsBase<T, TList> : IDisposable
         where TList : class, IList<T>, new()
     {
+
         public class ItemList : IList<T>
         {
             private readonly IList<T> _list;
@@ -66,27 +66,9 @@ namespace Kingdom.Collections
 
         protected TList Subject { get; private set; }
 
-        [SetUp]
-        public virtual void SetUp()
+        protected DataStructureTestsBase()
         {
             Subject = new TList();
-        }
-
-        [TearDown]
-        public virtual void TearDown()
-        {
-            (Subject as IDisposable)?.Dispose();
-            Subject = null;
-        }
-
-        [TestFixtureSetUp]
-        public virtual void TestFixtureSetUp()
-        {
-        }
-
-        [TestFixtureTearDown]
-        public virtual void TestFixtureTearDown()
-        {
         }
 
         protected static TList Verify(TList subject, Action<TList> verify = null)
@@ -95,6 +77,25 @@ namespace Kingdom.Collections
             Assert.NotNull(subject);
             verify(subject);
             return subject;
+        }
+
+        protected bool IsDisposed { get; private set; }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (IsDisposed || !disposing)
+            {
+                return;
+            }
+
+            (Subject as IDisposable)?.Dispose();
+            Subject = null;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            IsDisposed = true;
         }
     }
 }

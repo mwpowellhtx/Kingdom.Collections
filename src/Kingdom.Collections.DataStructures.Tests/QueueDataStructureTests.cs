@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
     using static Math;
 
     /// <summary>
@@ -14,50 +13,30 @@ namespace Kingdom.Collections
     /// <inheritdoc />
     public class QueueDataStructureTests : IntegerBasedDataStructureTestsBase
     {
-        private AddCallback _add;
+        protected override AddCallback Add { get; }
 
-        protected override AddCallback Add => _add;
+        protected override GetRemoveExpectedCallback GetRemoveExpected { get; }
 
-        private GetRemoveExpectedCallback _getRemoveExpected;
+        protected override RemoveCallback Remove { get; }
 
-        protected override GetRemoveExpectedCallback GetRemoveExpected => _getRemoveExpected;
+        protected override TryRemoveCallback TryRemove { get; }
 
-        private RemoveCallback _remove;
+        protected override GetRemoveManyExpectedCallback GetRemoveManyExpected { get; }
 
-        protected override RemoveCallback Remove => _remove;
+        protected override RemoveManyCallback RemoveMany { get; }
 
-        private TryRemoveCallback _tryRemove;
+        protected override TryRemoveManyCallback TryRemoveMany { get; }
 
-        protected override TryRemoveCallback TryRemove => _tryRemove;
-
-        private GetRemoveManyExpectedCallback _getRemoveManyExpected;
-
-        protected override GetRemoveManyExpectedCallback GetRemoveManyExpected => _getRemoveManyExpected;
-
-        private RemoveManyCallback _removeMany;
-
-        protected override RemoveManyCallback RemoveMany => _removeMany;
-
-        private TryRemoveManyCallback _tryRemoveMany;
-
-        protected override TryRemoveManyCallback TryRemoveMany => _tryRemoveMany;
-
-        public override void TestFixtureSetUp()
+        public QueueDataStructureTests()
         {
-            base.TestFixtureSetUp();
-
-            _add = (s, i, j) => Verify(s).Enqueue(i, j);
-            _getRemoveExpected = (i, j) => i;
-            _remove = s => s.Dequeue<int, IList<int>>();
-            _tryRemove = (IList<int> s, out int result) => s.TryDequeue(out result);
-            _getRemoveManyExpected = (i, j, count) => new[] {i}.Concat(j)
+            Add = (s, i, j) => Verify(s).Enqueue(i, j);
+            GetRemoveExpected = (i, j) => i;
+            Remove = s => s.Dequeue<int, IList<int>>();
+            TryRemove = (IList<int> s, out int result) => s.TryDequeue(out result);
+            GetRemoveManyExpected = (i, j, count) => new[] { i }.Concat(j)
                 .Take(Min(j.Count + 1, count > 0 ? count : 0));
-            _removeMany = (s, count) => s.DequeueMany<int, IList<int>>(count);
-            _tryRemoveMany = (IList<int> s, out IEnumerable<int> result, int count) => s.TryDequeueMany(out result, count);
+            RemoveMany = (s, count) => s.DequeueMany<int, IList<int>>(count);
+            TryRemoveMany = (IList<int> s, out IEnumerable<int> result, int count) => s.TryDequeueMany(out result, count);
         }
-
-        protected override IEnumerable<TestCaseData> BasicTestCases => ProtectedBasicTestCases;
-
-        protected override IEnumerable<TestCaseData> ManyItemsTestCases => ProtectedManyItemsTestCases;
     }
 }

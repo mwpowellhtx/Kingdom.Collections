@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
 
     /// <summary>
     /// The Collection Patterns are pretty clear. Each of the Extensions can Add items to the
@@ -18,6 +18,12 @@ namespace Kingdom.Collections
     /// </summary>
     public abstract class IntegerBasedDataStructureTestsBase : DataStructureTestsBase<int, List<int>>
     {
+        static IntegerBasedDataStructureTestsBase()
+        {
+            BasicTestCases = ProtectedBasicTestCases;
+            ManyItemsTestCases = ProtectedManyItemsTestCases;
+        }
+
         protected delegate IList<int> AddCallback(List<int> subject, int item, params int[] additionalItems);
 
         protected abstract AddCallback Add { get; }
@@ -47,103 +53,101 @@ namespace Kingdom.Collections
 
         protected abstract TryRemoveManyCallback TryRemoveMany { get; }
 
-        protected static IEnumerable<TestCaseData> ProtectedBasicTestCases
+        protected static IEnumerable<object[]> ProtectedBasicTestCases
         {
             get
             {
-                yield return new TestCaseData(1, new ItemList());
-                yield return new TestCaseData(1, new ItemList(2));
-                yield return new TestCaseData(1, new ItemList(2, 3));
-                yield return new TestCaseData(1, new ItemList(2, 3, 4));
+                yield return new object[] {1, new ItemList()};
+                yield return new object[] {1, new ItemList(2)};
+                yield return new object[] {1, new ItemList(2, 3)};
+                yield return new object[] {1, new ItemList(2, 3, 4)};
             }
         }
 
-        protected abstract IEnumerable<TestCaseData> BasicTestCases { get; }
+        public static IEnumerable<object[]> BasicTestCases { get; protected set; }
 
-        [Test]
-        [TestCaseSource(nameof(BasicTestCases))]
+        [Theory]
+        [MemberData(nameof(BasicTestCases))]
         public virtual void Verify_can_Add(int item, ItemList additionalItems)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            Assert.That(sub, Has.Count.EqualTo(additionalItems.Count + 1));
+            Assert.Equal(additionalItems.Count + 1, sub.Count);
             var expected = new[] {item}.Concat(additionalItems).Reverse().ToList();
-            CollectionAssert.AreEqual(expected, sub);
+            Assert.Equal(expected, sub);
         }
 
-        [Test]
-        [TestCaseSource(nameof(BasicTestCases))]
+        [Theory]
+        [MemberData(nameof(BasicTestCases))]
         public void Verify_can_Remove(int item, ItemList additionalItems)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            Assert.That(sub, Has.Count.EqualTo(additionalItems.Count + 1));
+            Assert.Equal(additionalItems.Count + 1, sub.Count);
             var expected = GetRemoveExpected(item, additionalItems);
-            Assert.That(Remove(sub), Is.EqualTo(expected));
+            Assert.Equal(expected, Remove(sub));
         }
 
 
-        [Test]
+        [Fact]
         public void Verify_that_Remove_empty_throws()
         {
-            Assert.That(() => Remove(Subject), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.Throws<ArgumentOutOfRangeException>(() => Remove(Subject));
         }
 
-        [Test]
-        [TestCaseSource(nameof(BasicTestCases))]
+        [Theory]
+        [MemberData(nameof(BasicTestCases))]
         public void Verify_that_TryRemove_correct(int item, ItemList additionalItems)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            Assert.That(sub, Has.Count.EqualTo(additionalItems.Count + 1));
+            Assert.Equal(additionalItems.Count + 1, sub.Count);
             var expected = GetRemoveExpected(item, additionalItems);
-            int actual;
-            Assert.That(TryRemove(sub, out actual), Is.True);
-            Assert.That(actual, Is.EqualTo(expected));
+            // Wow for C# 7 ...
+            Assert.True(TryRemove(sub, out var actual));
+            Assert.Equal(expected, actual);
         }
 
-        [Test]
+        [Fact]
         public void Verify_that_TryRemove_empty_false()
         {
-            int actual;
-            Assert.That(TryRemove(Verify(Subject), out actual), Is.False);
-            Assert.That(actual, Is.EqualTo(default(int)));
+            Assert.False(TryRemove(Verify(Subject), out var actual));
+            Assert.Equal(default(int), actual);
         }
 
-        protected static IEnumerable<TestCaseData> ProtectedManyItemsTestCases
+        protected static IEnumerable<object[]> ProtectedManyItemsTestCases
         {
             get
             {
-                yield return new TestCaseData(1, new ItemList(), 2);
-                yield return new TestCaseData(1, new ItemList(2), 2);
-                yield return new TestCaseData(1, new ItemList(2, 3), 2);
-                yield return new TestCaseData(1, new ItemList(2, 3, 4), 2);
-                yield return new TestCaseData(1, new ItemList(), -2);
-                yield return new TestCaseData(1, new ItemList(2), -2);
-                yield return new TestCaseData(1, new ItemList(2, 3), -2);
-                yield return new TestCaseData(1, new ItemList(2, 3, 4), -2);
+                yield return new object[] {1, new ItemList(), 2};
+                yield return new object[] {1, new ItemList(2), 2};
+                yield return new object[] {1, new ItemList(2, 3), 2};
+                yield return new object[] {1, new ItemList(2, 3, 4), 2};
+                yield return new object[] {1, new ItemList(), -2};
+                yield return new object[] {1, new ItemList(2), -2};
+                yield return new object[] {1, new ItemList(2, 3), -2};
+                yield return new object[] {1, new ItemList(2, 3, 4), -2};
             }
         }
 
-        protected abstract IEnumerable<TestCaseData> ManyItemsTestCases { get; }
+        public static IEnumerable<object[]> ManyItemsTestCases { get; protected set; }
 
 
-        [Test]
-        [TestCaseSource(nameof(ManyItemsTestCases))]
+        [Theory]
+        [MemberData(nameof(ManyItemsTestCases))]
         public void Verify_that_RemoveMany_correct(int item, ItemList additionalItems, int count)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
             var actual = RemoveMany(sub, count).ToArray();
             var expected = GetRemoveManyExpected(item, additionalItems, count).ToArray();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [Test]
-        [TestCaseSource(nameof(ManyItemsTestCases))]
+        [Theory]
+        [MemberData(nameof(ManyItemsTestCases))]
         public void Verify_that_TryRemoveMany_correct(int item, ItemList additionalItems, int count)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            IEnumerable<int> actual;
-            Assert.That(TryRemoveMany(sub, out actual, count), Is.EqualTo(count > 0));
-            var expected = GetRemoveManyExpected(item, additionalItems, count).ToArray();
-            CollectionAssert.AreEqual(expected, actual.ToArray());
+            Assert.Equal(count > 0, TryRemoveMany(sub, out var actual, count));
+            var expected = GetRemoveManyExpected(item, additionalItems, count);
+            Assert.Equal(expected, actual);
         }
     }
 }
