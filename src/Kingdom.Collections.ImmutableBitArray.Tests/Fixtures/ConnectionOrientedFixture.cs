@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
     using static Guid;
     using static ConnectionState;
 
@@ -33,11 +33,8 @@ namespace Kingdom.Collections
         private static void VerifySqlConnectionOpen(SqlConnection conn)
         {
             conn.Open();
-
-            Assert.That(conn.State, Is.EqualTo(Open)); // nunit
-            // xunit: Assert.Equal(Open, conn.State);
-            Assert.That(conn.ClientConnectionId, Is.Not.EqualTo(Empty)); // nunit
-            // xunit: Assert.NotEqual(Empty, conn.ClientConnectionId);
+            Assert.Equal(Open, conn.State);
+            Assert.NotEqual(Empty, conn.ClientConnectionId);
         }
 
         /// <summary>
@@ -53,10 +50,8 @@ namespace Kingdom.Collections
         {
             var conn = new SqlConnection(connectionString);
 
-            Assert.That(conn.State, Is.EqualTo(Closed)); // nunit
-            // xunit: Assert.Equal(Closed, conn.State);
-            Assert.That(conn.ClientConnectionId, Is.EqualTo(Empty)); // nunit
-            // xunit: Assert.Equal(Empty, conn.ClientConnectionId);
+            Assert.Equal(Closed, conn.State);
+            Assert.Equal(Empty, conn.ClientConnectionId);
 
             verify = verify ?? VerifySqlConnectionOpen;
 

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
 
 namespace Kingdom.Collections
 {
-    using CombinatorialValuesAttribute = ValuesAttribute; // xunit bridge
+    using Xunit;
 
     /// <summary>
     /// 
@@ -20,11 +19,13 @@ namespace Kingdom.Collections
             // Save the zero case for a separate test where we are explicitly expecting an exception.
             const int half = size/2;
             // Signal for "default shift", that is, default use case is count one (1).
+            // ReSharper disable once RedundantCast
             yield return (int?) null;
             yield return (int?) 0;
             yield return (int?) half;
             /* This is more of a limitation of the language << operator,
              * which is constrained to 0 to 31 bits shifted for integer types. */
+            // ReSharper disable once RedundantCast
             yield return (int?) size - 1;
         }
 

@@ -3,33 +3,33 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
 
     public class DatabaseSerializationTests : TestFixtureBase
     {
-        public override void TestFixtureSetUp()
-        {
-            base.TestFixtureSetUp();
+        private DatabaseFixture Db { get; set; }
 
+        public DatabaseSerializationTests()
+        {
             Db = new DatabaseFixture();
         }
 
-        public override void TestFixtureTearDown()
+        protected override void Dispose(bool disposing)
         {
-            Db?.Dispose();
-            Db = null;
+            if (disposing && !IsDisposed)
+            {
+                Db?.Dispose();
+                Db = null;
+            }
 
-            base.TestFixtureTearDown();
+            base.Dispose(disposing);
         }
-
-        private DatabaseFixture Db { get; set; }
 
         /// <summary>
         /// Verifies that bit array serialization is correct.
         /// </summary>
         /// <param name="mask"></param>
-        [Test, Combinatorial] // nunit
-        // xunit: [Theory, CombinatorialData]
+        [Theory, CombinatorialData]
         public void Verify_Bit_Array_serializes_correctly([SerializedMaskValues] uint mask)
         {
             var subject = CreateBitArray(mask);
@@ -40,8 +40,7 @@ namespace Kingdom.Collections
             CreateBitArray(record.Bytes,
                 s =>
                 {
-                    Assert.That(s, Has.Length.EqualTo(record.Bytes.Length * 8)); // nunit
-                    // xunit: Assert.Equal(record.Bytes.Length * 8, s.Length);
+                    Assert.Equal(record.Bytes.Length * 8, s.Length);
                     Assert.True(s.Equals(subject));
                 });
         }
@@ -72,13 +71,11 @@ namespace Kingdom.Collections
             var result = VerifyBitArray(new ImmutableBitArrayFixture(new[] {mask}),
                 s =>
                 {
-                    Assert.That(s, Has.Length.EqualTo(sizeof(uint) * 8)); // nunit
-                    // xunit: Assert.Equal(sizeof(uint) * 8, s.Length);
+                    Assert.Equal(sizeof(uint) * 8, s.Length);
                     // Reverse these bytes because they are in reverse order.
                     var maskBytes = BitConverter.GetBytes(mask).ToArray();
                     var subjectBytes = s.ToBytes(false).ToArray();
-                    CollectionAssert.AreEqual(maskBytes, subjectBytes); // nunit
-                    // xunit: Assert.Equal(maskBytes, subjectBytes);
+                    Assert.Equal(maskBytes, subjectBytes);
                 });
 
             return result;

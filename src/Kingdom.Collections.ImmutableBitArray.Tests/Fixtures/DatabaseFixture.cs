@@ -11,8 +11,8 @@ namespace Kingdom.Collections
         private Guid DatabaseId
         {
             // ReSharper disable once UnusedMember.Local
-            get { return Guid.Parse(DatabaseName); }
-            set { DatabaseName = $"{value:D}"; }
+            get => Guid.Parse(DatabaseName);
+            set => DatabaseName = $"{value:D}";
         }
 
         internal DatabaseFixture(Guid? did = null)

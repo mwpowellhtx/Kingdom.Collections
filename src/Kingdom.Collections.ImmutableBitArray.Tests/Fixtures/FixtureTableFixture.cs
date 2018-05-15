@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
     using static Guid;
 
     /// <summary>
@@ -93,12 +93,9 @@ SELECT * FROM @results;",
 
             // Comparing CreatedOn does not really prove anything for what we want here.
             Assert.NotNull(record);
-            Assert.That(record.Id, Is.Not.EqualTo(Empty)); // nunit
-            // xunit: Assert.NotEqual(Empty, record.Id);
-            Assert.That(record.Bytes, Is.Not.SameAs(bytes)); // nunit
-            // xunit: Assert.NotSame(bytes, record.Bytes);
-            CollectionAssert.AreEqual(bytes, record.Bytes); // nunit
-            // xunit: Assert.Equal(bytes, record.Bytes);
+            Assert.NotEqual(Empty, record.Id);
+            Assert.NotSame(bytes, record.Bytes);
+            Assert.Equal(bytes, record.Bytes);
 
             return record;
         }

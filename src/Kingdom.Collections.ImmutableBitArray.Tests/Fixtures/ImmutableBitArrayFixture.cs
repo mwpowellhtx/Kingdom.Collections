@@ -2,7 +2,7 @@
 
 namespace Kingdom.Collections
 {
-    using NUnit.Framework;
+    using Xunit;
 
     /// <summary>
     /// Helps by exposing <see cref="ImmutableBitArray._values"/> into the unit tests
@@ -89,18 +89,16 @@ namespace Kingdom.Collections
         internal ImmutableBitArrayFixture InternalShiftLeft(int count = 1, Elasticity elasticity = Elasticity.None)
         {
             var result = ShiftLeft(count, elasticity);
-            Assert.NotNull(result); // nunit/xunit
-            Assert.That(result, Is.Not.SameAs(this)); // nunit
-            // xunit: Assert.NotSame(this, result);
+            Assert.NotNull(result);
+            Assert.NotSame(this, result);
             return new ImmutableBitArrayFixture(result);
         }
 
         internal ImmutableBitArrayFixture InternalShiftRight(int count = 1, Elasticity elasticity = Elasticity.None)
         {
             var result = ShiftRight(count, elasticity);
-            Assert.NotNull(result); // nunit/xunit
-            Assert.That(result, Is.Not.SameAs(this)); // nunit
-            // xunit: Assert.NotSame(this, result);
+            Assert.NotNull(result);
+            Assert.NotSame(this, result);
             return new ImmutableBitArrayFixture(result);
         }
 

@@ -8,7 +8,7 @@ namespace Kingdom.Collections
         protected override string ToString(uint value)
         {
             var bytes = BitConverter.GetBytes(value);
-            return string.Join(string.Empty, bytes.Select(b => string.Format("{0:X2}", b))).ToLower();
+            return string.Join(string.Empty, bytes.Select(b => $"{b:X2}")).ToLower();
         }
 
         public UInt32ValuesFixture()
