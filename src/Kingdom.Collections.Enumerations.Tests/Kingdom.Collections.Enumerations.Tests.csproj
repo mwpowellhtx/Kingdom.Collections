@@ -102,6 +102,6 @@
     <Message Importance="high" Text="NuspecProperties: $(NuspecProperties)" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>nuget pack "$(ProjectPath)" -Symbols -Properties "Configuration=$(ConfigurationName)"</PostBuildEvent>
+    <PostBuildEvent>nuget pack "$(ProjectPath)" -Properties "Configuration=$(ConfigurationName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
