@@ -2,6 +2,13 @@
 
 setlocal
 
+echo Packaging should occur as either a post-build step for "conventional"
+echo desktop or other targeted assemblies, or as a natural part of the
+echo project for more modern .NET Standard or other assemblies. As such
+echo packaging is now obsolete in this sense.
+
+goto :end
+
 set packages_path=tools\NuGet\packages
 set nuget_exe=NuGet.exe
 set csproj_ext=.csproj

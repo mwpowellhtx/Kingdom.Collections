@@ -8,6 +8,7 @@ if "%my_nuget_api_key%"=="" (
     goto :end
 )
 
+:setvars
 :: Expecting NuGet to be found in the System Path.
 set nuget_exe=NuGet.exe
 set nuget_push_verbosity=detailed
@@ -18,11 +19,33 @@ set nuget_push_opts=%nuget_push_opts% -Verbosity %nuget_push_verbosity%
 set nuget_push_opts=%nuget_push_opts% -NonInteractive
 set nuget_push_opts=%nuget_push_opts% -Source %nuget_push_source%
 
-pushd .\packages
+:setconfig
+set config=%1
+if ("%config%" === "") (
+    set config=Release
+)
 
-for %%f in (*.nupkg) do %nuget_exe% push "%%f" %nuget_push_opts%
+:: Do the main areas here.
+::pushd .\packages
+pushd ..\..
+
+call :pubpkg Kingdom.Collections.ImmutableBitArray
+call :pubpkg Kingdom.Collections.Enumerations
+call :pubpkg Kingdom.Collections.Enumerations.Tests
+call :pubpkg Kingdom.Collections.Stacks
+call :pubpkg Kingdom.Collections.Queues
+call :pubpkg Kingdom.Collections.Deques
 
 popd
+
+goto :end
+
+:pubpkg
+set f=%1
+for %%f in ("%f%\bin\%config%\%f%.*.nupkg") do (
+    %nuget_exe% push "%%f" %nuget_push_opts%
+)
+exit /b
 
 :end
 
