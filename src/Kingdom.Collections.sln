@@ -14,8 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CF1D8556
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{1D03AD33-02D2-406C-B4FE-361773F67D8E}"
 	ProjectSection(SolutionItems) = preProject
+		tools\NuGet\clean.cmd = tools\NuGet\clean.cmd
 		tools\NuGet\copy-local.cmd = tools\NuGet\copy-local.cmd
 		tools\NuGet\package.cmd = tools\NuGet\package.cmd
+		tools\NuGet\publish.cmd = tools\NuGet\publish.cmd
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Collections.Deques", "Kingdom.Collections.Deques\Kingdom.Collections.Deques.csproj", "{5CF194C2-4CF3-43ED-802E-DC1FBC14594F}"
@@ -27,8 +29,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Collections.ImmutableBitArray", "Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj", "{8C02B9E0-FEFE-40A0-963F-458B755899B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Collections.Enumerations", "Kingdom.Collections.Enumerations\Kingdom.Collections.Enumerations.csproj", "{3945D638-0959-49D9-884C-BA4D4EDB2524}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Testing", "Kingdom.Testing\Kingdom.Testing.csproj", "{75BBAD06-D0FB-4BD0-B27A-D8E967E926B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.DataStructures.Tests", "Kingdom.Collections.DataStructures.Tests\Kingdom.Collections.DataStructures.Tests.csproj", "{1C57AF29-1EDD-4484-874D-9E2C4303BED7}"
 EndProject
@@ -64,10 +64,6 @@ Global
 		{3945D638-0959-49D9-884C-BA4D4EDB2524}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3945D638-0959-49D9-884C-BA4D4EDB2524}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3945D638-0959-49D9-884C-BA4D4EDB2524}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75BBAD06-D0FB-4BD0-B27A-D8E967E926B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75BBAD06-D0FB-4BD0-B27A-D8E967E926B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75BBAD06-D0FB-4BD0-B27A-D8E967E926B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75BBAD06-D0FB-4BD0-B27A-D8E967E926B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C57AF29-1EDD-4484-874D-9E2C4303BED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C57AF29-1EDD-4484-874D-9E2C4303BED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C57AF29-1EDD-4484-874D-9E2C4303BED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -94,10 +90,10 @@ Global
 		{EE4BDDFB-B6F0-41DE-8A14-52B74540FF35} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
 		{8C02B9E0-FEFE-40A0-963F-458B755899B7} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
 		{3945D638-0959-49D9-884C-BA4D4EDB2524} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
-		{75BBAD06-D0FB-4BD0-B27A-D8E967E926B4} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
 		{1C57AF29-1EDD-4484-874D-9E2C4303BED7} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
 		{8445544B-9AA8-49D6-A307-F889BD403477} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
 		{A27772AB-A31B-435E-8ED5-EEE5BC53129B} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
+		{D04761DE-26D2-4B52-B514-0E609DC7E71D} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F695C354-EB5A-446F-BD44-AF8E254EA97C}
