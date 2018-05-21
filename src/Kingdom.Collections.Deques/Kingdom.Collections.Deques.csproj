@@ -13,9 +13,9 @@
 
   <PropertyGroup>
     <Description>Provides a simple set of list based extensions for Double-ended Queue, or Deque, operation.</Description>
-    <PackageTags>Collections IList List IEnumerable enqueue dequeue front back try many item additional count any onto</PackageTags>
+    <PackageTags>Collections; IList; List; IEnumerable; enqueue; dequeue; front; back; try; many; item; additional; count; any; onto</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.0.16</Version>
+    <Version>1.1.1.17</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

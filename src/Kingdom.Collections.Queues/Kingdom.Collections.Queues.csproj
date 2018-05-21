@@ -13,9 +13,9 @@
 
   <PropertyGroup>
     <Description>Provides a simple set of list based extensions for Queue operation.</Description>
-    <PackageTags>Collections IList List IEnumerable enqueue dequeue try many item additional count any onto</PackageTags>
+    <PackageTags>Collections; IList; List; IEnumerable; enqueue; dequeue; try; many; item; additional; count; any; onto</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.0.11</Version>
+    <Version>1.1.1.12</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
