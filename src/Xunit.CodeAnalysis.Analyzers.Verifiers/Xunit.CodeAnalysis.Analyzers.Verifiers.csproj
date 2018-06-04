@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Authors>Michael W. Powell</Authors>
+    <Copyright>Copyright © 2018</Copyright>
+    <RootNamespace>Xunit.CodeAnalysis</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>xunit.codeAnalysis.analyzers.verifiers</PackageId>
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections/Xunit.CodeAnalysis.Analyzers.Verifiers</PackageProjectUrl>
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Version>1.0.0.27</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\Xunit.CodeAnalysis.Analyzers.Verifiers.xml</DocumentationFile>
+    <BumpRevision>True</BumpRevision>
+    <BumpLabel>dev</BumpLabel>
+    <BumpLabelDigits>3</BumpLabelDigits>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\Xunit.CodeAnalysis.Analyzers.Verifiers.xml</DocumentationFile>
+    <BumpRevision>True</BumpRevision>
+    <BumpResetLabel>dev</BumpResetLabel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.2" />
+    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="true" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+  </ItemGroup>
+
+</Project>
