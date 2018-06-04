@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Kingdom.Collections</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.2" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kingdom.Collections.Enumerations.Analyzers\Kingdom.Collections.Enumerations.Analyzers.csproj" />
+    <ProjectReference Include="..\Kingdom.Collections.Enumerations.Attributes\Kingdom.Collections.Enumerations.Attributes.csproj" />
+    <ProjectReference Include="..\Kingdom.Collections.Enumerations\Kingdom.Collections.Enumerations.csproj" />
+    <ProjectReference Include="..\Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj" />
+    <ProjectReference Include="..\Xunit.CodeAnalysis.Analyzers.Verifiers\Xunit.CodeAnalysis.Analyzers.Verifiers.csproj" />
+  </ItemGroup>
+
+</Project>
