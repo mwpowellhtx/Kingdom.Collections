@@ -3,9 +3,12 @@
 
   <PropertyGroup>
     <Authors>Michael W. Powell</Authors>
+    <Company>Kingdom Software</Company>
+    <Product>Kingdom.Collections</Product>
     <Copyright>Copyright © 2016, 2018</Copyright>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
     <RootNamespace>Kingdom.Collections</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
@@ -14,10 +17,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>Kingdom.Collections.Enumerations.Analyzers</Description>
-    <PackageTags>Kingdom.Collections.Enumerations.Analyzers, analyzers</PackageTags>
+    <Description>Provides the analyzers necessary to ensure that Enumeration derivations with [FlagsEnumeration] decoration are declared partial.</Description>
+    <PackageTags>Roslyn; analyzer; code; fix; fixes; Enumerations; Enumeration; enumerated; enum; flags; attribute values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Boolean; bool; ICollection; ICloneable</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.0.20-dev020</Version>
+    <Version>1.0.1.3-dev003</Version>
+    <AssemblyVersion>1.0.1.2</AssemblyVersion>
+    <FileVersion>1.0.1.2</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -41,10 +46,6 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\tools\Common\CommonAssemblyInfo.cs" Link="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
