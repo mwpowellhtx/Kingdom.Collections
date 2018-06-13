@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Authors>Michael W. Powell</Authors>
+    <Company>Kingdom Software</Company>
+    <Product>Kingdom.Collections</Product>
+    <Copyright>Copyright © 2018</Copyright>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <RootNamespace>Kingdom.Collections</RootNamespace>
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>http://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsTool>true</IsTool>
+    <Description>Provides the build time generators that respond to the [FlagsEnumeration] partial class attribute.</Description>
+    <PackageTags>Enumerations; Enumeration; enumerated; generator; generators; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <Version>1.0.0.33-dev033</Version>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
+    <FileVersion>1.0.0.3</FileVersion>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.6\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
+    <BumpRevision>True</BumpRevision>
+    <BumpLabel>dev</BumpLabel>
+    <BumpLabelDigits>3</BumpLabelDigits>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.6\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
+    <BumpRevision>True</BumpRevision>
+    <BumpResetLabel>dev</BumpResetLabel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="build\Kingdom.Collections.Enumerations.Generators.props" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
+    <PackageReference Include="CodeGeneration.Roslyn" Version="$(CodeGenerationRoslynPackagesVersion)" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.8.0" />
+    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
