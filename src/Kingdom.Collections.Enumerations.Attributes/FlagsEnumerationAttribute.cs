@@ -9,11 +9,11 @@ using CodeGeneration.Roslyn;
 /// to be used in your application.
 /// </summary>
 /// <inheritdoc />
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, Inherited = false)
 // No, this is not a typo; it really is AttributeAttribute...
-[CodeGenerationAttribute("Kingdom.Collections.Enumerations.FlagsEnumerationGenerator"
-                         + ", Kingdom.Collections.Enumerations.Generators")]
-[Conditional("CodeGeneration")]
+ , CodeGenerationAttribute("Kingdom.Collections.FlagsEnumerationGenerator"
+                           + ", Kingdom.Collections.Enumerations.Generators")
+ , Conditional("CodeGeneration")]
 // ReSharper disable once CheckNamespace, UnusedMember.Global
 public sealed class FlagsEnumerationAttribute : Attribute
 {
