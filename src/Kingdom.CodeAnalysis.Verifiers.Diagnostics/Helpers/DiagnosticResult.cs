@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Xunit.CodeAnalysis
+namespace Kingdom.CodeAnalysis.Verifiers
 {
     using Microsoft.CodeAnalysis;
     using static String;
@@ -63,10 +63,10 @@ namespace Xunit.CodeAnalysis
             => new DiagnosticResult(descriptor) {Locations = locations};
         // TODO: TBD: may round out the Create methods...
 
-        internal string Path => Locations.Any() ? Locations.ElementAt(0).Path : Empty;
+        internal string Path => Locations.Any() ? Locations.First().Path : Empty;
 
-        internal int Line => Locations.Any() ? Locations.ElementAt(0).Line : -1;
+        internal int Line => Locations.Any() ? Locations.First().Line : -1;
 
-        internal int Column => Locations.Any() ? Locations.ElementAt(0).Column : -1;
+        internal int Column => Locations.Any() ? Locations.First().Column : -1;
     }
 }

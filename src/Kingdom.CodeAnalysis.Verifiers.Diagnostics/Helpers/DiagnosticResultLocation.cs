@@ -1,6 +1,6 @@
 using System;
 
-namespace Xunit.CodeAnalysis
+namespace Kingdom.CodeAnalysis.Verifiers
 {
     /// <summary>
     /// Location where the diagnostic appears, as determined by path, line number, and column number.
