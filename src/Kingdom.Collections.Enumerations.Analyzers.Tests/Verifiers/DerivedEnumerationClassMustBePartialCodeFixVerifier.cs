@@ -1,26 +1,22 @@
+using System;
 using System.Runtime.Serialization;
 using Microsoft.CodeAnalysis;
 
 namespace Kingdom.Collections
 {
-    using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.Diagnostics;
-    //using Xunit.Abstractions;
-    using Xunit.CodeAnalysis;
+    using CodeAnalysis.Verifiers;
 
-    public class DerivedEnumerationClassMustBePartialCodeFixVerifier : CodeFixVerifier
+    public class DerivedEnumerationClassMustBePartialCodeFixVerifier : CodeFixVerifier, IDisposable
     {
-        //// TODO: TBD: eventually, I'd like to see Xunit resolve the cross cutting concern for fixtures, but I do not thing that is happening ATM...
-        //public DerivedEnumerationClassMustBePartialCodeFixVerifier(ITestOutputHelper outputHelper)
-        //    : base(outputHelper)
-        //{
-        //}
+        private static void DiagnosticAnalyzerRequestedCallback(object sender, DiagnosticAnalyzerRequestedEventArgs e)
+        {
+            e.Analyzer = new DerivedEnumerationClassMustBePartial();
+        }
 
-        protected override CodeFixProvider GetCSharpCodeFixProvider()
-            => new DerivedEnumerationClassMustBePartialCodeFixProvider();
-
-        protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
-            => new DerivedEnumerationClassMustBePartial();
+        private static void CodeFixProviderRequiredCallback(object sender, CodeFixProviderRequiredEventArgs e)
+        {
+            e.CodeFixProvider = new DerivedEnumerationClassMustBePartialCodeFixProvider();
+        }
 
         #region We must also reference bits from the deliverable assemblies
 
@@ -36,29 +32,44 @@ namespace Kingdom.Collections
         private static readonly MetadataReference FlagsEnumerationAttributeReference
             = MetadataReference.CreateFromFile(typeof(FlagsEnumerationAttribute).Assembly.Location);
 
+        private static void MetadataReferencesRequiredCallback(object sender, MetadataReferencesRequiredEventArgs e)
+        {
+            e.MetadataReferences.AddRange(
+                SystemRuntimeReference
+                , ImmutableBitArrayReference
+                , EnumerationsReference
+                , FlagsEnumerationAttributeReference
+            );
+        }
+
         #endregion
 
         /// <summary>
-        /// It seems as though Metadata Reference order is a thing. So ensure that we are
-        /// referencing the important bits from the base class first, following the more
-        /// application specific bits afterward.
+        /// This constructor is utilized by Xunit IClassFixture paradigm.
         /// </summary>
-        /// <param name="sln"></param>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
-        /// <inheritdoc />
-        /// <see cref="SystemRuntimeReference"/>
-        /// <see cref="ImmutableBitArrayReference"/>
-        /// <see cref="EnumerationsReference"/>
-        /// <see cref="FlagsEnumerationAttributeReference"/>
-        protected override Solution AddProjectReferences(Solution sln, ProjectId projectId)
+        // ReSharper disable once UnusedMember.Global
+        public DerivedEnumerationClassMustBePartialCodeFixVerifier()
         {
-            return base.AddProjectReferences(sln, projectId)
-                .AddMetadataReference(projectId, SystemRuntimeReference)
-                .AddMetadataReference(projectId, ImmutableBitArrayReference)
-                .AddMetadataReference(projectId, EnumerationsReference)
-                .AddMetadataReference(projectId, FlagsEnumerationAttributeReference)
-                ;
+            DiagnosticAnalyzerRequested += DiagnosticAnalyzerRequestedCallback;
+            CodeFixProviderRequired += CodeFixProviderRequiredCallback;
+            MetadataReferencesRequired += MetadataReferencesRequiredCallback;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            MetadataReferencesRequired -= MetadataReferencesRequiredCallback;
+            DiagnosticAnalyzerRequested -= DiagnosticAnalyzerRequestedCallback;
+            CodeFixProviderRequired -= CodeFixProviderRequiredCallback;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

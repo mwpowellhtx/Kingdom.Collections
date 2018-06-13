@@ -1,29 +1,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit.CodeAnalysis;
+using Microsoft.CodeAnalysis;
+using Kingdom.CodeAnalysis.Verifiers;
 
 namespace Kingdom.Collections
 {
     using Xunit;
     using Xunit.Abstractions;
     using static Descriptors;
-    using static DiagnosticVerifier;
+    using static LanguageNames;
+    using static SourceDocumentVerifier;
     using static String;
 
     public class DerivedEnumerationClassMustBePartialTests
         : IClassFixture<DerivedEnumerationClassMustBePartialCodeFixVerifier>
+            , IDisposable
     {
         private ITestOutputHelper OutputHelper { get; }
 
-        private CodeFixVerifier Verifier { get; }
+        private DerivedEnumerationClassMustBePartialCodeFixVerifier Verifier { get; }
 
         // ReSharper disable once SuggestBaseTypeForParameter
         public DerivedEnumerationClassMustBePartialTests(ITestOutputHelper outputHelper
             , DerivedEnumerationClassMustBePartialCodeFixVerifier verifier)
         {
             Verifier = verifier;
-            Verifier.OutputHelper = OutputHelper = outputHelper;
+            /*Verifier.OutputHelper = */
+            OutputHelper = outputHelper;
         }
 
         //    /// <summary>
@@ -95,7 +99,7 @@ namespace Kingdom.Collections
         /// <param name="givenSource"></param>
         /// <param name="diagnosticResults"></param>
         /// <param name="fixedSource"></param>
-        [Theory, ClassData(typeof(TestCases))]
+        [Theory, MemberData(nameof(TestCases))]
         public void Given_Source_then_Verify_Diagnostics_and_Code_Fixes(string description
             , string givenSource, string fixedSource, IEnumerable<DiagnosticResult> diagnosticResults)
         {
@@ -104,49 +108,51 @@ namespace Kingdom.Collections
 
             OutputHelper.WriteLine($"Verifying diagnostics for \"{description}\".");
 
-            Verifier.VerifyCSharpDiagnostic(givenSource, diagnosticResults.EnsureAtLeastEmpty().ToArray());
+            const string language = CSharp;
 
-            Verifier.VerifyCSharpFix(givenSource, fixedSource);
+            Verifier.VerifyDiagnostics(language, givenSource, diagnosticResults.EnsureAtLeastEmpty().ToArray());
+
+            Verifier.VerifyFix(language, givenSource, fixedSource);
         }
 
-        // TODO: TBD: borrowing from the concepts employed by the Record Generator project... however...
-        // TODO: TBD we could potentially simplify this from a "data provider" to a simple "member" data source...
-        private class TestCases : TheoryDataProvider
+        // TODO: TBD: no need to have any "theory data" abstractions, per se; just utilize MemberData...
+        private static IEnumerable<object[]> _testCases;
+
+        public static IEnumerable<object[]> TestCases
+            => _testCases
+               ?? (_testCases = GetTestCases()
+                   .Select(x => x.ToParameterArray()).ToArray());
+
+        private static IEnumerable<GeneratorTheoryData> GetTestCases()
         {
-            private static IEnumerable<ITheoryDatum> PrivateDataSets { get; }
+            var enumerationTypeFullName = typeof(Enumeration).FullName;
+            var flagsEnumerationTypeFullName = typeof(FlagsEnumerationAttribute).FullName;
 
-            static TestCases()
+            var fileName = $"{DefaultFilePathPrefix}.{CSharpDefaultFileExt}";
+
+            yield return new GeneratorTheoryData
             {
-                IEnumerable<ITheoryDatum> GetPrivateDataSets()
+                Description = "Empty source",
+                GivenSource = Empty
+            };
+
+            {
+                const string g = "public class TestClass {}";
+                yield return new GeneratorTheoryData
                 {
-                    var enumerationTypeFullName = typeof(Enumeration).FullName;
-                    var flagsEnumerationTypeFullName = typeof(FlagsEnumerationAttribute).FullName;
+                    Description = $"ignore non-{enumerationTypeFullName} classes",
+                    GivenSource = g,
+                    FixedSource = g
+                };
+            }
 
-                    var fileName = $"{DefaultFilePathPrefix}.{CSharpDefaultFileExt}";
-
-                    yield return new GeneratorTheoryData
-                    {
-                        Description = "Empty source",
-                        GivenSource = Empty
-                    };
-
-                    {
-                        const string g = "public class TestClass {}";
-                        yield return new GeneratorTheoryData
-                        {
-                            Description = $"ignore non-{enumerationTypeFullName} classes",
-                            GivenSource = g,
-                            FixedSource = g
-                        };
-                    }
-
-                    {
-                        /* Whereas the inspiration behind this approach, Record Generator, was
-                         doing something like "crop raw indent", I think we just leverage the
-                         built in language features and enter it as such. If we cannot deal with
-                         that, so be it.
-                         https://github.com/amis92/RecordGenerator/blob/f761bcf58a894bcc15233dbb465747a21c6da53c/test/Amadevus.RecordGenerator.Analyzers.Test/Helpers/Extensions.cs#L14 */
-                        const string g = @"using Kingdom.Collections;
+            {
+                /* Whereas the inspiration behind this approach, Record Generator, was
+                 doing something like "crop raw indent", I think we just leverage the
+                 built in language features and enter it as such. If we cannot deal with
+                 that, so be it.
+                 https://github.com/amis92/RecordGenerator/blob/f761bcf58a894bcc15233dbb465747a21c6da53c/test/Amadevus.RecordGenerator.Analyzers.Test/Helpers/Extensions.cs#L14 */
+                const string g = @"using Kingdom.Collections;
 
 namespace MyClasses
 {
@@ -155,16 +161,16 @@ namespace MyClasses
     }
 }";
 
-                        yield return new GeneratorTheoryData
-                        {
-                            Description = $"ignore undecorated {enumerationTypeFullName} class",
-                            GivenSource = g,
-                            FixedSource = g
-                        };
-                    }
+                yield return new GeneratorTheoryData
+                {
+                    Description = $"ignore undecorated {enumerationTypeFullName} class",
+                    GivenSource = g,
+                    FixedSource = g
+                };
+            }
 
-                    {
-                        const string g = @"using Kingdom.Collections;
+            {
+                const string g = @"using Kingdom.Collections;
 
 namespace MyClasses
 {
@@ -173,22 +179,22 @@ namespace MyClasses
     {
     }
 }";
-                        yield return new GeneratorTheoryData
-                        {
-                            Description = $"nothing to do for partial [{flagsEnumerationTypeFullName}] {enumerationTypeFullName} class",
-                            GivenSource = g,
-                            FixedSource = g
-                        };
-                    }
+                yield return new GeneratorTheoryData
+                {
+                    Description = $"nothing to do for partial [{flagsEnumerationTypeFullName}] {enumerationTypeFullName} class",
+                    GivenSource = g,
+                    FixedSource = g
+                };
+            }
 
-                    {
-                        /* The extrinsic comments and spacing here are VERY intentional and serve
-                         to illustrate where we expect the diagnostic to occur in relation to the
-                         provided source code. */
+            {
+                /* The extrinsic comments and spacing here are VERY intentional and serve
+                 to illustrate where we expect the diagnostic to occur in relation to the
+                 provided source code. */
 
-                        const int line = 5;
-                        const int character = 17;
-                        const string g = @"using Kingdom.Collections;
+                const int line = 5;
+                const int character = 17;
+                const string g = @"using Kingdom.Collections;
 
 namespace MyClasses
 {
@@ -196,11 +202,11 @@ namespace MyClasses
     public class TestClass : Enumeration<TestClass>" /*
                  ^ we expect error requiring correction precisely here,
                   literally line 6 (5+1) character 18 (17+1) */
-                                         + @"
+                                 + @"
     {
     }
 }";
-                        const string f = @"using Kingdom.Collections;
+                const string f = @"using Kingdom.Collections;
 
 namespace MyClasses
 {
@@ -209,32 +215,26 @@ namespace MyClasses
     {
     }
 }";
-                        yield return new GeneratorTheoryData
-                        {
-                            Description = $"transform non-partial [{flagsEnumerationTypeFullName}] {enumerationTypeFullName} class",
-                            GivenSource = g,
-                            FixedSource = f,
-                            ExpectedDiagnostics = DiagnosticResult.Create(X1000_DerivedEnumerationMustBePartial
-                                , DiagnosticResultLocation.Create(fileName, line + 1, character + 1)).ToArrayArray()
-                        };
-                    }
-                }
-
-                PrivateDataSets = GetPrivateDataSets().ToArray();
+                yield return new GeneratorTheoryData
+                {
+                    Description = $"transform non-partial [{flagsEnumerationTypeFullName}] {enumerationTypeFullName} class",
+                    GivenSource = g,
+                    FixedSource = f,
+                    ExpectedDiagnostics = DiagnosticResult.Create(X1000_DerivedEnumerationMustBePartial
+                        , DiagnosticResultLocation.Create(fileName, line + 1, character + 1)).ToArrayArray()
+                };
             }
-
-            public override IEnumerable<ITheoryDatum> GetDataSets() => PrivateDataSets;
         }
 
-        public class GeneratorTheoryData : ITheoryDatum
+        private class GeneratorTheoryData
         {
-            public string Description { get; set; }
+            public string Description { private get; set; }
 
-            public string GivenSource { get; set; }
+            public string GivenSource { private get; set; }
 
-            public IEnumerable<DiagnosticResult> ExpectedDiagnostics { get; set; }
+            public IEnumerable<DiagnosticResult> ExpectedDiagnostics { private get; set; }
 
-            public string FixedSource { get; set; }
+            public string FixedSource { private get; set; }
 
             /// <summary>
             /// Returns the parameters in test method argument order.
@@ -251,6 +251,12 @@ namespace MyClasses
             }
 
             public object[] ToParameterArray() => GetParameters().ToArray();
+        }
+
+        public void Dispose()
+        {
+            // TODO: TBD: probably "nothing" to dispose...
+            // TODO: TBD: in particular, "let" the class fixture LIVE over the breadth of the unit tests...
         }
     }
 }
