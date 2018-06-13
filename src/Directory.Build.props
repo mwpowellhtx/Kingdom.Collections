@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- We define this ubiquitously in order to keep the version numbers properly aligned throughout. -->
+    <CodeGenerationRoslynPackagesVersion>0.4.49</CodeGenerationRoslynPackagesVersion>
+  </PropertyGroup>
+</Project>
