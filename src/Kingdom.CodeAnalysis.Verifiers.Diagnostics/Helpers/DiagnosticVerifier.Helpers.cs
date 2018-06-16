@@ -100,6 +100,7 @@ namespace Kingdom.CodeAnalysis.Verifiers
             // Just preclude the same Project being compiled additional times.
             var projects = documents.Select(d => d.Project).Distinct(new ProjectEqualityComparer()).ToArray();
 
+            // TODO: TBD: may not be such a great idea to run this asynchronously all things considered, because if anything is wrong evaluating the output, we see it here instead of at the point of failure.
             OnAfterDiagnosticsReceived(diagnostics = projects.SelectMany(
                 x => GetDiagnosticsFromProjectCompilationAsync(x).Result).ToArray());
 
@@ -114,27 +115,42 @@ namespace Kingdom.CodeAnalysis.Verifiers
 
                     OnAfterCompilation(compilation);
 
-                    var compilationWithAnalyzers = compilation.WithAnalyzers(ImmutableArray.Create(analyzer));
-
-                    OnAfterCompilationWithAnalyzers(analyzer, compilationWithAnalyzers);
-
-                    var result = new List<Diagnostic>();
-
-                    // TODO: TBD: re-design the API to the "get diagnostic" paradigm...
-                    foreach (var diagnostic in await compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync())
+                    IEnumerable<Diagnostic> GetDiagnosticsWithoutAnalysis()
                     {
-                        // TODO: TBD: and if the async/result does not get too blocked...
-                        // TODO: TBD or perhaps there is some sort of observable pattern that could better be used there...
-                        if (diagnostic.Location == Location.None
-                            || diagnostic.Location.IsInMetadata
-                            || documents.Select(async document => await document.GetSyntaxTreeAsync())
-                                .Any(tree => tree.Result == diagnostic.Location.SourceTree))
+                        foreach (var diagnostic in compilation.GetDiagnostics())
                         {
-                            result.Add(diagnostic);
+                            if (diagnostic.Location == Location.None
+                                || diagnostic.Location.IsInMetadata
+                                || documents.Select(async document => await document.GetSyntaxTreeAsync())
+                                    .Any(tree => tree.Result == diagnostic.Location.SourceTree))
+                            {
+                                yield return diagnostic;
+                            }
                         }
                     }
 
-                    return (IEnumerable<Diagnostic>) result;
+                    IEnumerable<Diagnostic> GetDiagnosticsWithAnalysis()
+                    {
+                        var compilationWithAnalyzers = compilation.WithAnalyzers(ImmutableArray.Create(analyzer));
+
+                        OnAfterCompilationWithAnalyzers(analyzer, compilationWithAnalyzers);
+
+                        // TODO: TBD: re-design the API to the "get diagnostic" paradigm...
+                        foreach (var diagnostic in compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().Result)
+                        {
+                            // TODO: TBD: and if the async/result does not get too blocked...
+                            // TODO: TBD or perhaps there is some sort of observable pattern that could better be used there...
+                            if (diagnostic.Location == Location.None
+                                || diagnostic.Location.IsInMetadata
+                                || documents.Select(async document => await document.GetSyntaxTreeAsync())
+                                    .Any(tree => tree.Result == diagnostic.Location.SourceTree))
+                            {
+                                yield return diagnostic;
+                            }
+                        }
+                    }
+
+                    return analyzer == null ? GetDiagnosticsWithoutAnalysis() : GetDiagnosticsWithAnalysis();
                 });
             }
         }

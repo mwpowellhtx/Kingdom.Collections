@@ -5,8 +5,10 @@ using Microsoft.CodeAnalysis;
 
 namespace Kingdom.CodeAnalysis.Verifiers
 {
+    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.Text;
     using static LanguageNames;
+    using static OutputKind;
 
     // TODO: TBD: Ostensibly this could potentially even be separated to a Verifiers.Documents assembly all its own...
     // TODO: TBD: Will pursue that avenue if the situation calls for it...
@@ -135,7 +137,13 @@ namespace Kingdom.CodeAnalysis.Verifiers
                 sln = sln.AddDocument(documentId, newFileName, SourceText.From(source));
             }
 
-            return sln.GetProject(projectId);
+            // TODO: TBD: there is no way to set the target framework creating a Project in this manner?
+            // TODO: TBD: 
+            var project = sln.GetProject(projectId).WithCompilationOptions(
+                new CSharpCompilationOptions(DynamicallyLinkedLibrary)
+            );
+
+            return project;
         }
     }
 }
