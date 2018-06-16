@@ -46,8 +46,8 @@ As it turns out, there is not much work that is truly required to support Data S
 
 ## Future Goals
 
-The next couple of things I want to pursue in this suite is to provide an Visual Studio extension for purposes of generating at least your boilerplate ``Enumeration`` details. I think such behavior should include the ability to specify whether the ``Enumeration`` is of an ``Ordinal`` or ``Bitwise`` variety, and, if bitwise, should also automatically generate things such as your bitwise operators. There are many ways I could approach this, I have not decided on the particulars just yet, but I welcome the feedback, posted issues, requests, etc.
+My goals of automatically generating boilerplate FlagsAttribute style operator overloading is fast turning into a reality. There are a couple of code generation integration nuances that I have yet to resolve, but for the most part, the hard work of the code generation itself is mostly complete barring any further discoveries during unit and integration testing.
 
 As for *Data Structures*, I may look into first class actual collections, likely implemented in C++ CLI for performance reasons. However, for now, the syntactic sugar enhancing simple ``IList<T>`` and ``List<T>`` types are just fine for what I want to accomplish.
 
-Thanks and enjoy!
+Thank you so much and enjoy!
