@@ -17,10 +17,10 @@ namespace Kingdom.Collections
         {
         }
 
-        public static TypeDeclarationSyntax Generate(FlagsEnumerationDescriptor descriptor
+        public static MemberDeclarationSyntax Generate(FlagsEnumerationDescriptor descriptor
             , CancellationToken cancellationToken)
             => new BitwiseOperatorOverloadsPartialGenerator(descriptor, cancellationToken)
-                .GenerateTypeDeclaration();
+                .GenerateMemberDeclaration(descriptor);
 
         protected override SyntaxList<MemberDeclarationSyntax> GenerateMembers()
         {
@@ -45,6 +45,20 @@ namespace Kingdom.Collections
                         GenerateBinaryOperatorOverload(Descriptor, "BitwiseXor", CaretToken)
                     )
                 ;
+
+            //// TODO: TBD: So, we can generate a UsingDeclarationSyntax, however, we may want to fully qualify any base classes...
+            //MemberDeclarationSyntax GenerateUsingStatement(FlagsEnumerationDescriptor descriptor)
+            //{
+            //    return UsingStatement(EmptyStatement())
+            //        .WithOpenParenToken(MissingToken(OpenParenToken))
+            //            .WithExpression(MemberAccessExpression(
+            //                SimpleMemberAccessExpression
+            //                , IdentifierName("Kingdom")
+            //                , IdentifierName("Collections")
+            //                ))
+            //        .WithCloseParenToken(MissingToken(CloseParenToken))
+            //        ;
+            //}
 
             // TODO: TBD: let's run with this for now; we'll find out soon enough whether this is at all accurate...
             MemberDeclarationSyntax GeneratePrivateBytesCtor(FlagsEnumerationDescriptor descriptor)

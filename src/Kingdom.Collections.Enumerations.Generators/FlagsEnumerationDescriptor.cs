@@ -11,6 +11,8 @@ namespace Kingdom.Collections
 
     internal partial class FlagsEnumerationDescriptor
     {
+        internal NamespaceDeclarationSyntax NamespaceDecl { get; }
+
         internal TypeSyntax Type { get; }
 
         internal SyntaxToken TypeIdentifier { get; }
@@ -40,6 +42,8 @@ namespace Kingdom.Collections
         /// <param name="typeDecl"></param>
         private FlagsEnumerationDescriptor(TypeDeclarationSyntax typeDecl)
         {
+            // TODO: TBD: add some Namespace comprehension...
+            NamespaceDecl = (typeDecl.Parent as NamespaceDeclarationSyntax)?.WithoutTrivia();
             Type = typeDecl.GetTypeSyntax().WithoutTrivia();
             TypeIdentifier = typeDecl.Identifier.WithoutTrivia();
             TypeDecl = typeDecl.WithoutTrivia();

@@ -61,7 +61,7 @@ namespace Kingdom.Collections
                 , context.ProcessingNode.GetLocation()));
 
             // We do not just expect a Member, but the Type, returned here.
-            TypeDeclarationSyntax GenerateFlagsEnumerationPartial(FlagsEnumerationDescriptor d)
+            MemberDeclarationSyntax GenerateFlagsEnumerationPartial(FlagsEnumerationDescriptor d)
                 => Generate(d, cancellationToken);
 
             return Task.Run(() =>
