@@ -22,7 +22,7 @@ The testing framework is fairly robust and does depend upon [NUnit](http://nunit
 
 ## Data Structures
 
-As it turns out, there is not much work that is truly required to support Data Structure Patterns such as Stacks, Queues, and even one of my favorites, Deques, or Double-ended Queues. Additionally, the unit testing around these follows an extremely cohesive testing paradigm, which makes it that much easier to support.
+As it turns out, there is not much work that is truly required to support Data Structure Patterns such as *Stacks*, *Queues*, and even one of my favorites, *Deques*, or *Double-ended Queues*. Additionally, the unit testing around these follows an extremely cohesive testing paradigm, which makes it that much easier to support.
 
 ## Future Goals
 
