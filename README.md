@@ -28,9 +28,9 @@ I wanted to pursue this in terms of a *Visual Studio Extension* at first, but so
 
 At the present time, there are a couple of aspects in the delivery. First, there is a *Code Fix* enabled by the *Analyzer* when the ``FlagsEnumerationAttribute`` is applied. This determines whether the target ``Enumeration<T> class`` is declared ``partial``, and provides a corresponding fix for when it has not.
 
-The second is the code generation itself, around which the integration nuances are not fully resolved. Unit testing of which was also a primary motivation with the subsequent *Code Analysis* section. Under the hood, code generation depends upon the [``CodeGeneration.Roslyn``](/AArnott/CodeGeneration.Roslyn) project, and ultimately upon command line ``code-gen`` bits.
+The second is the code generation itself, around which the integration nuances are not fully resolved. Unit testing of which was also a primary motivation with the subsequent [*Code Analysis*](#net-code-analysis-code-fixes-and-other-fallout) section. Under the hood, code generation depends upon the [``CodeGeneration.Roslyn``](/AArnott/CodeGeneration.Roslyn) project, and ultimately upon command line ``code-gen`` bits.
 
-At the time of this writing, *CodeGeneration.Roslyn* integration nuances were not fully working and are still to be determine. However, I am fairly confident that the ``FlagsEnumerationAttribute`` generator itself is working, and have commited the unit tests that prove this to be the case.
+At the time of this writing, *CodeGeneration.Roslyn* integration nuances were not fully working and are still to be determine. To be clear, and to be fair, I do not mean that *CodeGeneration.Roslyn* itself is not working; only in terms of my solution level comprehension of said bits. However, I am fairly confident that the ``FlagsEnumerationAttribute`` generator itself is working, and have commited the unit tests that prove this to be the case.
 
 ### .NET Code Analysis, Code Fixes, and other fallout
 
