@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.CodeAnalysis.Verifi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.CodeAnalysis.Verifiers.CodeFixes", "Kingdom.CodeAnalysis.Verifiers.CodeFixes\Kingdom.CodeAnalysis.Verifiers.CodeFixes.csproj", "{2512DF3F-F4BB-4FBF-A70D-1562812874EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.CodeAnalysis.Verification", "Kingdom.CodeAnalysis.Verification\Kingdom.CodeAnalysis.Verification.csproj", "{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{2512DF3F-F4BB-4FBF-A70D-1562812874EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2512DF3F-F4BB-4FBF-A70D-1562812874EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2512DF3F-F4BB-4FBF-A70D-1562812874EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,6 +166,7 @@ Global
 		{1E641E52-4259-4567-A22F-7FC0570F2CD6} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
 		{C44640FA-B5C7-46F2-BF3D-0B711BB98E48} = {2C619AB2-210F-4B53-8432-316AC141EE78}
 		{2512DF3F-F4BB-4FBF-A70D-1562812874EE} = {2C619AB2-210F-4B53-8432-316AC141EE78}
+		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F695C354-EB5A-446F-BD44-AF8E254EA97C}
