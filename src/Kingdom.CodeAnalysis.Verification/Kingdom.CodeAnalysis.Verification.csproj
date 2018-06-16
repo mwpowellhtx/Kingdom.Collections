@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Authors>Michael W. Powell</Authors>
+    <Company>Kingdom Software</Company>
+    <Product>Kingdom.CodeAnalysis.Verifiers</Product>
+    <Copyright>Copyright © 2018</Copyright>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Deterministic>true</Deterministic>
+    <RootNamespace>Kingdom.CodeAnalysis</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <!-- TODO: TBD: for now, born out of efforts in Collections; however, this could very easily live in a repo all its own... -->
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>...</Description>
+    <PackageTags>dotnet; Roslyn</PackageTags>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0.3-dev003</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.6\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
+    <BumpRevision>True</BumpRevision>
+    <BumpLabel>dev</BumpLabel>
+    <BumpLabelDigits>3</BumpLabelDigits>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.6\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
+    <BumpRevision>True</BumpRevision>
+    <BumpResetLabel>dev</BumpResetLabel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.2" />
+    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
