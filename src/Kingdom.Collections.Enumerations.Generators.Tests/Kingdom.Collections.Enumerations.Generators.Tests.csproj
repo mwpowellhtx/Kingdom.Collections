@@ -28,10 +28,18 @@
 
   <ItemGroup>
     <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
+    <PackageReference Include="CodeGeneration.Roslyn" Version="0.4.49" />
     <PackageReference Include="CodeGeneration.Roslyn.BuildTime" Version="$(CodeGenerationRoslynPackagesVersion)" PrivateAssets="All" />
+    <PackageReference Include="xunit.abstractions" Version="2.0.1" />
+    <PackageReference Include="Xunit.Combinatorial" Version="1.2.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kingdom.CodeAnalysis.Verification\Kingdom.CodeAnalysis.Verification.csproj" />
     <ProjectReference Include="..\Kingdom.Collections.Enumerations.Analyzers\Kingdom.Collections.Enumerations.Analyzers.csproj" />
     <ProjectReference Include="..\Kingdom.Collections.Enumerations.Attributes\Kingdom.Collections.Enumerations.Attributes.csproj" PrivateAssets="All" />
     <ProjectReference Include="..\Kingdom.Collections.Enumerations.Generators\Kingdom.Collections.Enumerations.Generators.csproj" PrivateAssets="All" />
@@ -42,11 +50,20 @@
     <ProjectReference Include="..\Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kingdom.CodeAnalysis.Verifiers.Diagnostics\Kingdom.CodeAnalysis.Verifiers.Diagnostics.csproj" PrivateAssets="All" />
+  </ItemGroup>
+
   <!-- Drawing partially, as reference, from: http://github.com/amis92/RecordGenerator, but only to a point. -->
   <ItemGroup>
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="xunit.abstractions">
+      <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
