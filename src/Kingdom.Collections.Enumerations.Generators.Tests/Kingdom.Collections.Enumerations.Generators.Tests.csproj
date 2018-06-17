@@ -12,9 +12,9 @@
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Version>1.0.0.0</Version>
-    <AssemblyVersion>1.0.0.2</AssemblyVersion>
-    <FileVersion>1.0.0.2</FileVersion>
+    <Version>1.0.1.0</Version>
+    <AssemblyVersion>1.0.1.2</AssemblyVersion>
+    <FileVersion>1.0.1.2</FileVersion>
     <RootNamespace>Kingdom.Collections</RootNamespace>
   </PropertyGroup>
 
@@ -28,7 +28,8 @@
 
   <ItemGroup>
     <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
-    <PackageReference Include="CodeGeneration.Roslyn" Version="0.4.49" />
+    <PackageReference Include="CodeGeneration.Roslyn" Version="$(CodeGenerationRoslynPackagesVersion)" />
+    <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
     <PackageReference Include="CodeGeneration.Roslyn.BuildTime" Version="$(CodeGenerationRoslynPackagesVersion)" PrivateAssets="All" />
     <PackageReference Include="xunit.abstractions" Version="2.0.1" />
     <PackageReference Include="Xunit.Combinatorial" Version="1.2.7" />
