@@ -43,9 +43,10 @@ namespace Kingdom.Collections
                 , defaultSeverity, isEnabledByDefault, description, $"{HelpUriBase}{id}");
         }
 
+        // ReSharper disable once InconsistentNaming
         private static DiagnosticDescriptor X2000_FlagsEnumerationBitwiseOperatorsCodeGen { get; }
             = Rule(2000, "Flags Enumeration Bitwise Operators Code Generation", CodeGen
-                , Error, "Generating Flags Enumeration Bitwise Operators code");
+                , Info, "Generating Flags Enumeration Bitwise Operators code");
 
         /// <summary>
         /// 
@@ -57,6 +58,7 @@ namespace Kingdom.Collections
         public Task<SyntaxList<MemberDeclarationSyntax>> GenerateAsync(TransformationContext context
             , IProgress<Diagnostic> progress, CancellationToken cancellationToken)
         {
+            // TODO: TBD: well, it did in fact report the result, didn't it?
             progress.Report(Create(X2000_FlagsEnumerationBitwiseOperatorsCodeGen
                 , context.ProcessingNode.GetLocation()));
 
