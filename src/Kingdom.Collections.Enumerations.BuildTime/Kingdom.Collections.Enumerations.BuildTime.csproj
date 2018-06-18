@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
-    <PackageLicenseUrl>http://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
-    <CodeGenerationRoslynPackagesVersion>0.4.49</CodeGenerationRoslynPackagesVersion>
     <Copyright>Copyright © 2016, 2018</Copyright>
     <Authors>Michael W. Powell</Authors>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
+    <AssemblyVersion>1.1.0.1</AssemblyVersion>
+    <FileVersion>1.1.0.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NuspecFile>Kingdom.Collections.Enumerations.BuildTime.nuspec</NuspecFile>
+    <!-- ReSharper disable UnknownProperty disabled once and for all -->
     <NuspecProperties>version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);copyright=$(Copyright);licenseUrl=$(PackageLicenseUrl);versionOfCodegenRoslyn=$(CodeGenerationRoslynPackagesVersion);requireLicenseAcceptance=true</NuspecProperties>
   </PropertyGroup>
 

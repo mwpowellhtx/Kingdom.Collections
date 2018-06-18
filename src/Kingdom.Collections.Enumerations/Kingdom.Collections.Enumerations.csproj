@@ -2,12 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Authors>Michael W. Powell</Authors>
-    <Copyright>Copyright © 2016, 2018</Copyright>
-    <RootNamespace>Kingdom.Collections</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
@@ -15,7 +11,9 @@
     <Description>The framework Enumerations provides a solid baseline of features emulating Java's enumeration structure for .NET. Simple Ordinal based Enumerations are supported, as are more complex Flags-like Bitwise Enumerations.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.2.1.19</Version>
+    <Version>1.2.1.20-dev020</Version>
+    <AssemblyVersion>1.2.1.2</AssemblyVersion>
+    <FileVersion>1.2.1.2</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,10 +31,6 @@
 
   <ItemGroup>
     <None Remove="Kingdom.Collections.Enumerations.nuspec" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\tools\Common\CommonAssemblyInfo.cs" Link="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

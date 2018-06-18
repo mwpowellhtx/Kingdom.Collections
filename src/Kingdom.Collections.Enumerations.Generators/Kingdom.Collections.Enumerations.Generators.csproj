@@ -2,15 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Authors>Michael W. Powell</Authors>
-    <Company>Kingdom Software</Company>
-    <Product>Kingdom.Collections</Product>
-    <Copyright>Copyright © 2018</Copyright>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <RootNamespace>Kingdom.Collections</RootNamespace>
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl>http://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DevelopmentDependency>true</DevelopmentDependency>
     <Deterministic>false</Deterministic>
@@ -21,9 +15,9 @@
     <Description>Provides the build time generators that respond to the [FlagsEnumeration] partial class attribute.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; generator; generators; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.1.0.5-dev005</Version>
-    <AssemblyVersion>1.1.0.5</AssemblyVersion>
-    <FileVersion>1.1.0.5</FileVersion>
+    <Version>1.1.0.6-dev006</Version>
+    <AssemblyVersion>1.1.0.6</AssemblyVersion>
+    <FileVersion>1.1.0.6</FileVersion>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
@@ -47,7 +41,8 @@
   <ItemGroup>
     <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
     <PackageReference Include="CodeGeneration.Roslyn" Version="$(CodeGenerationRoslynPackagesVersion)" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.2.0" />
+    <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="$(MicrosoftCodeAnalysisCSharpVersion)" />
     <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
   </ItemGroup>
 

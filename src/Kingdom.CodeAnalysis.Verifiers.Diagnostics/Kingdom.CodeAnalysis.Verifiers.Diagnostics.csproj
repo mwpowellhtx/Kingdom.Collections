@@ -2,27 +2,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Authors>Michael W. Powell</Authors>
-    <Company>Kingdom Software</Company>
-    <Product>Kingdom.CodeAnalysis.Verifiers</Product>
-    <Copyright>Copyright © 2018</Copyright>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Deterministic>true</Deterministic>
     <RootNamespace>Kingdom.CodeAnalysis.Verifiers</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <!-- TODO: TBD: for now, born out of efforts in Collections; however, this could very easily live in a repo all its own... -->
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>...</Description>
-    <PackageTags>dotnet; Roslyn</PackageTags>
+    <Description>Provides a re-factoring and re-imagining of the Diagnostic elements deployed in the Analyzer and Code Fixes project template. This particular assembly focuses primarily on the Diagnostic Analyzers with built-in Roslyn compilation support.</Description>
+    <PackageTags>dotnet; code; analysis; csharp; diagnostics; helpers; event; arguments; handlers; verify; verifier; verifiers; verifying; provider; requested; required; analyzer; language; results; compilation; received; Roslyn</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.0.1-dev001</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0.2-dev002</Version>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

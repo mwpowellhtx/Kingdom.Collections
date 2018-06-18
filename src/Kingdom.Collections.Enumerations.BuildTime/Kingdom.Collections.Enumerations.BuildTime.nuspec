@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Kingdom.Collections.Enumerations.BuiltTime</id>
+    <id>Kingdom.Collections.Enumerations.BuildTime</id>
     <version>$version$</version>
     <authors>$authors$</authors>
     <owners>$authors$</owners>
     <licenseUrl>$licenseUrl$</licenseUrl>
     <projectUrl>$projectUrl$</projectUrl>
     <requireLicenseAcceptance>$requireLicenseAcceptance$</requireLicenseAcceptance>
-    <description>Code generator for [Record]-marked types. Automatically creates backing code (constructor, With- mutators, deconstructor to tuple, Builder nested type etc.) for immutable record classes. This package references all required and recommended (analyzers) packages. See project site for installation instructions and more details.</description>
-    <releaseNotes>Moved generation to build-time using AArnott's CodeGeneration.Roslyn package, requires more installation steps but creates backing code automatically during build which is definitely an improvement. Also decomposed project into Generators, Analyzers and Attributes subpackages.</releaseNotes>
+    <description>Code generator for [FlagsEnumeration]-decorated types. Automatically generates bitwise operator overloads corresponding with your derived Enumeration assets. This package references all required and recommended analyzer packages. See project site for installation instructions and more details.</description>
     <copyright>$copyright$</copyright>
-    <tags>record immutable attribute generator generation amadevus recordgenerator code codegen codegenerator codegeneration</tags>
+    <tags>Collections Enumeration Build Time bitwise operator overload ones complement and or exclusive xor attribute generator flags code generator generation codegen codegenerator codegeneration</tags>
     <developmentDependency>true</developmentDependency>
     <dependencies>
       <group targetFramework=".NETStandard1.6">
-        <dependency id="Kingdom.Collections.Enumerations.Attributes" version="1.0.0" />
-        <dependency id="Kingdom.Collections.Enumerations.Analyzers" version="1.0.0" />
-        <dependency id="Kingdom.Collections.Enumerations.Generators" version="1.0.0" />
+        <dependency id="Kingdom.Collections.Enumerations.Attributes" version="1.0.1" />
+        <dependency id="Kingdom.Collections.Enumerations.Analyzers" version="1.0.1" />
+        <dependency id="Kingdom.Collections.Enumerations.Generators" version="1.1.0" />
         <dependency id="CodeGeneration.Roslyn.BuildTime" version="$versionOfCodegenRoslyn$" />
       </group>
     </dependencies>
