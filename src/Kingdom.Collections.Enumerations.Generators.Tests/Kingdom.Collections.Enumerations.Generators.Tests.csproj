@@ -8,10 +8,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Version>1.1.1.0</Version>
+    <Version>1.1.0.0</Version>
     <AssemblyVersion>1.1.0.4</AssemblyVersion>
     <FileVersion>1.1.0.4</FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
 
   <!-- Following the template illustrated by RecordGenerator, keeping the Items concerns somewhat separated.
   This is intentional, and helps to highlight which dependencies are necessary, for what purposes, and when,
