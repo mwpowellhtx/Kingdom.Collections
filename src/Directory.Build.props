@@ -1,6 +1,25 @@
 <Project>
+
+  <PropertyGroup>
+    <Authors>Michael W. Powell</Authors>
+    <Company>Kingdom Software</Company>
+    <Product>Kingdom.Collections</Product>
+    <Copyright>Copyright © 2016, 2018</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>Kingdom.Collections</RootNamespace>
+  </PropertyGroup>
+
   <PropertyGroup>
     <!-- We define this ubiquitously in order to keep the version numbers properly aligned throughout. -->
     <CodeGenerationRoslynPackagesVersion>0.4.49</CodeGenerationRoslynPackagesVersion>
+    <MicrosoftCodeAnalysisCSharpVersion>2.2</MicrosoftCodeAnalysisCSharpVersion>
   </PropertyGroup>
+
 </Project>
