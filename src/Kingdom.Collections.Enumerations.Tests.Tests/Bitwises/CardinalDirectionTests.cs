@@ -27,18 +27,24 @@ namespace Kingdom.Collections.Bitwises
 
         private static IEnumerable<object[]> GetTestValues()
         {
-            // Yay for C# 7 goodness! Function implemetned LOCAL FUNCTIONS!
-            byte[] Next(int x) => new[] {(byte) (1 << x)};
+            /* Yay for C# 7 goodness! Function implemented LOCAL FUNCTIONS! Also, note the
+             subtle changes; just accept the referenced Index 'x' and do the incremental
+             progress within. */
+            byte[] NextBytes(ref int x) => new[] {(byte) (1 << ++x)};
+
+            // Make sure that these Extension methods are Internals Visible to this assembly.
             string GetDisplayName(string s) => s.GetHumanReadableCamelCase();
+
             var shift = -1;
-            yield return new object[] {Next(++shift), nameof(North), nameof(North)};
-            yield return new object[] {Next(++shift), nameof(NorthWest), GetDisplayName(nameof(NorthWest))};
-            yield return new object[] {Next(++shift), nameof(West), nameof(West)};
-            yield return new object[] {Next(++shift), nameof(SouthWest), GetDisplayName(nameof(SouthWest))};
-            yield return new object[] {Next(++shift), nameof(South), nameof(South)};
-            yield return new object[] {Next(++shift), nameof(SouthEast), GetDisplayName(nameof(SouthEast))};
-            yield return new object[] {Next(++shift), nameof(East), nameof(East)};
-            yield return new object[] {Next(++shift), nameof(NorthEast), GetDisplayName(nameof(NorthEast))};
+
+            yield return new object[] {NextBytes(ref shift), nameof(North), nameof(North)};
+            yield return new object[] {NextBytes(ref shift), nameof(NorthWest), GetDisplayName(nameof(NorthWest))};
+            yield return new object[] {NextBytes(ref shift), nameof(West), nameof(West)};
+            yield return new object[] {NextBytes(ref shift), nameof(SouthWest), GetDisplayName(nameof(SouthWest))};
+            yield return new object[] {NextBytes(ref shift), nameof(South), nameof(South)};
+            yield return new object[] {NextBytes(ref shift), nameof(SouthEast), GetDisplayName(nameof(SouthEast))};
+            yield return new object[] {NextBytes(ref shift), nameof(East), nameof(East)};
+            yield return new object[] {NextBytes(ref shift), nameof(NorthEast), GetDisplayName(nameof(NorthEast))};
         }
 
         static CardinalDirectionTests()
