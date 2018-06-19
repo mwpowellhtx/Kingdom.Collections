@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Copyright>Copyright © 2016, 2018</Copyright>
-    <Authors>Michael W. Powell</Authors>
     <PackageVersion>1.1.0</PackageVersion>
-    <AssemblyVersion>1.1.0.1</AssemblyVersion>
-    <FileVersion>1.1.0.1</FileVersion>
+    <AssemblyVersion>1.1.0.2</AssemblyVersion>
+    <FileVersion>1.1.0.2</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup>
