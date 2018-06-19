@@ -14,20 +14,20 @@
     <Description>Provides a handful of helpful extension methods for use during verification of Microsoft Roslyn Code Analysis, Code Generation, and so on. The package is intentionally left bereft of specific unit test framework dependencies.</Description>
     <PackageTags>dotnet; code; analysis; verify; verification; extension; extensions; method; methods; is; has; all; any; zip; base; member; members; param; params; parameter; parameters; exact; syntax; token; tokens; CSharp; predicate; predicates; list; declaration; Roslyn</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0.4-dev004</Version>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <Version>1.0.0.6</Version>
+    <AssemblyVersion>1.0.0.6</AssemblyVersion>
+    <FileVersion>1.0.0.6</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard1.6\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
     <BumpRevision>True</BumpRevision>
     <BumpLabel>dev</BumpLabel>
     <BumpLabelDigits>3</BumpLabelDigits>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.6\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
     <BumpRevision>True</BumpRevision>
     <BumpResetLabel>dev</BumpResetLabel>
   </PropertyGroup>
