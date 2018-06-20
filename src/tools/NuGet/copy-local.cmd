@@ -17,6 +17,18 @@ if ("%config%" === "") (
 pushd ..\..
 :: pushd packages
 
+:: This is an interesting package for local consumption, but I do not think
+:: it should be published in a broader context, at least not yet.
+call :cplocal Kingdom.CodeAnalysis.Verification
+
+call :cplocal Kingdom.Collections.Enumerations.Attributes
+call :cplocal Kingdom.Collections.Enumerations.Analyzers
+call :cplocal Kingdom.Collections.Enumerations.Generators
+call :cplocal Kingdom.Collections.Enumerations.BuildTime
+
+call :cplocal Kingdom.CodeAnalysis.Verifiers.CodeFixes
+call :cplocal Kingdom.CodeAnalysis.Verifiers.Diagnostics
+
 call :cplocal Kingdom.Collections.ImmutableBitArray
 call :cplocal Kingdom.Collections.Enumerations
 call :cplocal Kingdom.Collections.Enumerations.Tests
