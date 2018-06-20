@@ -29,6 +29,14 @@ if ("%config%" === "") (
 ::pushd .\packages
 pushd ..\..
 
+call :pubpkg Kingdom.Collections.Enumerations.Attributes
+call :pubpkg Kingdom.Collections.Enumerations.Analyzers
+call :pubpkg Kingdom.Collections.Enumerations.Generators
+call :pubpkg Kingdom.Collections.Enumerations.BuildTime
+
+call :pubpkg Kingdom.CodeAnalysis.Verifiers.CodeFixes
+call :pubpkg Kingdom.CodeAnalysis.Verifiers.Diagnostics
+
 call :pubpkg Kingdom.Collections.ImmutableBitArray
 call :pubpkg Kingdom.Collections.Enumerations
 call :pubpkg Kingdom.Collections.Enumerations.Tests
