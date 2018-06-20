@@ -11,9 +11,9 @@
     <Description>The framework Enumerations provides a solid baseline of features emulating Java's enumeration structure for .NET. Simple Ordinal based Enumerations are supported, as are more complex Flags-like Bitwise Enumerations.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.2.1.5</Version>
-    <AssemblyVersion>1.2.1.5</AssemblyVersion>
-    <FileVersion>1.2.1.5</FileVersion>
+    <Version>1.2.2.4</Version>
+    <AssemblyVersion>1.2.2.4</AssemblyVersion>
+    <FileVersion>1.2.2.4</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
