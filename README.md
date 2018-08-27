@@ -1,3 +1,7 @@
+# .NET Conference 2018
+
+I've registered for the Conference coming up Sept 14, 2018 under "Lewes, DE, US". Please stay tuned for virtual meeting location, time, etc. Thanks for checking it out!
+
 # Collections
 
 For lack of a better name, I opted to rename the suite *"Collections"*, which includes ``ImmutableBitArray``, and the derivational work, ``Enumerations``.
