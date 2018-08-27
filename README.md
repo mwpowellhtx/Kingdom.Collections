@@ -1,6 +1,6 @@
 # .NET Conference 2018
 
-I've registered for the Conference coming up Sept 14, 2018 under "Lewes, DE, US". Please stay tuned for virtual meeting location, time, etc. Thanks for checking it out!
+I've registered for the Conference coming up Sept 14, 2018 under the [Local Events](http://www.dotnetconf.net/local-events), "Lewes, DE, US". Please stay tuned for virtual meeting location, time, etc. Thanks for checking it out!
 
 # Collections
 
