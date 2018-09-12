@@ -15,10 +15,29 @@ namespace Kingdom.Collections
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         private ImmutableBitArrayFixture Subject { get; set; }
 
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            Subject = null;
+            if (!IsDisposed && disposing)
+            {
+                Subject = null;
+            }
+
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Receives a new <paramref name="value"/> and assigns it to <see cref="Subject"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private ImmutableBitArrayFixture GetSubject(ImmutableBitArrayFixture value)
+        {
+            Assert.NotNull(Subject = value);
+            return Subject;
         }
 
         [Theory, CombinatorialData]
@@ -35,7 +54,7 @@ namespace Kingdom.Collections
 
         private void VerifyLengthBasedCtor(int expectedLength, bool expectedValue = false)
         {
-            var s = Subject = new ImmutableBitArrayFixture(expectedLength, expectedValue);
+            var s = GetSubject(new ImmutableBitArrayFixture(expectedLength, expectedValue));
             Assert.Equal(expectedLength, s.Count);
             Assert.Equal(expectedLength, s.Length);
             Assert.Equal(expectedLength, s.Values.Count);
@@ -66,7 +85,7 @@ namespace Kingdom.Collections
             Func<ImmutableBitArrayFixture, IEnumerable<TValue>> getValues)
             where TFixture : ValuesFixtureBase<TValue>
         {
-            var s = Subject = getFixturedArray(fixture);
+            var s = GetSubject(getFixturedArray(fixture));
             var expectedLength = fixture.ExpectedLength;
 
             Assert.Equal(expectedLength, s.Count);
@@ -94,11 +113,39 @@ namespace Kingdom.Collections
                 , a => a.Clone() as ImmutableBitArrayFixture);
         }
 
-        private void VerifyThatCopyCtorCorrect(Func<ImmutableBitArrayFixture> factory,
-            Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture> copier)
+        /// <summary>
+        /// Defines the UnaryOperation on the <paramref name="operand"/>
+        /// of the type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="operand"></param>
+        /// <returns></returns>
+        private delegate T UnaryOperation<T>(T operand);
+
+        /// <summary>
+        /// Defines the BinaryOperand on <paramref name="lhs"/> and <paramref name="rhs"/>
+        /// of the type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        private delegate T BinaryOperation<T>(T lhs, T rhs);
+
+        /// <summary>
+        /// Defines a delegate for purposes of Verifying <paramref name="before"/> and
+        /// <paramref name="after"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="before"></param>
+        /// <param name="after"></param>
+        private delegate void VerifyBeforeAndAfter<in T>(T before, T after);
+
+        private void VerifyThatCopyCtorCorrect(Func<ImmutableBitArrayFixture> factory
+            , UnaryOperation<ImmutableBitArrayFixture> copyOperation)
         {
-            var s = Subject = factory();
-            var copied = copier(s);
+            var s = GetSubject(factory());
+            var copied = copyOperation(s);
             Assert.NotSame(copied, s);
             Assert.NotSame(copied.Values, s.Values);
             Assert.Equal(s, copied);
@@ -160,7 +207,7 @@ namespace Kingdom.Collections
             [RandomIntValues] uint aValue, [RandomIntValues] uint bValue)
         {
             VerifyThatBinaryOperationCorrect(aValue, bValue
-                , (a, b) => a.InternalAnd(b), (a, b) => a & b);
+                , (s, t) => s.InternalAnd(t), (x, y) => x & y);
         }
 
         [Theory, CombinatorialData]
@@ -168,7 +215,7 @@ namespace Kingdom.Collections
             [RandomIntValues] uint aValue, [RandomIntValues] uint bValue)
         {
             VerifyThatBinaryOperationCorrect(aValue, bValue
-                , (a, b) => a.InternalOr(b), (a, b) => a | b);
+                , (s, t) => s.InternalOr(t), (x, y) => x | y);
         }
 
         [Theory, CombinatorialData]
@@ -176,21 +223,21 @@ namespace Kingdom.Collections
             , [RandomIntValues] uint bValue)
         {
             VerifyThatBinaryOperationCorrect(aValue, bValue
-                , (a, b) => a.InternalXor(b), (a, b) => a ^ b);
+                , (s, t) => s.InternalXor(t), (x, y) => x ^ y);
         }
 
-        private static void VerifyThatBinaryOperationCorrect(uint aValue, uint bValue,
-            Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture, ImmutableBitArrayFixture> operation,
-            Func<uint, uint, uint> checker)
+        private static void VerifyThatBinaryOperationCorrect(uint aValue, uint bValue
+            , BinaryOperation<ImmutableBitArrayFixture> binaryOperation
+            , BinaryOperation<uint> checker)
         {
             var a = FromBytes(GetBytes(aValue));
             var b = FromBytes(GetBytes(bValue));
-            var c = operation(a, b);
+            var c = binaryOperation(a, b);
 
-            Assert.NotSame(c, a);
-            Assert.NotSame(c, b);
-            Assert.NotSame(c.Values, a.Values);
-            Assert.NotSame(c.Values, b.Values);
+            Assert.NotSame(a, c);
+            Assert.NotSame(b, c);
+            Assert.NotSame(a.Values, c.Values);
+            Assert.NotSame(b.Values, c.Values);
             
             var cCheckValue = checker(aValue, bValue);
             var cCheckValues = GetBytes(cCheckValue);
@@ -201,26 +248,44 @@ namespace Kingdom.Collections
         }
 
         [Theory, CombinatorialData]
-        public void Verify_That_BinaryOperation_Not_Correct([RandomIntValues] uint value)
+        public void Verify_That_UnaryOperation_Not_Correct([RandomIntValues] uint value)
         {
-            VerifyThatUnaryOperationCorrect(value, a => a.InternalNot(), a => ~a);
+            /* This is much better factoring of the Verification that keeps
+             the Ones Complement testing in the same place. */
+            VerifyThatUnaryOperationCorrect(value, s => s.InternalNot(), (a, b) =>
+            {
+                Assert.NotNull(a);
+                Assert.NotNull(b);
+
+                var valuesBeforeOp = a.Select(x => x).ToArray();
+                var valuesAfterOp = a.Select(x => x).ToArray();
+
+                // TODO: TBD: this isn't really a general use verification.
+                // Do not miss this since it is in large part the primary reason we are doing any of this.
+                Assert.All(valuesBeforeOp.Zip(valuesAfterOp, (x, y) => x == y), Assert.True);
+                Assert.All(valuesBeforeOp.Zip(b.Select(x => x).ToArray(), (x, y) => x != y), Assert.True);
+
+                // Besides these we can do some additional more conventional assertions as we would expect.
+                Assert.NotSame(a, b);
+                Assert.NotSame(a.Values, b.Values);
+
+                // Ditto before, must be the same count and values in the same order.
+                Assert.Equal(GetBytes(~value), b.ToBytes(false));
+            });
         }
 
-        private static void VerifyThatUnaryOperationCorrect(uint value,
-            Func<ImmutableBitArrayFixture, ImmutableBitArrayFixture> operation,
-            Func<uint, uint> checker)
+        private static void VerifyThatUnaryOperationCorrect(uint value
+            , UnaryOperation<ImmutableBitArrayFixture> unaryOperation
+            , VerifyBeforeAndAfter<ImmutableBitArrayFixture> verify = null)
         {
+            /* On second thought, I'm not positive this is quite "idempotence". However, it is
+             pretty close. We do, however, expect that the original operand be left untouched
+             by the Not or rather ~ (Ones Complement) operator. */
+
             var a = FromBytes(GetBytes(value));
-            var b = operation(a);
+            var b = unaryOperation(a);
 
-            Assert.NotSame(b, a);
-            Assert.NotSame(b.Values, a.Values);
-
-            var bCheckValue = checker(value);
-            var bCheckValues = GetBytes(bCheckValue);
-
-            // Ditto before, must be the same count and values in the same order.
-            Assert.Equal(bCheckValues, b.ToBytes(false));
+            verify?.Invoke(a, b);
         }
 
         /* TODO: TBD: not going to worry about pulling the "arbitrarily long count" shift left/right
@@ -269,13 +334,13 @@ namespace Kingdom.Collections
         public void Verify_That_ShiftLeft_Correct([SpecificIntValues] uint value
             , [ShiftCountValues] int? count, [ElasticityValues] Elasticity elasticity)
         {
-            var subject = Subject = new ImmutableBitArrayFixture(GetBytes(value));
+            var s = GetSubject(new ImmutableBitArrayFixture(GetBytes(value)));
 
             var expectedLength = CalculateExpectedLengthAfterShift(value, count ?? 1, elasticity);
 
             var shifted = count.HasValue
-                ? subject.InternalShiftLeft(count.Value, elasticity)
-                : subject.InternalShiftLeft(elasticity: elasticity);
+                ? s.InternalShiftLeft(count.Value, elasticity)
+                : s.InternalShiftLeft(elasticity: elasticity);
 
             Assert.Equal(expectedLength, shifted.Length);
             Assert.Equal(expectedLength, shifted.Count);
@@ -297,13 +362,13 @@ namespace Kingdom.Collections
         public void Verify_That_ShiftRight_Correct([SpecificIntValues] uint value
             , [ShiftCountValues] int? count, [ElasticityValues] Elasticity elasticity)
         {
-            var subject = Subject = new ImmutableBitArrayFixture(GetBytes(value));
+            var s = GetSubject(new ImmutableBitArrayFixture(GetBytes(value)));
 
             var expectedLength = CalculateExpectedLengthAfterShift(value, -(count ?? 1), elasticity);
 
             var shifted = count.HasValue
-                ? subject.InternalShiftRight(count.Value, elasticity)
-                : subject.InternalShiftRight(elasticity: elasticity);
+                ? s.InternalShiftRight(count.Value, elasticity)
+                : s.InternalShiftRight(elasticity: elasticity);
 
             Assert.Equal(expectedLength, shifted.Length);
             Assert.Equal(expectedLength, shifted.Count);
