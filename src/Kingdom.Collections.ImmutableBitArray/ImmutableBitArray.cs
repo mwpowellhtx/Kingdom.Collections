@@ -25,17 +25,18 @@ namespace Kingdom.Collections
         /// </summary>
         protected List<bool> _values;
 
+        private delegate bool ExtractMaskShiftedCallback<in T>(T x, int shift);
+
         private static IEnumerable<bool> ExtractValues<T>(IEnumerable<T> values
-            , Func<int> getSize, Func<T, int, bool> maskShifted)
+            , int bitCount, ExtractMaskShiftedCallback<T> maskShifted)
         {
-            if (values == null)
+            if (values == null) 
             {
                 throw new ArgumentNullException(nameof(values));
             }
 
-            var size = getSize();
             // ReSharper disable once PossibleMultipleEnumeration
-            if ((long) values.Count() * size > int.MaxValue)
+            if ((long) values.Count() * bitCount > int.MaxValue)
             {
                 // ReSharper disable once PossibleMultipleEnumeration
                 throw new ArgumentException($"values bit length {values.LongCount()} exceeds Int32.MaxValue", nameof(values));
@@ -44,7 +45,7 @@ namespace Kingdom.Collections
             // ReSharper disable once PossibleMultipleEnumeration
             foreach (var x in values)
             {
-                for (var j = 0; j < size; j++)
+                for (var j = 0; j < bitCount; j++)
                 {
                     yield return maskShifted(x, j);
                 }
@@ -71,7 +72,7 @@ namespace Kingdom.Collections
         /// <exception cref="ArgumentNullException"><paramref name="values"/> is null</exception>
         public ImmutableBitArray(IEnumerable<bool> values)
         {
-            _values = ExtractValues(values, () => 1, (x, j) => x).ToList();
+            _values = ExtractValues(values, 1, (x, j) => x).ToList();
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace Kingdom.Collections
             // ReSharper disable once PossibleMultipleEnumeration
             /* The Functional Phrase parameter is CRITICAL to this working properly,
              not that the Size is not. */
-            _values = ExtractValues(bytes, () => sizeof(byte) * 8, (x, j) => (x & 1 << j) != 0).ToList();
+            _values = ExtractValues(bytes, sizeof(byte) * 8, (x, j) => (x & 1 << j) != 0).ToList();
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace Kingdom.Collections
             // ReSharper disable once PossibleMultipleEnumeration
             /* The Functional Phrase parameter is CRITICAL to this working properly,
              not that the Size is not. */
-            _values = ExtractValues(uints, () => sizeof(uint) * 8, (x, j) => (x & 1 << j) != 0).ToList();
+            _values = ExtractValues(uints, sizeof(uint) * 8, (x, j) => (x & 1 << j) != 0).ToList();
         }
 
         /// <summary>
@@ -271,8 +272,8 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         public int Length
         {
-            get { return _values.Count; }
-            set { VerifyLength(_values, value); }
+            get => _values.Count;
+            set => VerifyLength(_values, value);
         }
 
         private static ImmutableBitArray BitwiseFunc(IEnumerable<IList<bool>> valuesArr,
@@ -341,10 +342,7 @@ namespace Kingdom.Collections
         /// in the specified <see cref="ImmutableBitArray"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         /// <inheritdoc />
-        public ImmutableBitArray Or(ImmutableBitArray other)
-        {
-            return Or(new[] {other});
-        }
+        public ImmutableBitArray Or(ImmutableBitArray other) => Or(new[] {other});
 
         /// <summary>
         /// Performs the bitwise OR operation on the elements in the current
@@ -531,8 +529,8 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         public bool this[int index]
         {
-            get { return Get(index); }
-            set { Set(index, value); }
+            get => Get(index);
+            set => Set(index, value);
         }
 
         /// <summary>
@@ -629,12 +627,12 @@ namespace Kingdom.Collections
 
         private delegate T MergeCallback<T>(T a, T b);
 
-        private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue
+        private IEnumerable<T> ToValues<T>(int size, T defaultValue
             , Func<int, T> getShifted, MergeCallback<T> mergeCb)
         {
-            for (int i = 0, size = getSize(); i < _values.Count; i += size)
+            for (var i = 0; i < _values.Count; i += size)
             {
-                var current = getDefaultValue();
+                var current = defaultValue;
 
                 for (var j = 0; j < size && i + j < _values.Count; j++)
                 {
@@ -652,11 +650,11 @@ namespace Kingdom.Collections
             }
         }
 
-        private IEnumerable<T> ToValues<T>(Func<int> getSize, Func<T> getDefaultValue,
+        private IEnumerable<T> ToValues<T>(int size, T defaultValue,
             Func<int, T> getShifted, MergeCallback<T> mergeCb, bool msb)
         {
-            Func<IEnumerable<T>> getValues = () => ToValues(getSize, getDefaultValue, getShifted, mergeCb);
-            foreach (var x in msb ? getValues().Reverse() : getValues())
+            IEnumerable<T> GetValues() => ToValues(size, defaultValue, getShifted, mergeCb);
+            foreach (var x in msb ? GetValues().Reverse() : GetValues())
             {
                 yield return x;
             }
@@ -671,7 +669,7 @@ namespace Kingdom.Collections
         public IEnumerable<byte> ToBytes(bool msb = true)
         {
             // This should be equally as quick whether MSB or not.
-            return ToValues(() => sizeof(byte) * 8, () => default(byte)
+            return ToValues(sizeof(byte) * 8, default(byte)
                 , shift => (byte) (1 << shift), (a, b) => (byte) (a | b), msb);
         }
 
@@ -684,7 +682,7 @@ namespace Kingdom.Collections
         public IEnumerable<uint> ToInts(bool msb = true)
         {
             // TODO: TBD: whether/how to handle msb?
-            return ToValues(() => sizeof(uint) * 8, () => default(uint)
+            return ToValues(sizeof(uint) * 8, default(uint)
                 , shift => (uint) 1 << shift, (a, b) => a | b, msb);
         }
 
