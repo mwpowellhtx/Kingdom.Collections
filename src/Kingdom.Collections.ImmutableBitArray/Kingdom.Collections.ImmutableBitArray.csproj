@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -9,32 +8,34 @@
 
   <PropertyGroup>
     <Description>The framework BitArray is helpful but it has a serious flaw in the fact that it is not immutable. This is the primary motivation for working on this package in order to achieve just such an ImmutableBitArray. Reflexive operations can modify an instance but otherwise bitwise operations should yield a wholely new instance.</Description>
-    <PackageTags>immutable; idempotent; BitArray; ImmutableBitArray; uint; bool; IEnumerable; ICollection; IClonable</PackageTags>
+    <PackageTags>immutable; idempotent; bit; bits; array; uint; byte; bytes; bool; IEnumerable; ICollection; IClonable; bitwise; and; or; xor; not; ones; complement; shift; elasticity; none; expansion; contraction; both; shrink; expand</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.8.2.3</Version>
-    <AssemblyVersion>1.8.2.3</AssemblyVersion>
-    <FileVersion>1.8.2.3</FileVersion>
+    <Version>1.8.3.2305</Version>
+    <AssemblyVersion>1.8.3.2305</AssemblyVersion>
+    <FileVersion>1.8.3.2305</FileVersion>
+    <PackageVersion>1.8.3.2305</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Kingdom.Collections.ImmutableBitArray.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpLabel>dev</BumpLabel>
-    <BumpLabelDigits>3</BumpLabelDigits>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Kingdom.Collections.ImmutableBitArray.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpResetLabel>dev</BumpResetLabel>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.ImmutableBitArray.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Kingdom.Collections.ImmutableBitArray.nuspec" />
+    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
+  <ItemGroup Condition="Exists('G:\Dev\NuGet\global\packages\bumpassemblyversions\1.2.0\build\BumpAssemblyVersions.targets')">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; (&#xA;  del &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;&#xA;)" />
+  </Target>
 
 </Project>
