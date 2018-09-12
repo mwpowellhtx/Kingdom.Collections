@@ -1,6 +1,6 @@
 # .NET Conference 2018
 
-I've registered for the Conference coming up Sept 14, 2018 under the [Local Events](http://www.dotnetconf.net/local-events), "Lewes, DE, US". Please stay tuned for virtual meeting location, time, etc. Thanks for checking it out!
+Due to a misunderstanding as to the nature of the conference, I decided not to participate in it after all. However, I remain committed to my talk concerning *"A Better Kind of Bit Array"* on [Friday, September 14 2018 at 2:00 PM EST](https://www.eztalks.com/uc/join_meeting/meeting_id/90021652). This will be a teleconference given with a time limit of 40 minutes. I will aim to air on the side of leaving more time for Q&amp;A than less, but we'll see how it goes. I may segue into my *Enumerations* as well in a bit more detail, but I do not have that as a primary objective. Hopefully, I will also be able to record without much difficulty, in order for folks to check it out later.
 
 # Collections
 
