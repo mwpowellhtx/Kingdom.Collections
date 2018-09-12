@@ -12,6 +12,8 @@ Initially I wanted to use the .NET Framework [System.Collections.BitArray](http:
 
 The operations are fairly self explanatory. The goals were clear getting started: I wanted to establish a basic moral equivalence, so-called, but for the afore mentioned immutability and idempotency concerns. I will continue adding new operations, and will continue to flesh it out, or as issues and requests are submitted, or contributors want to add to the body of effort.
 
+At the moment I am reconsidering whether the application of the term *idempotent* is really that accurate. Upon further analysis, it seems to me the focus of whether something is idempotent has to do with the function itself not mutating the thing it is operating on, regardless of the outcome. And, while true, the *ones complement* operator, indeed *any* such operators, should leave the original *operand* untouched, this is not really the same thing, I think. I will need to study the issue a bit further to better name it, I think.
+
 ## Enumerations
 
 I also wanted to support collections of [Java-like](http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html) ``Enumerations`` for .NET. Instead of [simple integral values](http://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum), I wanted to attach additional domain specific properties to each kind of Enumerated value. This is not supported in .NET, at least not directly, unlike Java, which supports class like behavior directly from enumerated values.
