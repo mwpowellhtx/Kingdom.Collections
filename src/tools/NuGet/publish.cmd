@@ -29,6 +29,7 @@ if ("%config%" === "") (
 ::pushd .\packages
 pushd ..\..
 
+:: TODO: TBD: it might be a good idea to include command line options to specify which package(s) to publish...
 call :pubpkg Kingdom.Collections.Enumerations.Attributes
 call :pubpkg Kingdom.Collections.Enumerations.Analyzers
 call :pubpkg Kingdom.Collections.Enumerations.Generators
