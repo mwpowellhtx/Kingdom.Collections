@@ -61,6 +61,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.CodeAnalysis.Verifi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.CodeAnalysis.Verification", "Kingdom.CodeAnalysis.Verification\Kingdom.CodeAnalysis.Verification.csproj", "{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Talks.Collections.ImmutableBitArray.Tests", "Talks.Collections.ImmutableBitArray.Tests\Talks.Collections.ImmutableBitArray.Tests.csproj", "{5235E3AA-05CE-4B7E-8FF9-FB1115F5322C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Talks", "Talks", "{7BA05B98-0812-4A5C-94DC-CBAE12BF31FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +147,10 @@ Global
 		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5235E3AA-05CE-4B7E-8FF9-FB1115F5322C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5235E3AA-05CE-4B7E-8FF9-FB1115F5322C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5235E3AA-05CE-4B7E-8FF9-FB1115F5322C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5235E3AA-05CE-4B7E-8FF9-FB1115F5322C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,6 +175,7 @@ Global
 		{C44640FA-B5C7-46F2-BF3D-0B711BB98E48} = {2C619AB2-210F-4B53-8432-316AC141EE78}
 		{2512DF3F-F4BB-4FBF-A70D-1562812874EE} = {2C619AB2-210F-4B53-8432-316AC141EE78}
 		{EEF01206-CFB2-4406-B67D-6DB4ACBCDE2C} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
+		{5235E3AA-05CE-4B7E-8FF9-FB1115F5322C} = {7BA05B98-0812-4A5C-94DC-CBAE12BF31FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F695C354-EB5A-446F-BD44-AF8E254EA97C}
