@@ -18,9 +18,14 @@ namespace Kingdom.Collections
 
         // TODO: TBD: test the other permutations of Binary Bitwise operators involving 2+ arrays...
         // TODO: TBD: test elastic get/set
-        // TODO: TBD: test Length/Count ... an extension of the shift left/right issue
         // TODO: TBD: test the shift left/right issues...
         // TODO: TBD: test Add/Remove/Contains/CopyTo ... also an extension of the shift left/right issue
+
+        /* TODO: TBD: Length/Count should be more intimately connected with an Elasticity behavior,
+         * inelastic behavior should preclude changes; whereas permitting Contraction/Expansion
+         * should respond accordingly, which all told is not really a shift issue, but does comport
+         * with kosher Elasticity behavior... this is coming in a future version, which will also
+         * involve a string separation of Elastic and Inelastic behavior, but not right now. */
 
         private static void VerifyBinaryCalculation(uint x, uint y
             , CalculateBinaryOperationCallback<uint> expectedOp
