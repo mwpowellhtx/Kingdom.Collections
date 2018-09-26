@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Kingdom.Collections
 {
-    using Elasticity = ImmutableBitArray.Elasticity;
-    using static ImmutableBitArray.Elasticity;
+    using static Elasticity;
 
     /// <summary>
     /// Represents all the non-type specific interface bit array concerns.
@@ -51,9 +50,9 @@ namespace Kingdom.Collections
         bool this[int index] { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of elements in the <see cref="ImmutableBitArray"/>.
+        /// Gets or Sets the actual number of Bits contained by the Array.
         /// </summary>
-        /// <returns>The number of elements in the <see cref="ImmutableBitArray"/>.</returns>
+        /// <returns>The actual number of Bits contained by the Array.</returns>
         /// <exception cref="ArgumentOutOfRangeException">The property is set to a value that
         /// is less than zero.</exception>
         /// <seealso cref="Get"/>
