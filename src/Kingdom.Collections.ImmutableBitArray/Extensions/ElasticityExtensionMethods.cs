@@ -4,43 +4,10 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using Elasticity = ImmutableBitArray.Elasticity;
-
-    public partial class ImmutableBitArray
-    {
-        /// <summary>
-        /// Specifies whether <see cref="Expansion"/> or <see cref="Contraction"/> is allowed,
-        /// <see cref="Both"/>, or <see cref="None"/>.
-        /// </summary>
-        [Flags]
-        public enum Elasticity
-        {
-            /// <summary>
-            /// No <see cref="Expansion"/> or <see cref="Contraction"/> to take place.
-            /// </summary>
-            None = 0,
-
-            /// <summary>
-            /// Provides for Expansion only. No <see cref="Contraction"/> to take place.
-            /// </summary>
-            Expansion = 1,
-
-            /// <summary>
-            /// Provides for Contraction only. No <see cref="Expansion"/> to take place.
-            /// </summary>
-            Contraction = 1 << 1,
-
-            /// <summary>
-            /// Both <see cref="Expansion"/> and <see cref="Contraction"/> to take place.
-            /// </summary>
-            Both = Expansion | Contraction
-        }
-    }
-
     /// <summary>
-    /// <see cref="ImmutableBitArray"/> extension methods.
+    /// <see cref="Elasticity"/> extension methods.
     /// </summary>
-    public static class ImmutableBitArrayExtensionMethods
+    public static class ElasticityExtensionMethods
     {
         /// <summary>
         /// Returns whether <paramref name="value"/> Contains the <paramref name="mask"/>.
