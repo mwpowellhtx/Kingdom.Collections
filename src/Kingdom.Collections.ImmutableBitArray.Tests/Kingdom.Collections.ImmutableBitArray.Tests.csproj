@@ -74,7 +74,9 @@
     <Compile Include="Attributes\UInt32ValuesValuesAttribute.cs" />
     <Compile Include="Attributes\ValuesValuesAttributeBase.cs" />
     <Compile Include="Attributes\ValueValuesAttribute.cs" />
+    <Compile Include="Callbacks.cs" />
     <Compile Include="DatabaseSerializationTests.cs" />
+    <Compile Include="Extensions\ExceptionExtensionMethods.cs" />
     <Compile Include="Fixtures\BoolValuesFixture.cs" />
     <Compile Include="Fixtures\ByteValuesFixture.cs" />
     <Compile Include="Fixtures\ConnectionOrientedFixture.cs" />
@@ -85,7 +87,30 @@
     <Compile Include="Fixtures\UInt32ValuesFixture.cs" />
     <Compile Include="Fixtures\ValuesFixtureBase.cs" />
     <Compile Include="ImmutableBitArrayTests.cs" />
+    <Compile Include="MiscOptimizedImmutableBitArrayTests.cs" />
+    <Compile Include="OptimizedImmutableBitArrayCtorTests.cs" />
+    <Compile Include="OptimizedImmutableBitArrayCtorTests.Data.cs">
+      <DependentUpon>OptimizedImmutableBitArrayCtorTests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptimizedImmutableBitArrayCtorTests.Utils.cs">
+      <DependentUpon>OptimizedImmutableBitArrayCtorTests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptimizedImmutableBitArrayGetSetSetAllTests.cs" />
+    <Compile Include="OptimizedImmutableBitArrayGetSetSetAllTests.Data.cs">
+      <DependentUpon>OptimizedImmutableBitArrayGetSetSetAllTests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptimizedImmutableBitArrayTests.cs" />
+    <Compile Include="OptimizedImmutableBitArrayTests.Data.cs">
+      <DependentUpon>OptimizedImmutableBitArrayTests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptimizedImmutableBitArrayTests.Utils.cs">
+      <DependentUpon>OptimizedImmutableBitArrayTests.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubjectTestFixtureBase.cs" />
+    <Compile Include="SubjectTestFixtureBase.Utils.cs">
+      <DependentUpon>SubjectTestFixtureBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestFixtureBase.cs" />
   </ItemGroup>
   <ItemGroup>
