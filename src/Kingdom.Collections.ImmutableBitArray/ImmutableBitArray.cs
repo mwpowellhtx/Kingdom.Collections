@@ -17,7 +17,7 @@ namespace Kingdom.Collections
     /// <inheritdoc cref="IImmutableBitArray{T}"/>
     /// <see cref="!:http://en.wikipedia.org/wiki/Idempotence"/>
     /// <see cref="!:http://en.wikipedia.org/wiki/Immutable_object"/>
-    public partial class ImmutableBitArray : IImmutableBitArray<ImmutableBitArray>
+    public class ImmutableBitArray : IImmutableBitArray<ImmutableBitArray>
     {
         // ReSharper disable once InconsistentNaming
         /// <summary>
