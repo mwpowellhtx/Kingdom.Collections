@@ -5,7 +5,7 @@ using System.Linq;
 namespace Kingdom.Collections
 {
     using Xunit;
-    using static ImmutableBitArray.Elasticity;
+    using static Elasticity;
 
     public class ElasticityValuesAttribute : CombinatorialValuesAttribute
     {
