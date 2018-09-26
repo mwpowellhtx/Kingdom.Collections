@@ -477,25 +477,48 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         public bool IsReadOnly => false;
 
-        private int _length;
-
-        private static byte MakeMask(params int[] indexes)
-            => indexes.Aggregate(default(byte)
-                , (g, i) => (byte) (g | (byte) (1 << i))
+        /// <summary>
+        /// Not actually used, yet. We may have usage for this later on, however.
+        /// </summary>
+        /// <param name="shifts"></param>
+        /// <returns></returns>
+        /// <remarks>Marking it <see cref="ObsoleteAttribute"/> for now, however, hold onto it
+        /// for the time being. It may be useful later on.</remarks>
+        [Obsolete]
+        private static byte MakeMask(params int[] shifts)
+            => shifts.Aggregate(default(byte)
+                , (g, shift) => (byte) (g | (byte) (1 << shift))
             );
 
-        internal static byte MakeMask(int i, int j)
+        /// <summary>
+        /// Returns the <see cref="byte"/> following appropriate masking shifting from
+        /// <paramref name="iShift"/> through <paramref name="jShift"/>. Not to be confused
+        /// with actual Bit Positions for purposes of indexing and so forth, per se.
+        /// </summary>
+        /// <param name="iShift"></param>
+        /// <param name="jShift"></param>
+        /// <returns></returns>
+        internal static byte MakeMask(int iShift, int jShift)
         {
             var mask = default(byte);
 
-            while (i++ <= j)
+            for (; iShift <= jShift; iShift++)
             {
-                mask |= (byte) (1 << i);
+                mask |= (byte) (1 << iShift);
             }
-
 
             return mask;
         }
+
+        /// <summary>
+        /// <see cref="Length"/> backing field.
+        /// </summary>
+        /// <see cref="Length"/>
+        private int _length;
+
+        /* TODO: TBD: for now, Length responds with Elasticity (default); future direction,
+         * Elasticity should be a property of the bit array itself, which would potentially
+         * constrain the behavior accordingly as to whether Contraction/Expansion is permitted. */
 
         /// <summary>
         /// Gets or Sets the Length of the BitArray.
@@ -503,26 +526,51 @@ namespace Kingdom.Collections
         /// Setting the Length sets the actual length to the nearest <see cref="byte"/>.
         /// </summary>
         /// <inheritdoc />
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <see cref="Max(byte,byte)"/>
+        /// <see cref="MakeMask(int,int)"/>
         public int Length
         {
             get => _length;
             set
             {
-                var current = _bytes.Count;
-                var actual = value / 8;
+                // Do nothing use case.
+                if (value == _length)
+                {
+                    return;
+                }
 
-                /* Several cases here:
-                 * 1. Maintain the current Bytes.
-                 * 2. Concatenate additional Bytes to reach the new Length.
-                 * 3. Truncate the Bytes to achieve the shorter Length. */
-                _bytes = actual == current
-                    ? ListFunc(b => b)
-                    : (actual > current
-                        ? _bytes.Concat(new byte[current - actual]).ToList()
-                        : _bytes.Take(actual).ToList());
+                // Values Less Than Zero should Never Ever be allowed past this point.
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value)
+                        , value, $"Negative value '{value}' is invalid");
+                }
 
-                // Maintaining only those Bits which fulfill the Length, while Zeroing out any Bits beyond that Boundary.
-                _bytes[actual] = (byte) (_bytes[actual] & MakeMask(0, value % 8));
+                // In any event we want the DesiredCount.
+                var desiredCount = value / BitCount + 1;
+
+                /* Either Iterates Removing the Undesired Bytes,
+                 or Adds a Range of Bytes to the end wholesale. */
+
+                while (_bytes.Count != desiredCount)
+                {
+                    if (_bytes.Count < desiredCount)
+                    {
+                        _bytes.AddRange(new byte[desiredCount - _bytes.Count]);
+                    }
+                    else if (_bytes.Count > desiredCount)
+                    {
+                        _bytes.RemoveAt(_bytes.Count - 1);
+                    }
+                }
+
+                /* Only in the event we have a Mid-Byte Length do we shave any undesired Bits
+                 * from the Byte. Should work regardless whether Expanding or Contracting. */
+                if (value % BitCount is int bitIndex && bitIndex != 0)
+                {
+                    _bytes[desiredCount - 1] = (byte) (_bytes[desiredCount - 1] & MakeMask(0, bitIndex - 1));
+                }
 
                 // Then assign the Length after we have our ducks in a row.
                 _length = value;
@@ -537,11 +585,12 @@ namespace Kingdom.Collections
         });
 
         /// <inheritdoc />
-        /// <see cref="Set"/>
         /// <see cref="Length"/>
+        /// <see cref="Set(int,bool)"/>
         public void Add(bool item) => Set(++Length - 1, item);
 
         /// <inheritdoc />
+        /// <see cref="Length"/>
         public bool Remove(bool item)
         {
             /* We take the circuitous route here because we will need to work with the Index
@@ -561,17 +610,33 @@ namespace Kingdom.Collections
         }
 
         /// <inheritdoc />
+        /// <see cref="Length"/>
+        /// <see cref="Get(int)"/>
         public bool Contains(bool item)
-            => ListFunc(b => item
-                ? b.Any(x => x != 0)
-                : b.Any(x => x != byte.MaxValue));
+        {
+            /* This is more accurate since there may be Bits beyond Length
+             * which we want to otherwise Ignore. */
+            for (var i = 0; i < Length; i++)
+            {
+                if (Get(i) == item)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         /// <inheritdoc />
+        /// <see cref="Length"/>
+        /// <see cref="Get(int)"/>
         public void CopyTo(bool[] array, int arrayIndex)
         {
-            for (var i = arrayIndex; i < Length; i++)
+            // Note the introduction of a second index Jay.
+            for (int i = arrayIndex, j = 0; i < Length && j < array.Length; i++, j++)
             {
-                array[i - arrayIndex] = Get(i);
+                // This is a bit safer approach and easier to reason about as well.
+                array[j] = Get(i);
             }
         }
 
