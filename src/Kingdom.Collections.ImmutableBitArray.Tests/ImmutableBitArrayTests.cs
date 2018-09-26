@@ -5,10 +5,9 @@ using System.Linq;
 namespace Kingdom.Collections
 {
     using Xunit;
-    using Elasticity = ImmutableBitArray.Elasticity;
     using static BitConverter;
     using static ImmutableBitArrayFixture;
-    using static ImmutableBitArray.Elasticity;
+    using static Elasticity;
 
     public class ImmutableBitArrayTests : TestFixtureBase
     {
