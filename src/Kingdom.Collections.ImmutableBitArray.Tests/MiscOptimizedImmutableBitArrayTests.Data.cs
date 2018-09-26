@@ -11,6 +11,14 @@ namespace Kingdom.Collections
     {
         private static Random Rnd { get; } = new Random((int) (UtcNow.Ticks % int.MaxValue));
 
+        private static IEnumerable<byte> GetBytes(int count)
+        {
+            while (count-- > 0)
+            {
+                yield return (byte)(Rnd.Next() % byte.MaxValue);
+            }
+        }
+
         private static IEnumerable<object[]> _lengthCountData;
 
         public static IEnumerable<object[]> LengthCountData
@@ -23,14 +31,6 @@ namespace Kingdom.Collections
                     {
                         yield return GetRange(bytes.ToArray());
                         yield return lengthDelta;
-                    }
-
-                    IEnumerable<byte> GetBytes(int count)
-                    {
-                        while (count-- > 0)
-                        {
-                            yield return (byte) (Rnd.Next() % byte.MaxValue);
-                        }
                     }
 
                     const byte maxByte = byte.MaxValue;
@@ -60,6 +60,49 @@ namespace Kingdom.Collections
                 }
 
                 return _lengthCountData ?? (_lengthCountData = GetAll().ToArray());
+            }
+        }
+
+        private static IEnumerable<object[]> _containsData;
+
+        public static IEnumerable<object[]> ContainsData
+        {
+            get
+            {
+                IEnumerable<object[]> GetAll()
+                {
+                    const byte maxByte = byte.MaxValue;
+
+                    IEnumerable<object> GetOne(IEnumerable<byte> bytes, bool expectedItem)
+                    {
+                        bool ByteContainingExpectedItem(byte x)
+                            => default(byte) != (byte) (maxByte & (expectedItem ? x : ~x));
+
+                        var values = GetRange(bytes.ToArray());
+                        yield return values;
+                        yield return expectedItem;
+                        yield return values.Any(ByteContainingExpectedItem);
+                    }
+
+                    const byte defaultByte = default(byte);
+
+                    for (var byteCount = 0; byteCount < sizeof(uint); byteCount++)
+                    {
+                        foreach (var expectedItem in GetRange(true, false))
+                        {
+                            // Furnish several Random ones just for good measure.
+                            yield return GetOne(GetBytes(byteCount), expectedItem).ToArray();
+                            yield return GetOne(GetBytes(byteCount), expectedItem).ToArray();
+                            yield return GetOne(GetBytes(byteCount), expectedItem).ToArray();
+
+                            // Especially remember the edge use cases.
+                            yield return GetOne(new byte[byteCount].Select(_ => defaultByte), expectedItem).ToArray();
+                            yield return GetOne(new byte[byteCount].Select(_ => maxByte), expectedItem).ToArray();
+                        }
+                    }
+                }
+
+                return _containsData ?? (_containsData = GetAll().ToArray());
             }
         }
     }

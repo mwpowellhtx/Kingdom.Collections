@@ -152,5 +152,23 @@ namespace Kingdom.Collections
                 Assert.Equal(expectedMaskedByte, actualBoundaryByte & (byte) ~boundaryByteMask);
             }
         }
+
+        /// <summary>
+        /// The unit test verification is not especially extensive, however, the furnished
+        /// <see cref="ContainsData"/> is fairly exhaustive of the possible use case variants.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="expectedItem"></param>
+        /// <param name="expectedContainsResult"></param>
+        [Theory, MemberData(nameof(ContainsData))]
+        public void Contains_works_correctly(IEnumerable<byte> bytes, bool expectedItem, bool expectedContainsResult)
+        {
+            Assert.NotNull(bytes);
+            bytes = bytes.ToArray();
+            GetSubject(() => CreateBitArrayWithArray(bytes.ToArray()));
+            // Double check that the Bytes Actually Are the Bytes.
+            Assert.Equal(bytes, Subject.InternalBytes());
+            Assert.Equal(expectedContainsResult, Subject.Contains(expectedItem));
+        }
     }
 }
