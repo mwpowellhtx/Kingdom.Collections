@@ -88,6 +88,9 @@
     <Compile Include="Fixtures\ValuesFixtureBase.cs" />
     <Compile Include="ImmutableBitArrayTests.cs" />
     <Compile Include="MiscOptimizedImmutableBitArrayTests.cs" />
+    <Compile Include="MiscOptimizedImmutableBitArrayTests.Data.cs">
+      <DependentUpon>MiscOptimizedImmutableBitArrayTests.cs</DependentUpon>
+    </Compile>
     <Compile Include="OptimizedImmutableBitArrayCtorTests.cs" />
     <Compile Include="OptimizedImmutableBitArrayCtorTests.Data.cs">
       <DependentUpon>OptimizedImmutableBitArrayCtorTests.cs</DependentUpon>
