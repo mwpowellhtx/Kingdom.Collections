@@ -341,10 +341,14 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         public bool Get(int index)
         {
-            if (index < 0 || index >= Length)
+            // ReSharper disable once InconsistentNaming
+            var this_Length = Length;
+
+            if (index < 0 || index >= this_Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(index)
-                    , index, $"Argument '{nameof(index)}' value '{index}' out of range.");
+                throw new ArgumentOutOfRangeException(nameof(index), index
+                    , $"'{typeof(OptimizedImmutableBitArray).FullName}.{nameof(Get)}'"
+                      + $" argument '{nameof(index)}' value '{index}' out of range.");
             }
 
             return ListFunc(b => b[index / 8] & (1 << (index % 8))) != 0;
@@ -630,10 +634,27 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         /// <see cref="Length"/>
         /// <see cref="Get(int)"/>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when
+        /// <paramref name="arrayIndex"/> exceeds <see cref="Length"/>.</exception>
         public void CopyTo(bool[] array, int arrayIndex)
         {
+            // ReSharper disable once InconsistentNaming
+            var this_Length = Length;
+
+            if (arrayIndex < 0 || arrayIndex >= this_Length)
+            {
+                /* This would be trapped by the call to Get as well, but let's
+                 * arrest the issue early for CopyTo just the same. */
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), arrayIndex
+                    , $"'{typeof(OptimizedImmutableBitArray).FullName}.{nameof(CopyTo)}'"
+                      + $" argument {nameof(arrayIndex)} '{arrayIndex}' out of range.");
+            }
+
+            // ReSharper disable once InconsistentNaming
+            var array_Length = array.Length;
+
             // Note the introduction of a second index Jay.
-            for (int i = arrayIndex, j = 0; i < Length && j < array.Length; i++, j++)
+            for (int i = arrayIndex, j = 0; i < this_Length && j < array_Length; i++, j++)
             {
                 // This is a bit safer approach and easier to reason about as well.
                 array[j] = Get(i);
