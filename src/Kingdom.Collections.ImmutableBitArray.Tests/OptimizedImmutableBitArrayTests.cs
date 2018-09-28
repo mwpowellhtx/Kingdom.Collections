@@ -19,7 +19,7 @@ namespace Kingdom.Collections
         // TODO: TBD: test the other permutations of Binary Bitwise operators involving 2+ arrays...
         // TODO: TBD: test elastic get/set
         // TODO: TBD: test the shift left/right issues...
-        // TODO: TBD: test Add/Remove/Contains/CopyTo ... also an extension of the shift left/right issue
+        // TODO: TBD: test Add/Remove ... also an extension of the shift left/right issue
 
         /* TODO: TBD: Length/Count should be more intimately connected with an Elasticity behavior,
          * inelastic behavior should preclude changes; whereas permitting Contraction/Expansion
