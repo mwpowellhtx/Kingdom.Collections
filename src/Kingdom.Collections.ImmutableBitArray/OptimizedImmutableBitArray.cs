@@ -496,19 +496,19 @@ namespace Kingdom.Collections
 
         /// <summary>
         /// Returns the <see cref="byte"/> following appropriate masking shifting from
-        /// <paramref name="iShift"/> through <paramref name="jShift"/>. Not to be confused
+        /// <paramref name="loShift"/> through <paramref name="hiShift"/>. Not to be confused
         /// with actual Bit Positions for purposes of indexing and so forth, per se.
         /// </summary>
-        /// <param name="iShift"></param>
-        /// <param name="jShift"></param>
+        /// <param name="loShift"></param>
+        /// <param name="hiShift"></param>
         /// <returns></returns>
-        internal static byte MakeMask(int iShift, int jShift)
+        internal static byte MakeMask(int loShift, int hiShift)
         {
             var mask = default(byte);
 
-            for (; iShift <= jShift; iShift++)
+            for (; loShift <= hiShift; loShift++)
             {
-                mask |= (byte) (1 << iShift);
+                mask |= (byte) (1 << loShift);
             }
 
             return mask;
