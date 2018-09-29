@@ -21,6 +21,10 @@ namespace Kingdom.Collections
         // TODO: TBD: test the shift left/right issues...
         // TODO: TBD: test Add/Remove ... also an extension of the shift left/right issue
 
+        // TODO: TBD: there are two approaches I want to take addressing the shift/elasticity issue...
+        // TODO: TBD: the first is a sort of brute force get/set approach, getting from one source at the source position, setting the destination at the destination position. / that will be a slower performer I think...
+        // TODO: TBD: the second, and better performer, I think, would be to determine the source/destination byte(s), fields, etc, and to shift/merge the bytes from source to destination. this will be by far a better performer, but will also be more complex managing the positions, fields, shifts, etc. probably not as hard as I think it is on the front side of the effort, but it is not something I want to dive into all that casually.
+
         /* TODO: TBD: Length/Count should be more intimately connected with an Elasticity behavior,
          * inelastic behavior should preclude changes; whereas permitting Contraction/Expansion
          * should respond accordingly, which all told is not really a shift issue, but does comport
