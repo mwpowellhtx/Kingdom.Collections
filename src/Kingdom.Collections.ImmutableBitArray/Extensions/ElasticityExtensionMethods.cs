@@ -16,9 +16,16 @@ namespace Kingdom.Collections
         /// <param name="mask"></param>
         /// <returns></returns>
         public static bool Contains(this Elasticity value, Elasticity mask)
-        {
-            return (value & mask) == mask;
-        }
+            => (value & mask) == mask;
+
+        /// <summary>
+        /// Returns whether <paramref name="value"/> Contains the <paramref name="mask"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public static bool Contains(this Elasticity? value, Elasticity mask)
+            => value.HasValue && (value & mask) == mask;
 
         /// <summary>
         /// Truncation returns the <paramref name="values"/> as is when
