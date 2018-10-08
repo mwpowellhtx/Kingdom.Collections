@@ -27,6 +27,13 @@ namespace Kingdom.Collections
         /// <summary>
         /// Both <see cref="Expansion"/> and <see cref="Contraction"/> to take place.
         /// </summary>
-        Both = Expansion | Contraction
+        Both = Expansion | Contraction,
+
+        /// <summary>
+        /// Use this option to convey that the operation should not throw any exception, but,
+        /// rather, simply return from whatever operation is being performed. This is mostly
+        /// for internal use, but may be desired for external operations.
+        /// </summary>
+        Silent = 1 << 2
     }
 }
