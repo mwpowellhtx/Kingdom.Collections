@@ -19,5 +19,19 @@ namespace Kingdom.Collections
 
         protected static OptimizedImmutableBitArray CreateBitArrayWithArray(params byte[] bytes)
             => new OptimizedImmutableBitArray(bytes);
+
+        /// <summary>
+        /// Pretty straightforward. Perform the <paramref name="action"/> When
+        /// the <paramref name="predicate"/> indicates we should.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="action"></param>
+        protected static void When(Func<bool> predicate = null, Action action = null)
+        {
+            if (predicate?.Invoke() == true)
+            {
+                action?.Invoke();
+            }
+        }
     }
 }
