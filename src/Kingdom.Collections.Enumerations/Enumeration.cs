@@ -9,7 +9,7 @@ using System.Reflection;
 namespace Kingdom.Collections
 {
     using static BindingFlags;
-    using static ImmutableBitArray.Elasticity;
+    using static Elasticity;
 
     /* ReSharper disable once UseNameofExpression
      Yes, in fact, do not want this to utilize string interpolation.
