@@ -112,15 +112,13 @@ namespace Kingdom.Collections
             Assert.Equal(initialExpectedLengthAndCount, Subject.Length);
             Assert.Equal(initialExpectedLengthAndCount, Subject.Count);
 
+            // With recent changes, Count now simply reports Length.
             var expectedLength = Subject.Length + lengthDelta;
-            var expectedCount = (expectedLength % BitCount == 0
-                                    ? expectedLength / BitCount
-                                    : expectedLength / BitCount + 1) * BitCount;
 
             // This is the money shot right here.
             Subject.Length += lengthDelta;
             Assert.Equal(expectedLength, Subject.Length);
-            Assert.Equal(expectedCount, Subject.Count);
+            Assert.Equal(expectedLength, Subject.Count);
 
             // ReSharper disable once InvertIf do not invert this since we use bitIndex subsequently.
             // Last but not least verify that any Bits on the Boundary Byte exceeding Length are reset.
@@ -248,34 +246,6 @@ namespace Kingdom.Collections
                     // Argument is named specifically for this reason.
                     Assert.Equal(nameof(arrayIndex), aoorex.ParamName);
                 });
-        }
-
-        /// <summary>
-        /// Checks that the <paramref name="primeNumbers"/> are indeed Prime.
-        /// </summary>
-        /// <param name="primeNumbers"></param>
-        /// <see cref="!:http://stackoverflow.com/questions/1538644/c-determine-if-a-number-is-prime"/>
-        [Theory, MemberData(nameof(PrimeNumbersGenerated))]
-        public void Check_prime_numbers(IEnumerable<int> primeNumbers)
-        {
-            Assert.NotNull(primeNumbers);
-            primeNumbers = primeNumbers.ToArray();
-
-            bool IsPrime(int value)
-            {
-                for (var i = 2; i * i <= value; i++)
-                {
-                    if (value % i == 0)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            Assert.All(primeNumbers, x => Assert.True(IsPrime(x), $"Value '{x}' was not a Prime Number."));
-
-            OutputHelper.WriteLine($"Prime Numbers are: {Join(", ", primeNumbers.Select(x => $"{x}"))}");
         }
     }
 }
