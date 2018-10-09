@@ -33,15 +33,41 @@ namespace Kingdom.Collections
             }
         }
 
-        private delegate IEnumerable<bool> ShiftCallback(IEnumerable<bool> preserveBits, IEnumerable<bool> insertBits,
-            IEnumerable<bool> shiftBits);
+        /// <summary>
+        /// User provided <see cref="Shift"/> Callback.
+        /// </summary>
+        /// <param name="preserveBits">The Bits to Preserve on the Right of the Array Index.</param>
+        /// <param name="insertBits">The Bits being Inserted in order to achieve the appropriate
+        /// Shift Left or Right.</param>
+        /// <param name="shiftBits">The Bits being Shifted Left or Right.</param>
+        /// <returns></returns>
+        private delegate IEnumerable<bool> ShiftStrategyCallback(IEnumerable<bool> preserveBits
+            , IEnumerable<bool> insertBits, IEnumerable<bool> shiftBits);
 
+        /// <summary>
+        /// To Shift or Not to Shift: THAT is the question. The decision to do things this way
+        /// jumping into the Boolean Collection realm in order to conduct the Shift operation
+        /// was informed by an analysis of the Big O performance. If we were always given 3-4
+        /// Bits either to Shift or Not to Shift at the Byte/Bit level, that might make it
+        /// worthwhile to consider some sort of Byte-wise strategy. However, when we are given
+        /// 0, 1, 2, 3 Bits in a Byte, along these lines, to Shift or Not to Shift, then it no
+        /// longer makes sense to traverse Bytes for Shift purposes any longer and we may as
+        /// well just insert whole collections of buffer Bits (Booleans) and do the calculation
+        /// at the Boolean Collection level.
+        /// </summary>
+        /// <param name="array">The Bit Array which to Shift. Ostensibly the current instance.</param>
+        /// <param name="startIndex">Where to begin Shifting.</param>
+        /// <param name="count">The number of Bits in which to Shift.</param>
+        /// <param name="strategy">The user furnished Shift Strategy.</param>
+        /// <returns></returns>
+        /// <see cref="ShiftStrategyCallback"/>
         private static OptimizedImmutableBitArray Shift(IEnumerable<bool> array, int startIndex, int count
-            , ShiftCallback callback)
+            , ShiftStrategyCallback strategy)
         {
             array = array.ToArray();
 
-            return new OptimizedImmutableBitArray(callback(array.Take(startIndex)
+
+            return new OptimizedImmutableBitArray(strategy(array.Take(startIndex)
                 , GetRange(count, () => false), array.Skip(startIndex)));
         }
 
