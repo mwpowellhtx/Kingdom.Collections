@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         internal const int BitCount = 8;
 

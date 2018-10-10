@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         private delegate byte CalculateBinaryCallback(byte x, byte y);
 
@@ -40,13 +40,13 @@ namespace Kingdom.Collections
         }
 
         /// <inheritdoc />
-        public OptimizedImmutableBitArray And(OptimizedImmutableBitArray other) => And(GetRange(other));
+        public ImmutableBitArray And(ImmutableBitArray other) => And(GetRange(other));
 
         /// <inheritdoc />
-        public OptimizedImmutableBitArray Or(OptimizedImmutableBitArray other) => Or(GetRange(other));
+        public ImmutableBitArray Or(ImmutableBitArray other) => Or(GetRange(other));
 
         /// <inheritdoc />
-        public OptimizedImmutableBitArray Xor(OptimizedImmutableBitArray other) => Xor(GetRange(other));
+        public ImmutableBitArray Xor(ImmutableBitArray other) => Xor(GetRange(other));
 
         /// <summary>
         /// Performs the Bitwise And operation on the current instance, <paramref name="other"/>,
@@ -55,8 +55,8 @@ namespace Kingdom.Collections
         /// <param name="other"></param>
         /// <param name="others"></param>
         /// <returns>A new instance containing the result.</returns>
-        public OptimizedImmutableBitArray And(OptimizedImmutableBitArray other
-            , params OptimizedImmutableBitArray[] others)
+        public ImmutableBitArray And(ImmutableBitArray other
+            , params ImmutableBitArray[] others)
             => And(GetRange(other).Concat(others).ToArray());
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace Kingdom.Collections
         /// <param name="other"></param>
         /// <param name="others"></param>
         /// <returns>A new instance containing the result.</returns>
-        public OptimizedImmutableBitArray Or(OptimizedImmutableBitArray other
-            , params OptimizedImmutableBitArray[] others)
+        public ImmutableBitArray Or(ImmutableBitArray other
+            , params ImmutableBitArray[] others)
             => Or(GetRange(other).Concat(others).ToArray());
 
         /// <summary>
@@ -78,41 +78,41 @@ namespace Kingdom.Collections
         /// <param name="other"></param>
         /// <param name="others"></param>
         /// <returns>A new instance containing the result.</returns>
-        public OptimizedImmutableBitArray Xor(OptimizedImmutableBitArray other
-            , params OptimizedImmutableBitArray[] others)
+        public ImmutableBitArray Xor(ImmutableBitArray other
+            , params ImmutableBitArray[] others)
             => Xor(GetRange(other).Concat(others).ToArray());
 
         /// <inheritdoc />
-        public OptimizedImmutableBitArray And(IEnumerable<OptimizedImmutableBitArray> others)
+        public ImmutableBitArray And(IEnumerable<ImmutableBitArray> others)
         {
             var bytes = others.Aggregate(_bytes.ToArray()
                 , (g, other) => CalculateBinaryOperator(
                     g, other._bytes, (x, y) => (byte) (x & y)).ToArray());
 
-            return new OptimizedImmutableBitArray(bytes);
+            return new ImmutableBitArray(bytes);
         }
 
         /// <inheritdoc />
-        public OptimizedImmutableBitArray Or(IEnumerable<OptimizedImmutableBitArray> others)
+        public ImmutableBitArray Or(IEnumerable<ImmutableBitArray> others)
         {
             var bytes = others.Aggregate(_bytes.ToArray()
                 , (g, other) => CalculateBinaryOperator(
                     g, other._bytes, (x, y) => (byte) (x | y)).ToArray());
 
-            return new OptimizedImmutableBitArray(bytes);
+            return new ImmutableBitArray(bytes);
         }
 
         /// <inheritdoc />
-        public OptimizedImmutableBitArray Xor(IEnumerable<OptimizedImmutableBitArray> others)
+        public ImmutableBitArray Xor(IEnumerable<ImmutableBitArray> others)
         {
             var bytes = others.Aggregate(_bytes.ToArray()
                 , (g, other) => CalculateBinaryOperator(
                     g, other._bytes, (x, y) => (byte) (x ^ y)).ToArray());
 
-            return new OptimizedImmutableBitArray(bytes);
+            return new ImmutableBitArray(bytes);
         }
 
         /// <inheritdoc />
-        public OptimizedImmutableBitArray Not() => new OptimizedImmutableBitArray(_bytes.Select(x => (byte) ~x));
+        public ImmutableBitArray Not() => new ImmutableBitArray(_bytes.Select(x => (byte) ~x));
     }
 }

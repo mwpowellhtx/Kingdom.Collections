@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Kingdom.Collections
 {
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         /// <summary>
         /// 
@@ -29,7 +29,7 @@ namespace Kingdom.Collections
             if (index < 0 || index >= this_Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), index
-                    , $"'{typeof(OptimizedImmutableBitArray).FullName}.{nameof(Get)}'"
+                    , $"'{typeof(ImmutableBitArray).FullName}.{nameof(Get)}'"
                       + $" argument '{nameof(index)}' value '{index}' out of range.");
             }
 

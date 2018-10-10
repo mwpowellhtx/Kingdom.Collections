@@ -7,7 +7,7 @@ namespace Kingdom.Collections
     using static Math;
     using static Elasticity;
 
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         private static void VerifyShiftArguments(int startIndex, int count, int length, Elasticity? elasticity)
         {
@@ -61,13 +61,13 @@ namespace Kingdom.Collections
         /// <param name="strategy">The user furnished Shift Strategy.</param>
         /// <returns></returns>
         /// <see cref="ShiftStrategyCallback"/>
-        private static OptimizedImmutableBitArray Shift(IEnumerable<bool> array, int startIndex, int count
+        private static ImmutableBitArray Shift(IEnumerable<bool> array, int startIndex, int count
             , ShiftStrategyCallback strategy)
         {
             array = array.ToArray();
 
 
-            return new OptimizedImmutableBitArray(strategy(array.Take(startIndex)
+            return new ImmutableBitArray(strategy(array.Take(startIndex)
                 , GetRange(count, () => false), array.Skip(startIndex)));
         }
 
@@ -82,11 +82,11 @@ namespace Kingdom.Collections
         /// <param name="count"></param>
         /// <param name="elasticity"></param>
         /// <returns></returns>
-        public OptimizedImmutableBitArray ShiftLeft(int startIndex, int count = 1, Elasticity? elasticity = null)
+        public ImmutableBitArray ShiftLeft(int startIndex, int count = 1, Elasticity? elasticity = null)
         {
             if (count == 0)
             {
-                return new OptimizedImmutableBitArray(ToBytes());
+                return new ImmutableBitArray(this);
             }
 
             // ReSharper disable once InconsistentNaming
@@ -112,12 +112,13 @@ namespace Kingdom.Collections
         /// <param name="count"></param>
         /// <param name="elasticity"></param>
         /// <returns></returns>
-        public OptimizedImmutableBitArray ShiftRight(int startIndex, int count = 1, Elasticity? elasticity = null)
+        public ImmutableBitArray ShiftRight(int startIndex, int count = 1, Elasticity? elasticity = null)
         {
             // Return very early when there is nothing else to do.
             if (count == 0)
             {
-                return new OptimizedImmutableBitArray(ToBytes());
+                // Actually this is more precise, including the Length.
+                return new ImmutableBitArray(this);
             }
 
             // ReSharper disable once InconsistentNaming
@@ -149,14 +150,14 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         /// <see cref="DefaultStartIndex"/>
         /// <see cref="ShiftLeft(int,int,Elasticity?)"/>
-        public OptimizedImmutableBitArray ShiftLeft(int count = 1, Elasticity? elasticity = null)
+        public ImmutableBitArray ShiftLeft(int count = 1, Elasticity? elasticity = null)
             => ShiftLeft(DefaultStartIndex, count, elasticity);
 
         // TODO: TBD: when shift left/right are both done, they should also update the Length, especially when Elasticity comes into play
         /// <inheritdoc />
         /// <see cref="DefaultStartIndex"/>
         /// <see cref="ShiftRight(int,int,Elasticity?)"/>
-        public OptimizedImmutableBitArray ShiftRight(int count = 1, Elasticity? elasticity = null)
+        public ImmutableBitArray ShiftRight(int count = 1, Elasticity? elasticity = null)
             => ShiftRight(DefaultStartIndex, count, elasticity);
 
         /// <inheritdoc />

@@ -4,7 +4,7 @@ namespace Kingdom.Collections
 {
     using static Math;
 
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         /// <summary>
         /// <see cref="Length"/> backing field.

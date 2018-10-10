@@ -6,7 +6,7 @@ namespace Kingdom.Collections
 {
     using static Math;
 
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         /// <summary>
         /// Returns the Comparison of <paramref name="a"/> with <paramref name="b"/>.
@@ -108,10 +108,10 @@ namespace Kingdom.Collections
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static int CompareTo(OptimizedImmutableBitArray a, OptimizedImmutableBitArray b)
+        public static int CompareTo(ImmutableBitArray a, ImmutableBitArray b)
             => CompareTo(a?._bytes, b?._bytes);
 
         /// <inheritdoc />
-        public int CompareTo(OptimizedImmutableBitArray other) => CompareTo(_bytes, other?._bytes);
+        public int CompareTo(ImmutableBitArray other) => CompareTo(_bytes, other?._bytes);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         private void ListAction(Action<List<byte>> action) => action.Invoke(_bytes);
 
@@ -53,7 +53,14 @@ namespace Kingdom.Collections
             return mask;
         }
 
-        private static IEnumerable<T> GetRange<T>(int count, Func<T> getDefault = null)
+        /// <summary>
+        /// Returns a Range of <typeparamref name="T"/> across for the <paramref name="count"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="count"></param>
+        /// <param name="getDefault"></param>
+        /// <returns></returns>
+        protected internal static IEnumerable<T> GetRange<T>(int count, Func<T> getDefault = null)
         {
             while (count-- > 0)
             {
@@ -61,6 +68,12 @@ namespace Kingdom.Collections
             }
         }
 
-        private static IEnumerable<T> GetRange<T>(params T[] items) => items;
+        /// <summary>
+        /// Returns a Range of <paramref name="items"/> as a true <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        protected internal static IEnumerable<T> GetRange<T>(params T[] items) => items;
     }
 }

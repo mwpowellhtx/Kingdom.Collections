@@ -6,7 +6,7 @@ namespace Kingdom.Collections
 {
     using static Math;
 
-    public partial class OptimizedImmutableBitArray
+    public partial class ImmutableBitArray
     {
         private static bool Equals(IEnumerable<byte> a, IEnumerable<byte> b)
         {
@@ -42,11 +42,11 @@ namespace Kingdom.Collections
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool Equals(OptimizedImmutableBitArray a, OptimizedImmutableBitArray b)
+        public static bool Equals(ImmutableBitArray a, ImmutableBitArray b)
             => Equals(a?._bytes, b?._bytes);
 
         /// <inheritdoc />
-        public bool Equals(OptimizedImmutableBitArray other)
+        public bool Equals(ImmutableBitArray other)
             => other != null && Equals(_bytes, other._bytes);
     }
 }
