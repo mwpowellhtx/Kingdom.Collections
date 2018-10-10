@@ -7,7 +7,7 @@
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <inheritdoc />
-    public interface IElasticImmutableBitArray<T> : IOptimizedBitArray<T>
+    public interface IElasticImmutableBitArray<T> : IImmutableBitArray<T>
         where T : class, IElasticImmutableBitArray<T>
     {
         /// <summary>
@@ -32,7 +32,7 @@
         void Set(int index, bool value, Elasticity elasticity);
 
         /// <summary>
-        /// Shifts the current <see cref="OptimizedImmutableBitArray"/> left by the
+        /// Shifts the current <see cref="ImmutableBitArray"/> left by the
         /// <paramref name="count"/> number of bits. Optionally expands the
         /// bit array depending on the value of <paramref name="elasticity"/>.
         /// </summary>
@@ -43,7 +43,7 @@
         T ShiftLeft(int count = 1, Elasticity? elasticity = null);
 
         /// <summary>
-        /// Shifts the current <see cref="OptimizedImmutableBitArray"/> right by the
+        /// Shifts the current <see cref="ImmutableBitArray"/> right by the
         /// <paramref name="count"/> number of bits. Optionally contracts the
         /// bit array depending on the value of <paramref name="elasticity"/>.
         /// </summary>
