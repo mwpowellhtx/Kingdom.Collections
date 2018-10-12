@@ -5,8 +5,6 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using static BitConverter;
-
     /// <inheritdoc />
     /// <see cref="!:http://en.wikipedia.org/wiki/Idempotence"/>
     /// <see cref="!:http://en.wikipedia.org/wiki/Immutable_object"/>
@@ -24,13 +22,10 @@ namespace Kingdom.Collections
     {
         private readonly List<byte> _bytes;
 
-        private static IEnumerable<byte> FromInts(IEnumerable<uint> values)
-            => values.SelectMany(x => IsLittleEndian ? GetBytes(x) : GetBytes(x).Reverse());
-
         /// <inheritdoc />
         /// <see cref="FromInts"/>
         public ImmutableBitArray(params uint[] values)
-            : this(FromInts(values), values.Length * sizeof(uint) * BitCount)
+            : this(FromIntValues(values), values.Length * sizeof(uint) * BitCount)
         {
         }
 
@@ -51,7 +46,7 @@ namespace Kingdom.Collections
         /// <inheritdoc />
         /// <see cref="FromInts"/>
         public ImmutableBitArray(IEnumerable<uint> values, int? length = null)
-            : this(FromInts(values), length)
+            : this(FromIntValues(values), length)
         {
         }
 
