@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.props" Condition="Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.props')" />
   <Import Project="..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" />
   <Import Project="..\packages\xunit.core.2.3.1\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.3.1\build\xunit.core.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -16,6 +17,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,56 +65,44 @@
     <Compile Include="..\tools\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Attributes\BoolValuesValuesAttribute.cs" />
-    <Compile Include="Attributes\ByteValuesValuesAttribute.cs" />
     <Compile Include="Attributes\ElasticityValuesAttribute.cs" />
-    <Compile Include="Attributes\LengthValuesAttribute.cs" />
     <Compile Include="Attributes\RandomIntValuesAttribute.cs" />
     <Compile Include="Attributes\SerializedMaskValuesAttribute.cs" />
-    <Compile Include="Attributes\ShiftCountValuesAttribute.cs" />
-    <Compile Include="Attributes\SpecificIntValuesAttribute.cs" />
-    <Compile Include="Attributes\UInt32ValuesValuesAttribute.cs" />
-    <Compile Include="Attributes\ValuesValuesAttributeBase.cs" />
-    <Compile Include="Attributes\ValueValuesAttribute.cs" />
     <Compile Include="Calculators\PrimeNumberCollection.cs" />
     <Compile Include="Callbacks.cs" />
     <Compile Include="DatabaseSerializationTests.cs" />
     <Compile Include="Extensions\ExceptionExtensionMethods.cs" />
-    <Compile Include="Fixtures\BoolValuesFixture.cs" />
-    <Compile Include="Fixtures\ByteValuesFixture.cs" />
     <Compile Include="Fixtures\ConnectionOrientedFixture.cs" />
     <Compile Include="Fixtures\DatabaseFixture.cs" />
     <Compile Include="Fixtures\FixtureTableFixture.cs" />
     <Compile Include="Fixtures\IConnectionFactory.cs" />
     <Compile Include="Fixtures\ImmutableBitArrayFixture.cs" />
-    <Compile Include="Fixtures\UInt32ValuesFixture.cs" />
-    <Compile Include="Fixtures\ValuesFixtureBase.cs" />
+    <Compile Include="ImmutableBitArrayInterfaceTests.cs" />
     <Compile Include="ImmutableBitArrayTests.cs" />
-    <Compile Include="MiscOptimizedImmutableBitArrayTests.cs" />
-    <Compile Include="MiscOptimizedImmutableBitArrayTests.Data.cs">
-      <DependentUpon>MiscOptimizedImmutableBitArrayTests.cs</DependentUpon>
+    <Compile Include="MiscImmutableBitArrayTests.cs" />
+    <Compile Include="MiscImmutableBitArrayTests.Data.cs">
+      <DependentUpon>MiscImmutableBitArrayTests.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptimizedImmutableBitArrayCtorTests.cs" />
-    <Compile Include="OptimizedImmutableBitArrayCtorTests.Data.cs">
-      <DependentUpon>OptimizedImmutableBitArrayCtorTests.cs</DependentUpon>
+    <Compile Include="ImmutableBitArrayCtorTests.cs" />
+    <Compile Include="ImmutableBitArrayCtorTests.Data.cs">
+      <DependentUpon>ImmutableBitArrayCtorTests.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptimizedImmutableBitArrayCtorTests.Utils.cs">
-      <DependentUpon>OptimizedImmutableBitArrayCtorTests.cs</DependentUpon>
+    <Compile Include="ImmutableBitArrayCtorTests.Utils.cs">
+      <DependentUpon>ImmutableBitArrayCtorTests.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptimizedImmutableBitArrayGetSetSetAllTests.cs" />
-    <Compile Include="OptimizedImmutableBitArrayGetSetSetAllTests.Data.cs">
-      <DependentUpon>OptimizedImmutableBitArrayGetSetSetAllTests.cs</DependentUpon>
+    <Compile Include="ImmutableBitArrayGetSetSetAllTests.cs" />
+    <Compile Include="ImmutableBitArrayGetSetSetAllTests.Data.cs">
+      <DependentUpon>ImmutableBitArrayGetSetSetAllTests.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptimizedImmutableBitArrayShiftTests.cs" />
-    <Compile Include="OptimizedImmutableBitArrayShiftTests.Data.cs">
-      <DependentUpon>OptimizedImmutableBitArrayShiftTests.cs</DependentUpon>
+    <Compile Include="ImmutableBitArrayShiftTests.cs" />
+    <Compile Include="ImmutableBitArrayShiftTests.Data.cs">
+      <DependentUpon>ImmutableBitArrayShiftTests.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptimizedImmutableBitArrayTests.cs" />
-    <Compile Include="OptimizedImmutableBitArrayTests.Data.cs">
-      <DependentUpon>OptimizedImmutableBitArrayTests.cs</DependentUpon>
+    <Compile Include="ImmutableBitArrayTests.Data.cs">
+      <DependentUpon>ImmutableBitArrayTests.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptimizedImmutableBitArrayTests.Utils.cs">
-      <DependentUpon>OptimizedImmutableBitArrayTests.cs</DependentUpon>
+    <Compile Include="ImmutableBitArrayTests.Utils.cs">
+      <DependentUpon>ImmutableBitArrayTests.cs</DependentUpon>
     </Compile>
     <Compile Include="PrimeNumberCollectionTests.cs" />
     <Compile Include="PrimeNumberCollectionTests.Data.cs">
@@ -134,7 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj">
-      <Project>{8c02b9e0-fefe-40a0-963f-458b755899b7}</Project>
+      <Project>{8C02B9E0-FEFE-40A0-963F-458B755899B7}</Project>
       <Name>Kingdom.Collections.ImmutableBitArray</Name>
     </ProjectReference>
   </ItemGroup>
@@ -146,6 +136,18 @@
     <Error Condition="!Exists('..\packages\xunit.core.2.3.1\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.3.1\build\xunit.core.props'))" />
     <Error Condition="!Exists('..\packages\xunit.core.2.3.1\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.3.1\build\xunit.core.targets'))" />
     <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props'))" />
+    <Error Condition="!Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.props'))" />
+    <Error Condition="!Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets'))" />
   </Target>
   <Import Project="..\packages\xunit.core.2.3.1\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.3.1\build\xunit.core.targets')" />
+  <Import Project="..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets" Condition="Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')" />
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' And Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="AssemblyFileVersion" BuildProviderTemplate="Increment" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- TODO: TBD: it would be better to do this here, but does not seem to happen. So must be done at the CSPROJ level. -->
+    <BumpVersionSpec Update="@(BumpVersionSpec)" Visible="False" />
+    <FilesToBump Update="@(FilesToBump)" Visible="False" />
+  </ItemGroup>
 </Project>
