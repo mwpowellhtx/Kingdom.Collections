@@ -8,12 +8,12 @@ namespace Kingdom.Collections
     using Xunit.Abstractions;
     using static BitConverter;
     using static Math;
-    using static OptimizedImmutableBitArray;
+    using static ImmutableBitArray;
     using static String;
 
-    public partial class MiscOptimizedImmutableBitArrayTests : SubjectTestFixtureBase<OptimizedImmutableBitArray>
+    public partial class MiscImmutableBitArrayTests : SubjectTestFixtureBase<ImmutableBitArray>
     {
-        public MiscOptimizedImmutableBitArrayTests(ITestOutputHelper outputHelper)
+        public MiscImmutableBitArrayTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
         }
@@ -37,8 +37,8 @@ namespace Kingdom.Collections
         public void Verify_that_Clone_works_correctly([RandomIntValues] uint value)
         {
             GetSubject(() => CreateBitArray(value));
-            OptimizedImmutableBitArray clone;
-            Assert.NotNull(clone = Subject.Clone() as OptimizedImmutableBitArray);
+            ImmutableBitArray clone;
+            Assert.NotNull(clone = Subject.Clone() as ImmutableBitArray);
             Assert.NotSame(Subject, clone);
             Assert.Equal(Subject.ToBytes(), clone.ToBytes());
         }
@@ -81,7 +81,7 @@ namespace Kingdom.Collections
         /// <summary>
         /// Verifies that the Length and Count respond properly to <paramref name="bytes"/>
         /// Initialization as well as to changes in
-        /// <see cref="OptimizedImmutableBitArray.Length"/> via <paramref name="lengthDelta"/>.
+        /// <see cref="ImmutableBitArray.Length"/> via <paramref name="lengthDelta"/>.
         /// We are guaranteed here by virtual of unit test and test case data design that
         /// <paramref name="lengthDelta"/> should be non-zero and positive. For sake of
         /// argument, we will also expect the numbers to be Prime Numbers in nature,
@@ -89,7 +89,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="lengthDelta">Permits changes to
-        /// <see cref="OptimizedImmutableBitArray.Length"/> allowing it to either expand or
+        /// <see cref="ImmutableBitArray.Length"/> allowing it to either expand or
         /// contract accordingly, which may also yield <see cref="ArgumentOutOfRangeException"/>
         /// when excessive negative delta values are provided.</param>
         /// <remarks>We could ostensibly separate this into several more focused individual unit
@@ -143,7 +143,7 @@ namespace Kingdom.Collections
         }
 
         /// <summary>
-        /// Contain the use case where no <see cref="OptimizedImmutableBitArray.Length"/> change
+        /// Contain the use case where no <see cref="ImmutableBitArray.Length"/> change
         /// occurs. This is a fairly concise, standalone <see cref="FactAttribute"/>.
         /// </summary>
         [Fact]
@@ -160,7 +160,7 @@ namespace Kingdom.Collections
         }
 
         /// <summary>
-        /// Setting <see cref="OptimizedImmutableBitArray.Length"/> to a negative value is
+        /// Setting <see cref="ImmutableBitArray.Length"/> to a negative value is
         /// strictly prohibited and we expect <see cref="ArgumentOutOfRangeException"/> would be
         /// thrown.
         /// </summary>
@@ -225,10 +225,10 @@ namespace Kingdom.Collections
         }
 
         /// <summary>
-        /// Verifies that <see cref="OptimizedImmutableBitArray.CopyTo"/> throws
+        /// Verifies that <see cref="ImmutableBitArray.CopyTo"/> throws
         /// <see cref="ArgumentOutOfRangeException"/> when an invalid
         /// <paramref name="arrayIndex"/> is discovered. Unit tests assume a Zero
-        /// <see cref="OptimizedImmutableBitArray.Length"/> Bit Array.
+        /// <see cref="ImmutableBitArray.Length"/> Bit Array.
         /// </summary>
         /// <param name="arrayIndex"></param>
         [Theory, MemberData(nameof(InvalidCopyToArrayIndexData))]

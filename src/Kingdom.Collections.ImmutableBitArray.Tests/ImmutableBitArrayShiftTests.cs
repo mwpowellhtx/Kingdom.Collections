@@ -8,21 +8,21 @@ namespace Kingdom.Collections
     using Xunit.Abstractions;
     using static Elasticity;
 
-    public partial class OptimizedImmutableBitArrayShiftTests : SubjectTestFixtureBase<OptimizedImmutableBitArray>
+    public partial class ImmutableBitArrayShiftTests : SubjectTestFixtureBase<ImmutableBitArray>
     {
-        public OptimizedImmutableBitArrayShiftTests(ITestOutputHelper outputHelper)
+        public ImmutableBitArrayShiftTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
         }
 
-        private OptimizedImmutableBitArray MakeBitArray(IEnumerable<byte> bytes)
+        private ImmutableBitArray MakeBitArray(IEnumerable<byte> bytes)
         {
             Assert.NotNull(bytes);
             bytes = bytes.ToArray();
             return GetSubject(() => CreateBitArrayWithArray(bytes.ToArray()));
         }
 
-        private OptimizedImmutableBitArray MakeBitArray(params uint[] values)
+        private ImmutableBitArray MakeBitArray(params uint[] values)
             => GetSubject(() => CreateBitArray(values));
 
         [Theory, MemberData(nameof(InvalidStartIndexData))]

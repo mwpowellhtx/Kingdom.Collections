@@ -5,11 +5,11 @@ using System.Linq;
 namespace Kingdom.Collections
 {
     using static BitConverter;
-    using static OptimizedImmutableBitArray;
+    using static ImmutableBitArray;
     using static RandomIntValuesAttribute;
 
     // ReSharper disable once UnusedMember.Global
-    public partial class OptimizedImmutableBitArrayTests
+    public partial class ImmutableBitArrayTests
     {
         private class RollingShift
         {
@@ -131,7 +131,7 @@ namespace Kingdom.Collections
                 {
                     IEnumerable<object> GetOne(uint x, uint y
                         , CalculateBinaryOperationCallback<uint> expectedOp
-                        , CalculateBinaryOperationCallback<OptimizedImmutableBitArray> actualOp)
+                        , CalculateBinaryOperationCallback<ImmutableBitArray> actualOp)
                     {
                         yield return x;
                         yield return y;
@@ -162,7 +162,7 @@ namespace Kingdom.Collections
                 {
                     IEnumerable<object> GetOne(uint x, uint y
                         , CalculateBinaryOperationCallback<uint> expectedOp
-                        , CalculateBinaryOperationCallback<OptimizedImmutableBitArray> actualOp)
+                        , CalculateBinaryOperationCallback<ImmutableBitArray> actualOp)
                     {
                         yield return x;
                         yield return y;
@@ -193,7 +193,7 @@ namespace Kingdom.Collections
                 {
                     IEnumerable<object> GetOne(uint x, uint y
                         , CalculateBinaryOperationCallback<uint> expectedOp
-                        , CalculateBinaryOperationCallback<OptimizedImmutableBitArray> actualOp)
+                        , CalculateBinaryOperationCallback<ImmutableBitArray> actualOp)
                     {
                         yield return x;
                         yield return y;
@@ -224,7 +224,7 @@ namespace Kingdom.Collections
                 {
                     IEnumerable<object> GetOne(uint x
                         , CalculateUnaryOperationCallback<uint> expectedOp
-                        , CalculateUnaryOperationCallback<OptimizedImmutableBitArray> actualOp)
+                        , CalculateUnaryOperationCallback<ImmutableBitArray> actualOp)
                     {
                         yield return x;
                         yield return expectedOp;

@@ -6,9 +6,9 @@ namespace Kingdom.Collections
     using Xunit;
     using Xunit.Abstractions;
 
-    public partial class OptimizedImmutableBitArrayCtorTests : SubjectTestFixtureBase<OptimizedImmutableBitArray>
+    public partial class ImmutableBitArrayCtorTests : SubjectTestFixtureBase<ImmutableBitArray>
     {
-        public OptimizedImmutableBitArrayCtorTests(ITestOutputHelper outputHelper)
+        public ImmutableBitArrayCtorTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
         }

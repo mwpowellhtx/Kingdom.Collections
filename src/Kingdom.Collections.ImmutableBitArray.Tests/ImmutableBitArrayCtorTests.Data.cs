@@ -6,7 +6,7 @@ namespace Kingdom.Collections
     using Xunit;
     using static RandomIntValuesAttribute;
 
-    public partial class OptimizedImmutableBitArrayCtorTests
+    public partial class ImmutableBitArrayCtorTests
     {
         /// <summary>
         /// Returns a range of Sizes leveraged for each of the

@@ -5,10 +5,10 @@ namespace Kingdom.Collections
     using Xunit;
     using Xunit.Abstractions;
 
-    public partial class OptimizedImmutableBitArrayGetSetSetAllTests
-        : SubjectTestFixtureBase<OptimizedImmutableBitArray>
+    public partial class ImmutableBitArrayGetSetSetAllTests
+        : SubjectTestFixtureBase<ImmutableBitArray>
     {
-        public OptimizedImmutableBitArrayGetSetSetAllTests(ITestOutputHelper outputHelper)
+        public ImmutableBitArrayGetSetSetAllTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
         }
@@ -20,7 +20,7 @@ namespace Kingdom.Collections
         /// <param name="value"></param>
         /// <param name="index"></param>
         /// <param name="expected"></param>
-        /// <see cref="OptimizedImmutableBitArray.Get(int)"/>
+        /// <see cref="ImmutableBitArray.Get(int)"/>
         [Theory, MemberData(nameof(InelasticXetData))]
         public void Verify_that_Inelastic_Get_works_correctly(uint value, int index, bool expected)
         {
@@ -37,8 +37,8 @@ namespace Kingdom.Collections
         /// <param name="value"></param>
         /// <param name="index"></param>
         /// <param name="expected"></param>
-        /// <see cref="OptimizedImmutableBitArray.Get(int)"/>
-        /// <see cref="OptimizedImmutableBitArray.Set(int, bool)"/>
+        /// <see cref="ImmutableBitArray.Get(int)"/>
+        /// <see cref="ImmutableBitArray.Set(int, bool)"/>
         [Theory, MemberData(nameof(InelasticXetData))]
         public void Verify_that_Inelastic_Set_works_correctly(uint value, int index, bool expected)
         {

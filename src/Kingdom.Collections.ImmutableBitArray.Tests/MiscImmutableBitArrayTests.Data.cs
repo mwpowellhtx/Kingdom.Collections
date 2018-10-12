@@ -6,10 +6,10 @@ namespace Kingdom.Collections
 {
     using Calculators;
     using static DateTime;
-    using static OptimizedImmutableBitArray;
+    using static ImmutableBitArray;
 
     // ReSharper disable once UnusedMember.Global
-    public partial class MiscOptimizedImmutableBitArrayTests
+    public partial class MiscImmutableBitArrayTests
     {
         private static Random Rnd { get; } = new Random((int) (UtcNow.Ticks % int.MaxValue));
 

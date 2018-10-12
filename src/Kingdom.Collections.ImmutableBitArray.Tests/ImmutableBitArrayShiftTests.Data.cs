@@ -7,10 +7,10 @@ namespace Kingdom.Collections
     using Calculators;
     using Xunit;
     using static Math;
-    using static OptimizedImmutableBitArray;
+    using static ImmutableBitArray;
     using static Elasticity;
 
-    public partial class OptimizedImmutableBitArrayShiftTests
+    public partial class ImmutableBitArrayShiftTests
     {
         //private static IEnumerable<object[]> _boilerplateData;
 

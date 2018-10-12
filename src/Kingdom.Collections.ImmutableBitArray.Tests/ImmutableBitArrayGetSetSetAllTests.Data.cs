@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
-    using static OptimizedImmutableBitArray;
+    using static ImmutableBitArray;
 
-    public partial class OptimizedImmutableBitArrayGetSetSetAllTests
+    public partial class ImmutableBitArrayGetSetSetAllTests
     {
         private static IEnumerable<object[]> _inelasticXetData;
 

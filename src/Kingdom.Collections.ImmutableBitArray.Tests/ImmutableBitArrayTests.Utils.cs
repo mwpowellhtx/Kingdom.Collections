@@ -1,10 +1,10 @@
 ﻿namespace Kingdom.Collections
 {
     // ReSharper disable once UnusedMember.Global
-    public partial class OptimizedImmutableBitArrayTests
+    public partial class ImmutableBitArrayTests
     {
         // TODO: TBD: establish tests saying we can create the expected bit array using the ctors ...
 
-        private static OptimizedImmutableBitArray CreateBitArray(uint x) => new OptimizedImmutableBitArray(x);
+        private static ImmutableBitArray CreateBitArray(uint x) => new ImmutableBitArray(x);
     }
 }
