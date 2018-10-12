@@ -10,10 +10,10 @@
     <Description>The framework BitArray is helpful but it has a serious flaw in the fact that it is not immutable. This is the primary motivation for working on this package in order to achieve just such an ImmutableBitArray. Reflexive operations can modify an instance but otherwise bitwise operations should yield a wholely new instance.</Description>
     <PackageTags>immutable; idempotent; bit; bits; array; uint; byte; bytes; bool; IEnumerable; ICollection; IClonable; bitwise; and; or; xor; not; ones; complement; shift; elasticity; none; expansion; contraction; both; shrink; expand</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.8.4.14918</Version>
-    <AssemblyVersion>1.8.4.14918</AssemblyVersion>
-    <FileVersion>1.8.4.14918</FileVersion>
-    <PackageVersion>1.8.4.14918</PackageVersion>
+    <Version>1.8.4.14930</Version>
+    <AssemblyVersion>1.8.4.14930</AssemblyVersion>
+    <FileVersion>1.8.4.14930</FileVersion>
+    <PackageVersion>1.8.4.14930</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
