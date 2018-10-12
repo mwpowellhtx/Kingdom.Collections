@@ -17,6 +17,8 @@ namespace Kingdom.Collections
 
         protected T Subject { get; set; }
 
+        protected static Type SubjectType { get; } = typeof(T);
+
         protected virtual T GetSubject(Func<T> create)
         {
             Assert.NotNull(create);
