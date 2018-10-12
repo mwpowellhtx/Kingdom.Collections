@@ -14,14 +14,14 @@ namespace Kingdom.Collections
     /// Enumeration implementation.
     /// </summary>
     /// <typeparam name="TDerived"></typeparam>
-    /// <remarks>From 17.4.5.1 Static field initialization, If a static constructor exists in the class,
-    /// execution of the static field initializers occurs immediately prior to executing that static
-    /// constructor. Otherwise, (and this is the key), the static field initializers are executed at an
-    /// implementation-dependent time prior to the first use of a static field of that class. I am not
-    /// sure the documentation refers to initialization of static constructors with respect to other
-    /// static constructors, whereas this use case is a little bit different animal than even that.
-    /// It is best to be as declarative as possible so as not to confuse the issue behind mysterious
-    /// runtime issues.</remarks>
+    /// <remarks>From 17.4.5.1 Static field initialization, If a static constructor exists in the
+    /// class, execution of the static field initializers occurs immediately prior to executing
+    /// that static constructor. Otherwise, (and this is the key), the static field initializers
+    /// are executed at an implementation-dependent time prior to the first use of a static field
+    /// of that class. I am not sure the documentation refers to initialization of static
+    /// constructors with respect to other static constructors, whereas this use case is a little
+    /// bit different animal than even that. It is best to be as declarative as possible so as not
+    /// to confuse the issue behind mysterious runtime issues.</remarks>
     /// <see cref="!:http://www.ecma-international.org/publications/standards/Ecma-334.htm"/>
     /// <inheritdoc cref="Enumeration"/>
     public abstract partial class Enumeration<TDerived>
@@ -42,7 +42,7 @@ namespace Kingdom.Collections
         {
             get
             {
-                Func<string> getDisplayName = () =>
+                string GetDisplayName()
                 {
                     try
                     {
@@ -52,8 +52,9 @@ namespace Kingdom.Collections
                     {
                         return null;
                     }
-                };
-                var displayName = getDisplayName();
+                }
+
+                var displayName = GetDisplayName();
                 //var byteString = Bits.ToByteString(false).TrimRight(zero);
                 var byteString = Bits.ToByteString(false);
                 return string.IsNullOrEmpty(displayName)
@@ -144,7 +145,7 @@ namespace Kingdom.Collections
         /// <summary>
         /// Gets the enumerated Values from the <typeparamref name="TDerived"/> type.
         /// </summary>
-        public static IEnumerable<TDerived> Values => GetValues();
+        public static IEnumerable<TDerived> Values => _values ?? (_values = GetValues());
 
         /// <summary>
         /// Returns the enumerated Values.
@@ -153,29 +154,24 @@ namespace Kingdom.Collections
         /// <returns></returns>
         public static IEnumerable<TDerived> GetValues(bool ignoreNulls = true)
         {
-            // TODO: may want to scrub instances of calls to GetValues and replace with Values property.
-            // ReSharper disable once InvertIf
-            if (ReferenceEquals(null, _values))
+            // Keep the formatting and implementation this way for troubleshooting purposes.
+            var declaringTypes = GetDeclaringTypes(typeof(TDerived)).Reverse().ToArray();
+
+            // TODO: TBD: determine how to treat Null values... at the moment, it seems as though Null is being ignored...
+            foreach (var values in declaringTypes
+                .Select(t => t.GetFields(PublicStaticDeclaredOnly))
+                .Select(fis => fis.Select(info => info.GetValue(null)).ToArray()))
             {
-                // Keep the formatting and implementation this way for troubleshooting purposes.
-                var declaringTypes = GetDeclaringTypes(typeof(TDerived)).Reverse().ToArray();
-
-                // TODO: TBD: determine how to treat Null values... at the moment, it seems as though Null is being ignored...
-                foreach (var values in declaringTypes
-                    .Select(t => t.GetFields(PublicStaticDeclaredOnly))
-                    .Select(fis => fis.Select(info => info.GetValue(null)).ToArray()))
+                foreach (var value in values.Where(x => !ignoreNulls || x != null))
                 {
-                    foreach (var value in values.Where(x => !ignoreNulls || !ReferenceEquals(x, null)))
-                    {
-                        yield return (TDerived) value;
-                    }
-
-                    //// TODO: TBD: this may work, but I'm not sure, if memory serves, there was a problem with this approach?
-                    //foreach (var value in values.OfType<TDerived>())
-                    //{
-                    //    yield return value;
-                    //}
+                    yield return (TDerived) value;
                 }
+
+                //// TODO: TBD: this may work, but I'm not sure, if memory serves, there was a problem with this approach?
+                //foreach (var value in values.OfType<TDerived>())
+                //{
+                //    yield return value;
+                //}
             }
         }
 
@@ -183,13 +179,8 @@ namespace Kingdom.Collections
         /// Gets the NestedClassTypes.
         /// </summary>
         private static IEnumerable<Type> NestedStaticClassTypes
-        {
-            get
-            {
-                return typeof(TDerived).GetNestedTypes(PublicStaticDeclaredOnly)
-                    .Where(type => type.IsClass && type.IsStatic()).ToArray();
-            }
-        }
+            => typeof(TDerived).GetNestedTypes(PublicStaticDeclaredOnly)
+                .Where(type => type.IsClass && type.IsStatic()).ToArray();
 
         /// <summary>
         /// Returns the comparison between <paramref name="a"/> and <paramref name="b"/>.
@@ -199,14 +190,13 @@ namespace Kingdom.Collections
         /// <returns></returns>
         protected static int CompareTo(TDerived a, TDerived b)
         {
-            if (!ReferenceEquals(null, a)
-                && ReferenceEquals(null, b))
+            if (a != null && b == null)
             {
                 return 1;
             }
 
             return a?.Bits.CompareTo(b.Bits)
-                   ?? (ReferenceEquals(b, null) ? 0 : -1);
+                   ?? (b == null ? 0 : -1);
         }
 
         /// <summary>
@@ -215,10 +205,7 @@ namespace Kingdom.Collections
         /// <param name="other"></param>
         /// <returns></returns>
         /// <inheritdoc />
-        public virtual int CompareTo(TDerived other)
-        {
-            return CompareTo(this as TDerived, other);
-        }
+        public virtual int CompareTo(TDerived other) => CompareTo(this as TDerived, other);
 
         /// <summary>
         /// Returns whether <paramref name="a"/> Equals <paramref name="b"/>.
@@ -227,11 +214,9 @@ namespace Kingdom.Collections
         /// <param name="b"></param>
         /// <returns></returns>
         public static bool Equals(TDerived a, TDerived b)
-        {
-            return !(a == null || b == null)
-                   && (ReferenceEquals(a, b)
-                       || a.Bits.Equals(b.Bits));
-        }
+            => !(a == null || b == null)
+               && (ReferenceEquals(a, b)
+                   || a.Bits.Equals(b.Bits));
 
         /// <summary>
         /// Returns whether this instance Equals the <paramref name="other"/> one.
@@ -239,50 +224,35 @@ namespace Kingdom.Collections
         /// <param name="other"></param>
         /// <returns></returns>
         /// <inheritdoc />
-        public virtual bool Equals(TDerived other)
-        {
-            return Equals(this as TDerived, other);
-        }
+        public virtual bool Equals(TDerived other) => Equals(this as TDerived, other);
 
         /// <summary>
         /// Returns whether this object is GreaterThan an <paramref name="other"/> one.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        protected bool GreaterThan(TDerived other)
-        {
-            return CompareTo((TDerived) this, other) > 0;
-        }
+        protected bool GreaterThan(TDerived other) => CompareTo((TDerived) this, other) > 0;
 
         /// <summary>
         /// Returns whether this object is LessThan an <paramref name="other"/> one.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        protected bool LessThan(TDerived other)
-        {
-            return CompareTo((TDerived) this, other) < 0;
-        }
+        protected bool LessThan(TDerived other) => CompareTo((TDerived) this, other) < 0;
 
         /// <summary>
         /// Returns whether this object is GreaterThanOrEqual an <paramref name="other"/> one.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        protected bool GreaterThanOrEqual(TDerived other)
-        {
-            return CompareTo((TDerived) this, other) >= 0;
-        }
+        protected bool GreaterThanOrEqual(TDerived other) => CompareTo((TDerived) this, other) >= 0;
 
         /// <summary>
         /// Returns whether this object is LessThanOrEqual an <paramref name="other"/> one.
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        protected bool LessThanOrEqual(TDerived other)
-        {
-            return CompareTo((TDerived) this, other) <= 0;
-        }
+        protected bool LessThanOrEqual(TDerived other) => CompareTo((TDerived) this, other) <= 0;
 
         /// <summary>
         /// Returns the string representation of the object.
@@ -302,11 +272,9 @@ namespace Kingdom.Collections
         /// <see cref="FromBitArray"/>
         public static TDerived FromBytes(byte[] bytes)
         {
-            Func<string> message = () => $"bytes values are required for an {typeof(TDerived)}";
-
             if (bytes == null)
             {
-                throw new ArgumentNullException(nameof(bytes), message());
+                throw new ArgumentNullException(nameof(bytes), $"bytes values are required for an {typeof(TDerived)}");
             }
 
             if (bytes.Length > 0)
@@ -315,7 +283,7 @@ namespace Kingdom.Collections
                 return FromBitArray(ImmutableBitArray.FromBytes(bytes, false));
             }
 
-            throw new ArgumentException(message(), nameof(bytes));
+            throw new ArgumentException($"bytes values are required for an {typeof(TDerived)}", nameof(bytes));
         }
 
         /// <summary>
@@ -327,13 +295,8 @@ namespace Kingdom.Collections
         /// Gets the BitsLookup.
         /// </summary>
         private static IDictionary<TDerived, TDerived> BitsLookup
-        {
-            get
-            {
-                return _bitsLookup
-                       ?? (_bitsLookup = GetValues().ToDictionary(x => x, x => x));
-            }
-        }
+            => _bitsLookup
+               ?? (_bitsLookup = Values.ToDictionary(x => x, x => x));
 
         /// <summary>
         /// Returns the <typeparamref name="TDerived"/> derived instance corresponding to the
@@ -349,7 +312,7 @@ namespace Kingdom.Collections
 
             //TODO: dictionary would be preferred, but for some reason it's not "catching" on the correct values...
             // We either want the enumerated value itself or the factory created version.
-            var result = GetValues().FirstOrDefault(x => x.Equals(@default));
+            var result = Values.FirstOrDefault(x => x.Equals(@default));
 
             return result ?? @default;
         }
@@ -380,13 +343,8 @@ namespace Kingdom.Collections
         /// Gets the NamedLookup.
         /// </summary>
         protected static IDictionary<string, TDerived> NamedLookup
-        {
-            get
-            {
-                return _namedLookup
-                       ?? (_namedLookup = GetValues().ToDictionary(x => x.Name, x => x));
-            }
-        }
+            => _namedLookup
+               ?? (_namedLookup = Values.ToDictionary(x => x.Name, x => x));
 
         /// <summary>
         /// Returns the <see cref="Enumerable.FirstOrDefault{T}(IEnumerable{T})"/> value
@@ -394,11 +352,8 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static TDerived FromName(string name)
-        {
-            TDerived result;
-            return NamedLookup.TryGetValue(name, out result) ? result : null;
-        }
+        public static TDerived FromName(string name) 
+            => NamedLookup.TryGetValue(name, out var result) ? result : null;
 
         /// <summary>
         /// DisplayNamedLookup backing field.
@@ -410,7 +365,7 @@ namespace Kingdom.Collections
         /// </summary>
         private static IDictionary<string, TDerived> DisplayNamedLookup
             => _displayNamedLookup
-               ?? (_displayNamedLookup = GetValues().ToDictionary(x => x.DisplayName, x => x));
+               ?? (_displayNamedLookup = Values.ToDictionary(x => x.DisplayName, x => x));
 
         /// <summary>
         /// Returns the <see cref="Enumerable.FirstOrDefault{T}(IEnumerable{T})"/> value
@@ -419,9 +374,6 @@ namespace Kingdom.Collections
         /// <param name="displayName"></param>
         /// <returns></returns>
         public static TDerived FromDisplayName(string displayName)
-        {
-            TDerived result;
-            return DisplayNamedLookup.TryGetValue(displayName, out result) ? result : null;
-        }
+            => DisplayNamedLookup.TryGetValue(displayName, out var result) ? result : null;
     }
 }
