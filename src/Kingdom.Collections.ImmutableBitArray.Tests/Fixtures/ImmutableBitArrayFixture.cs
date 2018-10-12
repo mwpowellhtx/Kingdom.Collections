@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Kingdom.Collections
 {
     using Xunit;
 
     /// <summary>
-    /// Helps by exposing <see cref="ImmutableBitArray._values"/> into the unit tests
+    /// Helps by exposing <see cref="ImmutableBitArray._bytes"/> into the unit tests
     /// for verification.
     /// </summary>
     /// <inheritdoc cref="ImmutableBitArray"/>
     public class ImmutableBitArrayFixture : ImmutableBitArray
     {
-        internal List<bool> Values => _values;
+        internal List<bool> Values => this.ToList();
 
-       public ImmutableBitArrayFixture(ImmutableBitArray other)
-            : base(other)
-        {
-        }
+        internal ImmutableBitArrayFixture(IImmutableBitArray other)
+            : base(other.ToBytes(), other.Length)
+       {
+       }
 
-        public ImmutableBitArrayFixture(IEnumerable<bool> values)
+        internal ImmutableBitArrayFixture(IEnumerable<bool> values)
             : base(values)
         {
         }
@@ -27,9 +28,10 @@ namespace Kingdom.Collections
         /// Construct the fixture with <paramref name="bytes"/> in LSB.
         /// </summary>
         /// <param name="bytes"></param>
+        /// <param name="length"></param>
         /// <inheritdoc />
-        public ImmutableBitArrayFixture(IEnumerable<byte> bytes)
-            : base(bytes)
+        internal ImmutableBitArrayFixture(IEnumerable<byte> bytes, int? length = null)
+            : base(bytes, length)
         {
         }
 
@@ -37,23 +39,26 @@ namespace Kingdom.Collections
         /// Construct the fixture with <paramref name="values"/> in LSB.
         /// </summary>
         /// <param name="values"></param>
+        /// <param name="length"></param>
         /// <inheritdoc />
-        public ImmutableBitArrayFixture(IEnumerable<uint> values)
-            : base(values)
+        internal ImmutableBitArrayFixture(IEnumerable<uint> values, int? length = null)
+            : base(values.ToArray(), length)
         {
         }
 
-        public ImmutableBitArrayFixture(int length)
-            : base(length)
+        internal ImmutableBitArrayFixture(int length)
+            : base(GetRange<byte>())
         {
+            Length = length;
         }
 
-        public ImmutableBitArrayFixture(int length, bool defaultValue)
-            : base(length, defaultValue)
+        internal ImmutableBitArrayFixture(int length, bool defaultValue)
+            : this(length)
         {
+            SetAll(defaultValue);
         }
 
-        public static ImmutableBitArrayFixture FromBytes(params byte[] bytes)
+        internal static ImmutableBitArrayFixture FromBytes(params byte[] bytes)
         {
             return new ImmutableBitArrayFixture(bytes);
         }
