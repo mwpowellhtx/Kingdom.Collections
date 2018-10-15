@@ -188,7 +188,18 @@ namespace Kingdom.Collections
 
                 var semanticModel = compilation.GetSemanticModel(compilation.SyntaxTrees.First());
 
-                var context = new TransformationContext(classDecl, semanticModel, compilation, ProjectDirectory);
+                // Ad-hoc helper function...
+                IEnumerable<T> GetRange<T>(params T[] items)
+                {
+                    foreach (var item in items)
+                    {
+                        yield return item;
+                    }
+                }
+
+                // TODO: TBD: would it be at all appropriate to inject some Using Directives here?
+                var context = new TransformationContext(classDecl, semanticModel, compilation, ProjectDirectory
+                    , GetRange<UsingDirectiveSyntax>(), GetRange<ExternAliasDirectiveSyntax>());
 
                 var members = generator.GenerateAsync(context, new DiagnosticProgress(), CancellationToken.None).Result;
 
