@@ -1,9 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <Deterministic>true</Deterministic>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <!-- TODO: TBD: for now, born out of efforts in Collections; however, this could very easily live in a repo all its own... -->
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -14,27 +12,37 @@
     <Description>Provides a handful of helpful extension methods for use during verification of Microsoft Roslyn Code Analysis, Code Generation, and so on. The package is intentionally left bereft of specific unit test framework dependencies.</Description>
     <PackageTags>dotnet; code; analysis; verify; verification; extension; extensions; method; methods; is; has; all; any; zip; base; member; members; param; params; parameter; parameters; exact; syntax; token; tokens; CSharp; predicate; predicates; list; declaration; Roslyn</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0.7</Version>
-    <AssemblyVersion>1.0.0.7</AssemblyVersion>
-    <FileVersion>1.0.0.7</FileVersion>
+    <Version>1.0.0.26572</Version>
+    <AssemblyVersion>1.0.0.26572</AssemblyVersion>
+    <FileVersion>1.0.0.26572</FileVersion>
+    <PackageVersion>1.0.0.26572</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpLabel>dev</BumpLabel>
-    <BumpLabelDigits>3</BumpLabelDigits>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpResetLabel>dev</BumpResetLabel>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.8.2" />
-    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
+    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <!-- ReSharper disable once UnknownProperty defined in Build properties -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="$(MicrosoftCodeAnalysisCSharpVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
   </ItemGroup>
 
 </Project>
