@@ -18,8 +18,8 @@
 
   <PropertyGroup>
     <!-- We define this ubiquitously in order to keep the version numbers properly aligned throughout. -->
-    <CodeGenerationRoslynPackagesVersion>0.4.49</CodeGenerationRoslynPackagesVersion>
-    <MicrosoftCodeAnalysisCSharpVersion>2.2</MicrosoftCodeAnalysisCSharpVersion>
+    <CodeGenerationRoslynPackagesVersion>0.4.88</CodeGenerationRoslynPackagesVersion>
+    <MicrosoftCodeAnalysisCSharpVersion>2.9.0</MicrosoftCodeAnalysisCSharpVersion>
   </PropertyGroup>
 
 </Project>
