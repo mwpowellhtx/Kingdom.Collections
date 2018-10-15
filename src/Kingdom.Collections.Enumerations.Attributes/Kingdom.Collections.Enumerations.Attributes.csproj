@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -12,28 +12,37 @@
     <Description>Provides the [FlagsEnumeration] attribute for use when signaling when bitwise operators and so forth are to be auto generated at build time.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; attribute; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.1.5</Version>
-    <AssemblyVersion>1.0.1.5</AssemblyVersion>
-    <FileVersion>1.0.1.5</FileVersion>
+    <Version>1.0.1.18142</Version>
+    <AssemblyVersion>1.0.1.18142</AssemblyVersion>
+    <FileVersion>1.0.1.18142</FileVersion>
+    <PackageVersion>1.0.1.18142</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard1.6\Kingdom.Collections.Enumerations.Attributes.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpLabel>dev</BumpLabel>
-    <BumpLabelDigits>3</BumpLabelDigits>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.6\Kingdom.Collections.Enumerations.Attributes.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpResetLabel>dev</BumpResetLabel>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.Collections.Enumerations.Attributes.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
     <PackageReference Include="CodeGeneration.Roslyn.Attributes" Version="$(CodeGenerationRoslynPackagesVersion)" />
-    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
   </ItemGroup>
 
 </Project>

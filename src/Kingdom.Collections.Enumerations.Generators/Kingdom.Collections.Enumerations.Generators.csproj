@@ -1,12 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <DevelopmentDependency>true</DevelopmentDependency>
-    <Deterministic>false</Deterministic>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -14,23 +13,14 @@
     <Description>Provides the build time generators that respond to the [FlagsEnumeration] partial class attribute.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; generator; generators; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.1.0.7</Version>
-    <AssemblyVersion>1.1.0.7</AssemblyVersion>
-    <FileVersion>1.1.0.7</FileVersion>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <Version>1.1.0.18698</Version>
+    <AssemblyVersion>1.1.0.18698</AssemblyVersion>
+    <FileVersion>1.1.0.18698</FileVersion>
+    <PackageVersion>1.1.0.18698</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard1.6\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpLabel>dev</BumpLabel>
-    <BumpLabelDigits>3</BumpLabelDigits>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.6\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpResetLabel>dev</BumpResetLabel>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,11 +28,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
+    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="CodeGeneration.Roslyn" Version="$(CodeGenerationRoslynPackagesVersion)" PrivateAssets="all" />
-    <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
+    <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="$(MicrosoftCodeAnalysisCSharpVersion)" />
-    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
   </ItemGroup>
 
 </Project>
