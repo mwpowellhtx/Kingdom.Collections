@@ -26,5 +26,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 /* Would have been a major 2.0 notwithstanding XUnit/Combinatorial snafus, on many fronts */
-[assembly: AssemblyVersion("1.5.1.20")]
-[assembly: AssemblyFileVersion("1.5.1.20")]
+[assembly: AssemblyVersion("1.5.1.21")]
+[assembly: AssemblyFileVersion("1.5.1.21")]
