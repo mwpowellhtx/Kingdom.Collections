@@ -31,7 +31,7 @@ namespace Kingdom.Collections
             var a = MakeBitArray(bytes);
             // This one requires a Positive Non-Zero Count for the Exception to occur.
             Assert.Throws<ArgumentOutOfRangeException>(() => a.ShiftLeft(startIndex, 1))
-                // ReSharper disable once ImplicitlyCapturedClosure
+                // ReSharper disable once IdentifierTypo, ImplicitlyCapturedClosure
                 .WithExceptionDetail(aoorex =>
                 {
                     Assert.Equal(startIndex, aoorex.ActualValue);
@@ -45,7 +45,7 @@ namespace Kingdom.Collections
             var a = MakeBitArray(bytes);
             // This one requires a Positive Non-Zero Count for the Exception to occur.
             Assert.Throws<ArgumentOutOfRangeException>(() => a.ShiftRight(startIndex, 1))
-                // ReSharper disable once ImplicitlyCapturedClosure
+                // ReSharper disable once IdentifierTypo, ImplicitlyCapturedClosure
                 .WithExceptionDetail(aoorex =>
                 {
                     Assert.Equal(nameof(startIndex), aoorex.ParamName);
@@ -58,7 +58,7 @@ namespace Kingdom.Collections
         {
             var a = MakeBitArray(bytes);
             Assert.Throws<ArgumentOutOfRangeException>(() => a.ShiftLeft(startIndex, count))
-                // ReSharper disable once ImplicitlyCapturedClosure
+                // ReSharper disable once IdentifierTypo, ImplicitlyCapturedClosure
                 .WithExceptionDetail(aoorex =>
                 {
                     Assert.Equal(count, aoorex.ActualValue);
@@ -71,7 +71,7 @@ namespace Kingdom.Collections
         {
             var a = MakeBitArray(bytes);
             Assert.Throws<ArgumentOutOfRangeException>(() => a.ShiftRight(startIndex, count))
-                // ReSharper disable once ImplicitlyCapturedClosure
+                // ReSharper disable once IdentifierTypo, ImplicitlyCapturedClosure
                 .WithExceptionDetail(aoorex =>
                 {
                     Assert.Equal(count, aoorex.ActualValue);
@@ -103,6 +103,7 @@ namespace Kingdom.Collections
             Assert.NotSame(a, b);
             Assert.Equal(expectedLength, b.Length);
 
+            // ReSharper disable once ImplicitlyCapturedClosure
             When(() => elasticity.Contains(Expansion), () =>
             {
                 // We should be able to glean this.
@@ -115,9 +116,10 @@ namespace Kingdom.Collections
                 Assert.Equal(a.Skip(startIndex), b.Skip(startIndex + count));
             });
 
-            // When there is no Expansion, then we can reliably look further this direction.
+            // ReSharper disable once ImplicitlyCapturedClosure
             When(() => !elasticity.Contains(Expansion), () =>
             {
+                // When there is no Expansion, then we can reliably look further this direction.
                 var expected = CreateBitArrayWithArray(expectedBytes.ToArray());
                 Assert.Equal(expected.ToBytes(false), b.ToBytes(false));
             });

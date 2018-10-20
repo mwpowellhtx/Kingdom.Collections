@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Xunit;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -26,5 +27,9 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 /* Would have been a major 2.0 notwithstanding XUnit/Combinatorial snafus, on many fronts */
-[assembly: AssemblyVersion("1.5.1.21")]
-[assembly: AssemblyFileVersion("1.5.1.21")]
+[assembly: AssemblyVersion("1.5.1.38")]
+[assembly: AssemblyFileVersion("1.5.1.38")]
+
+// Going on a hunch. I do not know why parallelism should be an issue at the moment,
+// but let's get a handle on that and see whether things do not improve at all.
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
