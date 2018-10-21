@@ -84,7 +84,7 @@ goto :parse_args
 :verify_args
 
 :verify_config
-if ("%config%" == "") (
+if not defined config (
     rem Assumes Release Configuration when not otherwise specified.
     set config=Release
 )
