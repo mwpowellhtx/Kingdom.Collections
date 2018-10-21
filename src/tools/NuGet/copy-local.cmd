@@ -41,19 +41,19 @@ if "%1" == "" (
 
 :set_config
 if "%1" == "--config" (
+    set config=%2
     shift
-    set config=%1
     goto :next_args
 )
 
 :add_project
-if "%1" == "--proj" (
-    shift
+if "%1" == "--project" (
     if not defined projects (
         set projects=%2
     ) else (
         set projects=%projects%%delim%%2
     )
+    shift
     goto :next_args
 )
 
