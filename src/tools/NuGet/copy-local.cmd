@@ -19,19 +19,33 @@ if not defined delim (
 
 :set_projects
 set projects=
-set availableprojects=Kingdom.CodeAnalysis.Verification
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Enumerations.Attributes
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Enumerations.Analyzers
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Enumerations.Generators
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Enumerations.BuildTime
-set availableprojects=%availableprojects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
-set availableprojects=%availableprojects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.ImmutableBitArray
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Enumerations
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Enumerations.Tests
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Stacks
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Queues
-set availableprojects=%availableprojects%%delim%Kingdom.Collections.Deques
+rem Setup All Projects
+set all_projects=Kingdom.Collections.ImmutableBitArray
+set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Attributes
+set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Analyzers
+set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Generators
+set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.BuildTime
+set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verification
+set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
+set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
+set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations
+set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Tests
+set all_projects=%all_projects%%delim%Kingdom.Collections.Stacks
+set all_projects=%all_projects%%delim%Kingdom.Collections.Queues
+set all_projects=%all_projects%%delim%Kingdom.Collections.Deques
+rem Setup Enumerations Projects
+set enum_projects=Kingdom.Collections.ImmutableBitArray
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Attributes
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Analyzers
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Generators
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.BuildTime
+set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verification
+set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
+set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Tests
+rem Setup Bit Array
+set bit_array_projects=Kingdom.Collections.ImmutableBitArray
 
 :parse_args
 
@@ -57,10 +71,45 @@ if "%1" == "--project" (
     goto :next_args
 )
 
-:all_projects
+:add_all_projects
 if "%1" == "--all" (
-    rem Leverage the same :appendprojects that we used receiving individually specified projects.
-    set projects=%availableprojects%
+    set projects=%all_projects%
+	goto :next_args
+)
+
+:add_enum_projects
+if "%1" == "--enums" (
+    if not defined projects (
+        set projects=%enum_projects%
+    ) else (
+        set projects=%projects%%delim%%enum_projects%
+    )
+	goto :next_args
+)
+if "%1" == "--enumerations" (
+    if not defined projects (
+        set projects=%enum_projects%
+    ) else (
+        set projects=%projects%%delim%%enum_projects%
+    )
+	goto :next_args
+)
+
+:add_bit_array_projects
+if "%1" == "--bits" (
+    if not defined projects (
+        set projects=%bit_array_projects%
+    ) else (
+        set projects=%projects%%delim%%bit_array_projects%
+    )
+	goto :next_args
+)
+if "%1" == "--bit-array" (
+    if not defined projects (
+        set projects=%bit_array_projects%
+    ) else (
+        set projects=%projects%%delim%%bit_array_projects%
+    )
 	goto :next_args
 )
 

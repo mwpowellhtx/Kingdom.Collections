@@ -22,23 +22,37 @@ if "%delim%" == "." (
 
 rem Go ahead and pre-seed the Projects up front.
 :set_all_projects
-set all_projects=
-rem 1)
-set all_projects=Kingdom.Collections.Enumerations.Attributes
+set projects=
+rem All Projects
+set all_projects=Kingdom.Collections.ImmutableBitArray
+set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Attributes
 set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Analyzers
 set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Generators
 set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.BuildTime
-rem 2)
+set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verification
 set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
 set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
-rem 3)
-set all_projects=%all_projects%%delim%Kingdom.Collections.ImmutableBitArray
 set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations
 set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Tests
-rem 4)
 set all_projects=%all_projects%%delim%Kingdom.Collections.Stacks
 set all_projects=%all_projects%%delim%Kingdom.Collections.Queues
 set all_projects=%all_projects%%delim%Kingdom.Collections.Deques
+rem Enumerations Projects
+set enum_projects=Kingdom.Collections.ImmutableBitArray
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Attributes
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Analyzers
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Generators
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.BuildTime
+set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verification
+set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
+set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Tests
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Stacks
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Queues
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Deques
+rem Bit Array Projects
+set bit_array_projects=Kingdom.Collections.ImmutableBitArray
 
 :parse_args
 
@@ -66,10 +80,54 @@ if "%1" == "--project" (
     goto :next_arg
 )
 
-rem Prepare to publish All Projects.
-:all_projects
+:add_all_projects
 if "%1" == "--all" (
+    rem Prepare to publish All Projects.
     set projects=%all_projects%
+    goto :next_arg
+)
+
+:add_enum_projects
+if "%1" == "--enums" (
+    rem Prepare to publish Enumerations Projects.
+    if not defined projects (
+        set projects=%enum_projects%
+    )
+    else (
+        set projects=%projects%%delim%%enum_projects%
+    )
+    goto :next_arg
+)
+if "%1" == "--enumerations" (
+    rem Prepare to publish Enumerations Projects.
+    if not defined projects (
+        set projects=%enum_projects%
+    )
+    else (
+        set projects=%projects%%delim%%enum_projects%
+    )
+    goto :next_arg
+)
+
+:add_bit_array_projects
+if "%1" == "--bit" (
+    rem Prepare to publish Bit Array Projects.
+    if not defined projects (
+        set projects=%bit_array_projects%
+    )
+    else (
+        set projects=%projects%%delim%%bit_array_projects%
+    )
+    goto :next_arg
+)
+if "%1" == "--bit-array" (
+    rem Prepare to publish Bit Array Projects.
+    if not defined projects (
+        set projects=%bit_array_projects%
+    )
+    else (
+        set projects=%projects%%delim%%bit_array_projects%
+    )
     goto :next_arg
 )
 
