@@ -1,4 +1,4 @@
-﻿
+
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -12,10 +12,10 @@
     <Description>Provides the [FlagsEnumeration] attribute for use when signaling when bitwise operators and so forth are to be auto generated at build time.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; attribute; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.1.18142</Version>
-    <AssemblyVersion>1.0.1.18142</AssemblyVersion>
-    <FileVersion>1.0.1.18142</FileVersion>
-    <PackageVersion>1.0.1.18142</PackageVersion>
+    <Version>1.0.1.18145</Version>
+    <AssemblyVersion>1.0.1.18145</AssemblyVersion>
+    <FileVersion>1.0.1.18145</FileVersion>
+    <PackageVersion>1.0.1.18145</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">

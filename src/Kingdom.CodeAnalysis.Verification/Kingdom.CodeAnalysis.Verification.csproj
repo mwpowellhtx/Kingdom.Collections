@@ -12,10 +12,10 @@
     <Description>Provides a handful of helpful extension methods for use during verification of Microsoft Roslyn Code Analysis, Code Generation, and so on. The package is intentionally left bereft of specific unit test framework dependencies.</Description>
     <PackageTags>dotnet; code; analysis; verify; verification; extension; extensions; method; methods; is; has; all; any; zip; base; member; members; param; params; parameter; parameters; exact; syntax; token; tokens; CSharp; predicate; predicates; list; declaration; Roslyn</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0.26572</Version>
-    <AssemblyVersion>1.0.0.26572</AssemblyVersion>
-    <FileVersion>1.0.0.26572</FileVersion>
-    <PackageVersion>1.0.0.26572</PackageVersion>
+    <Version>1.0.0.26575</Version>
+    <AssemblyVersion>1.0.0.26575</AssemblyVersion>
+    <FileVersion>1.0.0.26575</FileVersion>
+    <PackageVersion>1.0.0.26575</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">

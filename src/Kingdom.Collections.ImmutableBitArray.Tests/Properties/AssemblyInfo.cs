@@ -27,8 +27,8 @@ using Xunit;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 /* Would have been a major 2.0 notwithstanding XUnit/Combinatorial snafus, on many fronts */
-[assembly: AssemblyVersion("1.5.1.38")]
-[assembly: AssemblyFileVersion("1.5.1.38")]
+[assembly: AssemblyVersion("1.5.1.39")]
+[assembly: AssemblyFileVersion("1.5.1.39")]
 
 // Going on a hunch. I do not know why parallelism should be an issue at the moment,
 // but let's get a handle on that and see whether things do not improve at all.

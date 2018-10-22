@@ -14,10 +14,10 @@
     <Description>Provides a re-factoring and re-imagining of the Diagnostic elements deployed in the Analyzer and Code Fixes project template. This particular assembly focuses primarily on the Diagnostic Analyzers with built-in Roslyn compilation support.</Description>
     <PackageTags>dotnet; code; analysis; csharp; diagnostics; helpers; event; arguments; handlers; verify; verifier; verifiers; verifying; provider; requested; required; analyzer; language; results; compilation; received; Roslyn</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.0.18257</Version>
-    <AssemblyVersion>1.0.0.18257</AssemblyVersion>
-    <FileVersion>1.0.0.18257</FileVersion>
-    <PackageVersion>1.0.0.18257</PackageVersion>
+    <Version>1.0.0.18260</Version>
+    <AssemblyVersion>1.0.0.18260</AssemblyVersion>
+    <FileVersion>1.0.0.18260</FileVersion>
+    <PackageVersion>1.0.0.18260</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">

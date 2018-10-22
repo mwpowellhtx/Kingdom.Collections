@@ -13,10 +13,10 @@
     <Description>Provides the build time generators that respond to the [FlagsEnumeration] partial class attribute.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; generator; generators; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.1.0.18700</Version>
-    <AssemblyVersion>1.1.0.18700</AssemblyVersion>
-    <FileVersion>1.1.0.18700</FileVersion>
-    <PackageVersion>1.1.0.18700</PackageVersion>
+    <Version>1.1.0.18703</Version>
+    <AssemblyVersion>1.1.0.18703</AssemblyVersion>
+    <FileVersion>1.1.0.18703</FileVersion>
+    <PackageVersion>1.1.0.18703</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">

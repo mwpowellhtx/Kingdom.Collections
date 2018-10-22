@@ -1,4 +1,4 @@
-﻿
+
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -12,10 +12,10 @@
     <Description>Provides the analyzers necessary to ensure that Enumeration derivations with [FlagsEnumeration] decoration are declared partial.</Description>
     <PackageTags>Roslyn; analyzer; code; fix; fixes; Enumerations; Enumeration; enumerated; enum; flags; attribute values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Boolean; bool; ICollection; ICloneable</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.1.18440</Version>
-    <AssemblyVersion>1.0.1.18440</AssemblyVersion>
-    <FileVersion>1.0.1.18440</FileVersion>
-    <PackageVersion>1.0.1.18440</PackageVersion>
+    <Version>1.0.1.18443</Version>
+    <AssemblyVersion>1.0.1.18443</AssemblyVersion>
+    <FileVersion>1.0.1.18443</FileVersion>
+    <PackageVersion>1.0.1.18443</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
