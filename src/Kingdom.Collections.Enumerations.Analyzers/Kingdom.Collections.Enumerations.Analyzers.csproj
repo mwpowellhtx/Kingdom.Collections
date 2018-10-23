@@ -1,4 +1,3 @@
-
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -12,14 +11,14 @@
     <Description>Provides the analyzers necessary to ensure that Enumeration derivations with [FlagsEnumeration] decoration are declared partial.</Description>
     <PackageTags>Roslyn; analyzer; code; fix; fixes; Enumerations; Enumeration; enumerated; enum; flags; attribute values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Boolean; bool; ICollection; ICloneable</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.1.18443</Version>
-    <AssemblyVersion>1.0.1.18443</AssemblyVersion>
-    <FileVersion>1.0.1.18443</FileVersion>
-    <PackageVersion>1.0.1.18443</PackageVersion>
+    <Version>1.0.1.18450</Version>
+    <AssemblyVersion>1.0.1.18450</AssemblyVersion>
+    <FileVersion>1.0.1.18450</FileVersion>
+    <PackageVersion>1.0.1.18450</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-    <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.Collections.Enumerations.Analyzers.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Platform)|$(TargetFramework)'=='AnyCPU|netstandard1.6'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kingdom.Collections.Enumerations.Analyzers.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -64,5 +63,9 @@
     <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
     <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+  </Target>
 
 </Project>

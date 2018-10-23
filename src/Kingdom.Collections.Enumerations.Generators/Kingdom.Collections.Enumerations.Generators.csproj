@@ -13,14 +13,14 @@
     <Description>Provides the build time generators that respond to the [FlagsEnumeration] partial class attribute.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; generator; generators; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.1.0.18703</Version>
-    <AssemblyVersion>1.1.0.18703</AssemblyVersion>
-    <FileVersion>1.1.0.18703</FileVersion>
-    <PackageVersion>1.1.0.18703</PackageVersion>
+    <Version>1.1.0.18708</Version>
+    <AssemblyVersion>1.1.0.18708</AssemblyVersion>
+    <FileVersion>1.1.0.18708</FileVersion>
+    <PackageVersion>1.1.0.18708</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-    <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Platform)|$(TargetFramework)'=='AnyCPU|netstandard1.6'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,5 +51,9 @@
     <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
     <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+  </Target>
 
 </Project>

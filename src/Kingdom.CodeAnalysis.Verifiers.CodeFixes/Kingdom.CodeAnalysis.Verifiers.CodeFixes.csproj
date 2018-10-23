@@ -1,9 +1,7 @@
-
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <Deterministic>true</Deterministic>
     <RootNamespace>Kingdom.CodeAnalysis.Verifiers</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <!-- TODO: TBD: for now, born out of efforts in Collections; however, this could very easily live in a repo all its own... -->
@@ -14,14 +12,14 @@
     <Description>Provides a re-factoring and re-imagining of the Code Fixes elements deployed in the default Analysis and Code Fixes project template. This particular assembly focuses on Code Fixes only as part of that re-factoring effort.</Description>
     <PackageTags>dotnet; code; analysis; csharp; Roslyn; fix; fixes; helpers; event; arguments; handler; verify; verifier; verifiers; verifying; provider; required; assert; success; language; source; given; expected; diagnostic; diagnostics; allowed; document; project</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.0.4232</Version>
-    <AssemblyVersion>1.0.0.4232</AssemblyVersion>
-    <FileVersion>1.0.0.4232</FileVersion>
-    <PackageVersion>1.0.0.4232</PackageVersion>
+    <Version>1.0.0.4237</Version>
+    <AssemblyVersion>1.0.0.4237</AssemblyVersion>
+    <FileVersion>1.0.0.4237</FileVersion>
+    <PackageVersion>1.0.0.4237</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-    <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.CodeAnalysis.Verifiers.CodeFixes.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Platform)|$(TargetFramework)'=='AnyCPU|netstandard1.6'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kingdom.CodeAnalysis.Verifiers.CodeFixes.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,5 +48,9 @@
     <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
     <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+  </Target>
 
 </Project>

@@ -14,4 +14,8 @@
     <NuspecProperties>version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);copyright=$(Copyright);licenseUrl=$(PackageLicenseUrl);versionOfCodegenRoslyn=$(CodeGenerationRoslynPackagesVersion);requireLicenseAcceptance=true</NuspecProperties>
   </PropertyGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
+  </Target>
+
 </Project>
