@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -11,14 +11,14 @@
     <Description>Provides the analyzers necessary to ensure that Enumeration derivations with [FlagsEnumeration] decoration are declared partial.</Description>
     <PackageTags>Roslyn; analyzer; code; fix; fixes; Enumerations; Enumeration; enumerated; enum; flags; attribute values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Boolean; bool; ICollection; ICloneable</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.1.18450</Version>
-    <AssemblyVersion>1.0.1.18450</AssemblyVersion>
-    <FileVersion>1.0.1.18450</FileVersion>
-    <PackageVersion>1.0.1.18450</PackageVersion>
+    <Version>1.0.2.2560</Version>
+    <AssemblyVersion>1.0.2.2560</AssemblyVersion>
+    <FileVersion>1.0.2.2560</FileVersion>
+    <PackageVersion>1.0.2.2560</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)|$(TargetFramework)'=='AnyCPU|netstandard1.6'">
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kingdom.Collections.Enumerations.Analyzers.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.Collections.Enumerations.Analyzers.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

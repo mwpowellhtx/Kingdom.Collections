@@ -12,14 +12,14 @@
     <Description>Provides a re-factoring and re-imagining of the Code Fixes elements deployed in the default Analysis and Code Fixes project template. This particular assembly focuses on Code Fixes only as part of that re-factoring effort.</Description>
     <PackageTags>dotnet; code; analysis; csharp; Roslyn; fix; fixes; helpers; event; arguments; handler; verify; verifier; verifiers; verifying; provider; required; assert; success; language; source; given; expected; diagnostic; diagnostics; allowed; document; project</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.0.4237</Version>
-    <AssemblyVersion>1.0.0.4237</AssemblyVersion>
-    <FileVersion>1.0.0.4237</FileVersion>
-    <PackageVersion>1.0.0.4237</PackageVersion>
+    <Version>1.0.1.2573</Version>
+    <AssemblyVersion>1.0.1.2573</AssemblyVersion>
+    <FileVersion>1.0.1.2573</FileVersion>
+    <PackageVersion>1.0.1.2573</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)|$(TargetFramework)'=='AnyCPU|netstandard1.6'">
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kingdom.CodeAnalysis.Verifiers.CodeFixes.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.CodeAnalysis.Verifiers.CodeFixes.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

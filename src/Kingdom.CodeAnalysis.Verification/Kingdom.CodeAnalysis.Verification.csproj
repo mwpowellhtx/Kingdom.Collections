@@ -1,4 +1,3 @@
-
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -12,14 +11,14 @@
     <Description>Provides a handful of helpful extension methods for use during verification of Microsoft Roslyn Code Analysis, Code Generation, and so on. The package is intentionally left bereft of specific unit test framework dependencies.</Description>
     <PackageTags>dotnet; code; analysis; verify; verification; extension; extensions; method; methods; is; has; all; any; zip; base; member; members; param; params; parameter; parameters; exact; syntax; token; tokens; CSharp; predicate; predicates; list; declaration; Roslyn</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0.26583</Version>
-    <AssemblyVersion>1.0.0.26583</AssemblyVersion>
-    <FileVersion>1.0.0.26583</FileVersion>
-    <PackageVersion>1.0.0.26583</PackageVersion>
+    <Version>1.0.1.2559</Version>
+    <AssemblyVersion>1.0.1.2559</AssemblyVersion>
+    <FileVersion>1.0.1.2559</FileVersion>
+    <PackageVersion>1.0.1.2559</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)|$(TargetFramework)'=='AnyCPU|netstandard2.0'">
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.CodeAnalysis.Verification.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

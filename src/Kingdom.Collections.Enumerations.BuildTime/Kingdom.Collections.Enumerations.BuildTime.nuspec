@@ -10,6 +10,7 @@
     <requireLicenseAcceptance>$requireLicenseAcceptance$</requireLicenseAcceptance>
     <description>Code generator for [FlagsEnumeration]-decorated types. Automatically generates bitwise operator overloads corresponding with your derived Enumeration assets. This package references all required and recommended analyzer packages. See project site for installation instructions and more details.</description>
     <copyright>$copyright$</copyright>
+    <!-- ReSharper disable MarkupTextTypo -->
     <tags>Collections Enumeration Build Time bitwise operator overload ones complement and or exclusive xor attribute generator flags code generator generation codegen codegenerator codegeneration</tags>
     <developmentDependency>true</developmentDependency>
     <dependencies>
@@ -17,6 +18,7 @@
         <dependency id="Kingdom.Collections.Enumerations.Attributes" version="1.0.2" />
         <dependency id="Kingdom.Collections.Enumerations.Analyzers" version="1.0.2" />
         <dependency id="Kingdom.Collections.Enumerations.Generators" version="1.1.1" />
+        <!-- ReSharper disable once MarkupAttributeTypo -->
         <dependency id="CodeGeneration.Roslyn.BuildTime" version="$versionOfCodegenRoslyn$" />
       </group>
     </dependencies>
