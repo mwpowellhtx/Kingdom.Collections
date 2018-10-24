@@ -1,6 +1,6 @@
 # .NET Conference 2018
 
-Due to a misunderstanding as to the nature of the conference, I decided not to participate in it after all. However, I remain committed to my talk concerning *"A Better Kind of Bit Array"* on [Friday, September 14 2018 at 2:00 PM EST](https://www.eztalks.com/uc/join_meeting/meeting_id/90021652). This will be a teleconference given with a time limit of 40 minutes. I will aim to air on the side of leaving more time for Q&amp;A than less, but we'll see how it goes. I may segue into my *Enumerations* as well in a bit more detail, but I do not have that as a primary objective. Hopefully, I will also be able to record without much difficulty, in order for folks to check it out later.
+Attendance for my talk was less than I had hoped, and I was not happy with the recorded performance furnished by the meeting vendor after all anyway. So I ended up recording a couple of debugging sessions and uploading them to my [YouTube](http://y2u.be/8V46CWH_a88) account. Enjoy, comment, like, subscribe, and if you find my services here or elsewhere of any value whatosever, please do not hesitate to contact me, and I would like very much to discuss terms of service in more detail.
 
 # Collections
 
@@ -12,7 +12,9 @@ Initially I wanted to use the .NET Framework [System.Collections.BitArray](http:
 
 The operations are fairly self explanatory. The goals were clear getting started: I wanted to establish a basic moral equivalence, so-called, but for the afore mentioned immutability and idempotency concerns. I will continue adding new operations, and will continue to flesh it out, or as issues and requests are submitted, or contributors want to add to the body of effort.
 
-At the moment I am reconsidering whether the application of the term *idempotent* is really that accurate. Upon further analysis, it seems to me the focus of whether something is idempotent has to do with the function itself not mutating the thing it is operating on, regardless of the outcome. And, while true, the *ones complement* operator, indeed *any* such operators, should leave the original *operand* untouched, this is not really the same thing, I think. I will need to study the issue a bit further to better name it, I think.
+I took a little time to improve performance by representing the *Immutable Bit Array* in terms of a collection of ``Byte``. This took a bit of effort, but I think the performance is about as strong as can be at present. Chiefly, there was also a trade off in terms of *Shift* capability involved in that there is no advantage spending the calories on figuring out the byte-wise shifts involved. Instead, I opted to simply treat the Shift in terms of a ``Boolean`` collection, which works out pretty well performance-wise.
+
+Eventually, I may reconsider whether the application of the term *idempotent* is really that accurate. Upon further analysis, it seems to me the focus of whether something is idempotent has to do with the function itself not mutating the thing it is operating on, regardless of the outcome. And, while true, the *ones complement* operator, indeed *any* such operators, should leave the original *operand* untouched, this is not really the same thing, I think. I will need to study the issue a bit further to better name it, I think.
 
 ## Enumerations
 
@@ -52,8 +54,10 @@ As it turns out, there is not much work that is truly required to support Data S
 
 ## Future Goals
 
-My goals of automatically generating boilerplate FlagsAttribute style operator overloading is fast turning into a reality. There are a couple of code generation integration nuances that I have yet to resolve, but for the most part, the hard work of the code generation itself is mostly complete barring any further discoveries during unit and integration testing.
+Re-writing any of these assemblies in terms of *C++ CLI* may be a non-starter at least in the near and medium term after all. From reading various blogs, etc, it seems as though it is not on the *Microsoft* agenda to migrate any *C++ CLI* support in terms of *.NET Core* or *.NET Standard* support.
 
-As for *Data Structures*, I may look into first class actual collections, likely implemented in C++ CLI for performance reasons. However, for now, the syntactic sugar enhancing simple ``IList<T>`` and ``List<T>`` types are just fine for what I want to accomplish.
+I do still want to consider furnishing first class collection objects, not just syntactic sugar in the form of collection extension methods, but this effort is not high on my list of priorities at the moment.
+
+Unit testing was a bit of a pickle this time around which proved to be a bit of a set back. I like to utilize *ReSharper* for my unit testing, but at present there are some issues with *ReSharper* *xUnit.net* settings being somehow misaligned. At present I do not know how this is happening, so my tests are being engaged via the *Visual Studio Test Explorer*, or via *console* when necessary.
 
 Thank you so much and enjoy!
