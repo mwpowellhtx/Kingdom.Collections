@@ -2,6 +2,9 @@
 
 setlocal
 
+echo Use the publish.cmd batch file from now on for local publishing.
+goto :end
+
 rem TODO: TBD: the R# xUnit testing saga is as of this moment still unresolved
 rem TODO: TBD: specifically concerning treatment of user furnished xUnit settings
 rem TODO: TBD: working to move past this using Visual Studio Test Explorer, console runner, etc

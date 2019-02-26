@@ -2,8 +2,11 @@
 
 setlocal
 
+:set_vars
+set nuget_api_key=%MY_NUGET_API_KEY%
+
 rem We do not publish the API key as part of the script itself.
-if "%my_nuget_api_key%"=="" (
+if "%nuget_api_key%" == "" (
     echo You are prohibited from making these sorts of changes.
     goto :end
 )
@@ -34,10 +37,12 @@ set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
 set all_projects=%all_projects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
 set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations
 set all_projects=%all_projects%%delim%Kingdom.Collections.Enumerations.Tests
+set all_projects=%all_projects%%delim%Kingdom.Collections.Bidirectionals
 set all_projects=%all_projects%%delim%Kingdom.Collections.Stacks
 set all_projects=%all_projects%%delim%Kingdom.Collections.Queues
 set all_projects=%all_projects%%delim%Kingdom.Collections.Deques
 rem Setup Collections Projects
+set collections_projects=Kingdom.Collections.Bidirectionals
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Stacks
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Queues
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Deques
@@ -54,13 +59,19 @@ set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations
 set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Tests
 rem Setup Bit Array Projects
 set bit_array_projects=Kingdom.Collections.ImmutableBitArray
+rem Setup Bidirectional Projects
+set bidi_projects=Kingdom.Collections.Bidirectionals
 
 
 :parse_args
 
-rem Done parsing the args.
-if "%1" == "" (
-    goto :end_args
+if "%1" == "--nuget" (
+    set destination=nuget
+    goto :next_arg
+)
+if "%1" == "--local" (
+    set destination=local
+    goto :next_arg
 )
 
 :set_dry_run
@@ -70,6 +81,14 @@ if "%1" == "--dry" (
 )
 if "%1" == "--dry-run" (
     set dry=true
+    goto :next_arg
+)
+if "%1" == "--wet" (
+    set dry=false
+    goto :next_arg
+)
+if "%1" == "--wet-run" (
+    set dry=false
     goto :next_arg
 )
 
@@ -122,6 +141,27 @@ if "%1" == "--bit-array" (
     goto :next_arg
 )
 
+:add_bidi_projects
+if "%1" == "--bidi" (
+    rem Prepare to publish Bidirectional Projects.
+    if "%projects%" == "" (
+        set projects=%bidi_projects%
+    ) else (
+        set projects=%projects%%delim%%bidi_projects%
+    )
+    goto :next_arg
+)
+
+if "%1" == "--bidirectional" (
+    rem Prepare to publish Bidirectional Projects.
+    if "%projects%" == "" (
+        set projects=%bidi_projects%
+    ) else (
+        set projects=%projects%%delim%%bidi_projects%
+    )
+    goto :next_arg
+)
+
 :add_collections_projects
 if "%1" == "--collections" (
     rem Prepare to publish Collections Projects.
@@ -156,30 +196,43 @@ if "%1" == "--project" (
 
 shift
 
+if "%1" == "" goto :end_args
+
 goto :parse_args
 
 :end_args
 
 :verify_args
 
+:verify_dry
+rem Assumes we want a Live (Wet) Run when unspecified.
+if "%dry%" == "" set dry=false
+
+:verify_destination
+if "%destination%" == "" set destination=local
+
 :verify_config
-if "%config%" == "" (
-    rem Assumes Release Configuration when not otherwise specified.
-    set config=Release
-)
+rem Assumes Release Configuration when not otherwise specified.
+if "%config%" == "" set config=Release
 
 :publish_projects
 
 :set_vars
-rem Expecting NuGet to be found in the System Path.
-set nuget_exe=NuGet.exe
-set nuget_push_verbosity=detailed
-set nuget_push_source=https://api.nuget.org/v3/index.json
 
-set nuget_push_opts=%nuget_push_opts% %my_nuget_api_key%
+set xcopy_exe=xcopy.exe
+set nuget_exe=NuGet.exe
+
+set nupkg_ext=.nupkg
+set publish_local_dir=G:\Dev\NuGet\local\packages
+
+rem Expecting NuGet to be found in the System Path.
+set nuget_api_src=https://api.nuget.org/v3/index.json
+set nuget_push_verbosity=detailed
+
+set nuget_push_opts=%nuget_push_opts% %nuget_api_key%
 set nuget_push_opts=%nuget_push_opts% -Verbosity %nuget_push_verbosity%
 set nuget_push_opts=%nuget_push_opts% -NonInteractive
-set nuget_push_opts=%nuget_push_opts% -Source %nuget_push_source%
+set nuget_push_opts=%nuget_push_opts% -Source %nuget_api_src%
 
 rem Do the main areas here.
 pushd ..\..
@@ -201,10 +254,23 @@ popd
 goto :end
 
 :publish_pkg
-for %%f in ("%1\bin\%config%\%1.*.nupkg") do (
-    if "%dry%" == "true" (
+for %%f in ("%1\bin\%config%\%1*%nupkg_ext%") do (
+
+    if "%destination%-%dry%" == "local-true" (
+        echo Set to copy "%%f" to "%publish_local_dir%".
+    )
+
+    if "%destination%-%dry%" == "local-false" (
+        if not exist "%publish_local_dir%" mkdir "%publish_local_dir%"
+        echo Copying "%%f" package to local directory "%publish_local_dir%" ...
+        %xcopy_exe% /q /y "%%f" "%publish_local_dir%"
+    )
+
+    if "%destination%-%dry%" == "nuget-true" (
         echo Dry run: %nuget_exe% push "%%f"%nuget_push_opts%
-    ) else (
+    )
+
+    if "%destination%-%dry%" == "nuget-false" (
         echo Running: %nuget_exe% push "%%f"%nuget_push_opts%
         %nuget_exe% push "%%f"%nuget_push_opts%
     )
