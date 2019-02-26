@@ -3,9 +3,9 @@
   <PropertyGroup>
     <RootNamespace>Kingdom.Collections</RootNamespace>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <FileVersion>1.0.26.31878</FileVersion>
-    <AssemblyVersion>1.0.26.31878</AssemblyVersion>
-    <PackageVersion>1.0.26.31878</PackageVersion>
+    <FileVersion>1.0.0.128</FileVersion>
+    <AssemblyVersion>1.0.0.128</AssemblyVersion>
+    <PackageVersion>1.0.0.128</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
