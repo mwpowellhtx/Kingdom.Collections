@@ -4,11 +4,11 @@
     <Authors>Michael W. Powell</Authors>
     <Company>Kingdom Software</Company>
     <Product>Kingdom.Collections</Product>
-    <Copyright>Copyright © 2016, 2018</Copyright>
+    <Copyright>Copyright © 2016, 2018, 2019</Copyright>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
