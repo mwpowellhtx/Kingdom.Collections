@@ -20,16 +20,69 @@ namespace Kingdom.Collections
         /// </summary>
         protected abstract T NewItem { get; }
 
-        // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
-        protected IBidirectionalList<T> TargetList { get; set; } = new BidirectionalList<T> { };
+        /// <summary>
+        /// Returns the <see cref="IEnumerable{T}"/> corresponding to the
+        /// <paramref name="values"/>. We do this intentionally as a Yielded Return so that the
+        /// result is not literally the instance we were given.
+        /// </summary>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        protected static IEnumerable<T> GetRange(params T[] values)
+        {
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var x in values)
+            {
+                yield return x;
+            }
+        }
+
+        private IBidirectionalList<T> _targetList;
+
+
+        protected virtual IEnumerable<T> GetDefaultValues()
+        {
+            yield break;
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="IBidirectionalList{T}"/> assuming New Constructor usage.
+        /// Override in order to exercise different aspects of the Collection framework.
+        /// </summary>
+        /// <param name="getValues"></param>
+        /// <returns></returns>
+        protected abstract IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getValues"></param>
+        /// <param name="beforeCallback"></param>
+        /// <param name="afterCallback"></param>
+        /// <returns></returns>
+        protected abstract IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues
+            , BidirectionalCallback<T> beforeCallback, BidirectionalCallback<T> afterCallback);
+
+        /// <summary>
+        /// Gets or Sets the Target List given a couple of extensible hooks.
+        /// </summary>
+        protected virtual IBidirectionalList<T> TargetList
+        {
+            get => _targetList ?? (_targetList = CreateBidirectionalList(GetDefaultValues));
+            set
+            {
+                _targetList?.Clear();
+                _targetList = value ?? CreateBidirectionalList(GetDefaultValues);
+            }
+        }
 
         /// <summary>
         /// Default Protected Constructor.
         /// </summary>
-        protected BidirectionalListTestFixtureBase() => InitializeCollection(TargetList);
+        protected BidirectionalListTestFixtureBase() => InitializeCollection();
 
-        private void InitializeCollection(ICollection<T> collection)
+        private void InitializeCollection()
         {
+            var collection = TargetList;
             collection.Add(NewItem);
             collection.Add(NewItem);
             collection.Add(NewItem);
@@ -42,7 +95,9 @@ namespace Kingdom.Collections
         {
             if (disposing && !IsDisposed)
             {
-                TargetList = null;
+                //// TODO: TBD: raises an interesting point: should a bidi-list be disposable in some fashion?
+                //// TODO: TBD: if for nothing else than to disconnect any callbacks that were registered?
+                //TargetList = null;
             }
 
             base.Dispose(disposing);
@@ -79,10 +134,11 @@ namespace Kingdom.Collections
         /// Approached, works correctly. It is up to the Caller to provide more context as to
         /// what Approaching or Approached actually means.
         /// </summary>
-        /// <param name="callback"></param>
-        protected void VerifyListCallbacks(VerifyListCallback callback)
+        /// <param name="arrange"></param>
+        /// <param name="verify"></param>
+        protected void VerifyListCallbacks(VerifyListCallback arrange, ListVerificationCallback verify = null)
         {
-            Assert.NotNull(callback);
+            Assert.NotNull(arrange);
 
             ExpectedItem = NewItem;
 
@@ -97,7 +153,7 @@ namespace Kingdom.Collections
 
             PrepareList(list, ExpectedItem);
 
-            callback.Invoke(ref list, ExpectedItem);
+            arrange.Invoke(ref list, ExpectedItem);
 
             // Replace the TargetList instance if necessary.
             if (!ReferenceEquals(TargetList, list))
@@ -105,6 +161,17 @@ namespace Kingdom.Collections
                 TargetList = list;
             }
 
+            (verify ?? DefaultListVerificationCallback).Invoke(TargetList);
+        }
+
+        protected delegate void ListVerificationCallback(IBidirectionalList<T> list);
+
+        protected void NoOpListVerificationCallback(IBidirectionalList<T> _)
+        {
+        }
+
+        protected void DefaultListVerificationCallback(IBidirectionalList<T> list)
+        {
             /* We should be able to determine qualitatively that not only Adding and Added
              * happened, but also whether Calling did in fact occur prior to Called. */
 

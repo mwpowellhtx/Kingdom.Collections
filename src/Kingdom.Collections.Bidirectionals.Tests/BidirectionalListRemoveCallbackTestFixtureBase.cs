@@ -23,6 +23,13 @@ namespace Kingdom.Collections
             list.RemovedItem += onCalledBack;
         }
 
+        protected override IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues)
+            => new BidirectionalList<T>(getValues());
+
+        protected override IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues
+            , BidirectionalCallback<T> beforeCallback, BidirectionalCallback<T> afterCallback)
+            => new BidirectionalList<T>(getValues(), onRemoved: afterCallback, onRemoving: beforeCallback);
+
         protected override void PrepareList(IList<T> list, T expectedItem)
         {
             base.PrepareList(list, expectedItem);

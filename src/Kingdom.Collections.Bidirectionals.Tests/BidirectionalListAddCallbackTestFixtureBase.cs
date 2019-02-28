@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Kingdom.Collections
 {
@@ -20,6 +21,13 @@ namespace Kingdom.Collections
             list.AddingItem += onCallingBack;
             list.AddedItem += onCalledBack;
         }
+
+        protected override IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues)
+            => new BidirectionalList<T>(getValues());
+
+        protected override IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues
+            , BidirectionalCallback<T> beforeCallback, BidirectionalCallback<T> afterCallback)
+            => new BidirectionalList<T>(getValues(), onAdded: afterCallback, onAdding: beforeCallback);
 
         [Fact]
         public void AddCallbacksWorkCorrectly() => VerifyListCallbacks((ref IBidirectionalList<T> list, T x) =>
@@ -86,12 +94,12 @@ namespace Kingdom.Collections
             // We should have received an instance.
             Assert.NotNull(list);
 
-            // ReSharper disable once ArgumentsStyleNamedExpression because we make it abundantly clearer.
-            // But we will replace it an exercise the Ctor at the same time.
-            list = new BidirectionalList<T>(new[] {x}, onAdded: OnAdded, onAdding: OnAdding);
+            // Leaving room for how to create such a List.
+            list = CreateBidirectionalList(() => GetRange(x), OnAdded, OnAdding);
 
+            // Nothing to Verify here, we do this in the current context.
             Assert.True(callingBackCalled);
             Assert.True(calledBackCalled);
-        });
+        }, NoOpListVerificationCallback);
     }
 }

@@ -10,5 +10,6 @@
     public class IntegerBidirectionalListRemoveCallbackTests : BidirectionalListRemoveCallbackTestFixtureBase<int>
     {
         protected override int NewItem => Rnd.Next();
+
     }
 }

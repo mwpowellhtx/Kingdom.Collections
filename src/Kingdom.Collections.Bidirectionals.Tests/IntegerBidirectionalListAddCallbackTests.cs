@@ -1,4 +1,6 @@
-﻿namespace Kingdom.Collections
+﻿using System.Collections.Generic;
+
+namespace Kingdom.Collections
 {
     using static Randomizer;
 
