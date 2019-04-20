@@ -2,6 +2,9 @@
 
 setlocal
 
+echo Cleaning is now a normal part of the build process.
+goto :end
+
 :setconfig
 set config=%1
 if ("%config%" === "") (

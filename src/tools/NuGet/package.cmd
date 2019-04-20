@@ -2,6 +2,9 @@
 
 setlocal
 
+echo Packaging now happens as a normal course of building assemblies.
+goto :end
+
 echo Packaging should occur as either a post-build step for "conventional"
 echo desktop or other targeted assemblies, or as a natural part of the
 echo project for more modern .NET Standard or other assemblies. As such
