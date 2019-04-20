@@ -104,17 +104,15 @@
     <PostBuildEvent>nuget pack "$(ProjectPath)" -Properties "Configuration=$(ConfigurationName)"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets" Condition="Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')" />
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="AssemblyFileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' And Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyFileVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
+  <ItemGroup Condition="'$(Platform)'=='AnyCPU' And Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
+    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="AssemblyFileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <BumpVersionSpec Include="AssemblyFileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
   </ItemGroup>
   <ItemGroup>
     <BumpVersionSpec Update="@(BumpVersionSpec)" Visible="False" />

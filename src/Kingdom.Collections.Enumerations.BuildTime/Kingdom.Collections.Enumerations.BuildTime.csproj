@@ -1,21 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageVersion>1.2.0</PackageVersion>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageVersion>1.2.0</PackageVersion>
+    <AssemblyVersion>1.2.0.1</AssemblyVersion>
+    <FileVersion>1.2.0.1</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <NuspecFile>Kingdom.Collections.Enumerations.BuildTime.nuspec</NuspecFile>
     <!-- ReSharper disable UnknownProperty disabled once and for all -->
     <NuspecProperties>version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);copyright=$(Copyright);licenseUrl=$(PackageLicenseUrl);versionOfCodegenRoslyn=$(CodeGenerationRoslynPackagesVersion);requireLicenseAcceptance=true</NuspecProperties>
   </PropertyGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-  </Target>
 
 </Project>

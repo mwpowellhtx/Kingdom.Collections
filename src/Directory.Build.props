@@ -22,4 +22,23 @@
     <MicrosoftCodeAnalysisCSharpVersion>2.9.0</MicrosoftCodeAnalysisCSharpVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\1.2.0\build\BumpAssemblyVersions.targets')">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+
+    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+  </ItemGroup>
+
 </Project>

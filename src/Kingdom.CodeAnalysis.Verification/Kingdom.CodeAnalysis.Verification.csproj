@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides a handful of helpful extension methods for use during verification of Microsoft Roslyn Code Analysis, Code Generation, and so on. The package is intentionally left bereft of specific unit test framework dependencies.</Description>
     <PackageTags>dotnet; code; analysis; verify; verification; extension; extensions; method; methods; is; has; all; any; zip; base; member; members; param; params; parameter; parameters; exact; syntax; token; tokens; CSharp; predicate; predicates; list; declaration; Roslyn</PackageTags>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.1.2559</Version>
-    <AssemblyVersion>1.0.1.2559</AssemblyVersion>
-    <FileVersion>1.0.1.2559</FileVersion>
-    <PackageVersion>1.0.1.2559</PackageVersion>
+    <Version>1.0.1.2560</Version>
+    <AssemblyVersion>1.0.1.2560</AssemblyVersion>
+    <FileVersion>1.0.1.2560</FileVersion>
+    <PackageVersion>1.0.1.2560</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -22,30 +22,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <!-- ReSharper disable once UnknownProperty defined in Build properties -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="$(MicrosoftCodeAnalysisCSharpVersion)" />
   </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-  </Target>
 
 </Project>

@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -9,33 +8,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides a simple set of list based extensions for Double-ended Queue, or Deque, operation.</Description>
     <PackageTags>Collections; IList; List; IEnumerable; enqueue; dequeue; front; back; try; many; item; additional; count; any; onto</PackageTags>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.1.19</Version>
-    <FileVersion>1.1.1.19</FileVersion>
-    <AssemblyVersion>1.1.1.19</AssemblyVersion>
+    <Version>1.1.1.21</Version>
+    <FileVersion>1.1.1.21</FileVersion>
+    <AssemblyVersion>1.1.1.21</AssemblyVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Kingdom.Collections.Deques.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpLabel>dev</BumpLabel>
-    <BumpLabelDigits>3</BumpLabelDigits>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Kingdom.Collections.Deques.xml</DocumentationFile>
-    <BumpRevision>True</BumpRevision>
-    <BumpResetLabel>dev</BumpResetLabel>
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.Deques.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Kingdom.Collections.Deques.nuspec" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MSBump" Version="2.3.2" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

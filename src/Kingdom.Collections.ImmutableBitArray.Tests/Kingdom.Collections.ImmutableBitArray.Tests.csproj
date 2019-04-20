@@ -143,9 +143,11 @@
     <Error Condition="!Exists('..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props'))" />
   </Target>
   <Import Project="..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets" Condition="Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')" />
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' And Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyFileVersion" BuildProviderTemplate="Increment" />
+  <ItemGroup Condition="'$(Platform)'=='AnyCPU' And Exists('..\packages\BumpAssemblyVersions.1.2.0\build\BumpAssemblyVersions.targets')">
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="AssemblyFileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <BumpVersionSpec Include="AssemblyFileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
   </ItemGroup>
   <ItemGroup>
     <!-- TODO: TBD: it would be better to do this here, but does not seem to happen. So must be done at the CSPROJ level. -->

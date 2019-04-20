@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Description>The framework Enumerations provides a solid baseline of features emulating Java's enumeration structure for .NET. Simple Ordinal based Enumerations are supported, as are more complex Flags-like Bitwise Enumerations.</Description>
     <PackageTags>Enumerations; Enumeration; enumerated; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable</PackageTags>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.3.0.3146</Version>
-    <AssemblyVersion>1.3.0.3146</AssemblyVersion>
-    <FileVersion>1.3.0.3146</FileVersion>
-    <PackageVersion>1.3.0.3146</PackageVersion>
+    <Version>1.3.0.3150</Version>
+    <AssemblyVersion>1.3.0.3150</AssemblyVersion>
+    <FileVersion>1.3.0.3150</FileVersion>
+    <PackageVersion>1.3.0.3150</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -25,38 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And Exists('G:\Dev\NuGet\global\packages\bumpassemblyversions\1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' And Exists('G:\Dev\NuGet\global\packages\bumpassemblyversions\1.2.0\build\BumpAssemblyVersions.targets')">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Enumeration.*.cs">
       <DependentUpon>Enumeration.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-  </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj" />
+  </ItemGroup>
 
 </Project>

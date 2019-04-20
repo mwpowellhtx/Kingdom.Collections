@@ -6,9 +6,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Version>1.2.1.2575</Version>
-    <AssemblyVersion>1.2.1.2575</AssemblyVersion>
-    <FileVersion>1.2.1.2575</FileVersion>
+    <Version>1.2.1.2576</Version>
+    <AssemblyVersion>1.2.1.2576</AssemblyVersion>
+    <FileVersion>1.2.1.2576</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -54,30 +54,9 @@
     <PackageReference Include="Xunit.Combinatorial" Version="1.2.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
   <!-- Drawing partially, as reference, from: http://github.com/amis92/RecordGenerator, but only to a point. -->
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
   </ItemGroup>
 
 </Project>

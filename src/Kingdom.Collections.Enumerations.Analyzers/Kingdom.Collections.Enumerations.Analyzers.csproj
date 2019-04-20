@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <Description>Provides the analyzers necessary to ensure that Enumeration derivations with [FlagsEnumeration] decoration are declared partial.</Description>
     <PackageTags>Roslyn; analyzer; code; fix; fixes; Enumerations; Enumeration; enumerated; enum; flags; attribute values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Boolean; bool; ICollection; ICloneable</PackageTags>
-    <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.2.2560</Version>
-    <AssemblyVersion>1.0.2.2560</AssemblyVersion>
-    <FileVersion>1.0.2.2560</FileVersion>
-    <PackageVersion>1.0.2.2560</PackageVersion>
+    <Version>1.0.2.2562</Version>
+    <AssemblyVersion>1.0.2.2562</AssemblyVersion>
+    <FileVersion>1.0.2.2562</FileVersion>
+    <PackageVersion>1.0.2.2562</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -32,10 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="$(MicrosoftCodeAnalysisCSharpVersion)" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
@@ -49,23 +45,5 @@
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
   </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-  </Target>
 
 </Project>

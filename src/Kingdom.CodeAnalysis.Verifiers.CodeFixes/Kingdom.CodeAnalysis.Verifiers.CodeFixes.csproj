@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <Description>Provides a re-factoring and re-imagining of the Code Fixes elements deployed in the default Analysis and Code Fixes project template. This particular assembly focuses on Code Fixes only as part of that re-factoring effort.</Description>
     <PackageTags>dotnet; code; analysis; csharp; Roslyn; fix; fixes; helpers; event; arguments; handler; verify; verifier; verifiers; verifying; provider; required; assert; success; language; source; given; expected; diagnostic; diagnostics; allowed; document; project</PackageTags>
-    <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.1.2573</Version>
-    <AssemblyVersion>1.0.1.2573</AssemblyVersion>
-    <FileVersion>1.0.1.2573</FileVersion>
-    <PackageVersion>1.0.1.2573</PackageVersion>
+    <Version>1.0.1.2575</Version>
+    <AssemblyVersion>1.0.1.2575</AssemblyVersion>
+    <FileVersion>1.0.1.2575</FileVersion>
+    <PackageVersion>1.0.1.2575</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -23,10 +23,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="$(MicrosoftCodeAnalysisCSharpVersion)" />
   </ItemGroup>
@@ -34,23 +30,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.CodeAnalysis.Verifiers.Diagnostics\Kingdom.CodeAnalysis.Verifiers.Diagnostics.csproj" />
   </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if exist &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot; del /f &quot;$(ProjectDir)bin\$(Configuration)\*.nupkg&quot;" />
-  </Target>
 
 </Project>
