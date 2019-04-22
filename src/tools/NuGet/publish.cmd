@@ -41,6 +41,9 @@ set all_projects=%all_projects%%delim%Kingdom.Collections.Bidirectionals
 set all_projects=%all_projects%%delim%Kingdom.Collections.Stacks
 set all_projects=%all_projects%%delim%Kingdom.Collections.Queues
 set all_projects=%all_projects%%delim%Kingdom.Collections.Deques
+set all_projects=%all_projects%%delim%Kingdom.Collections.Variants
+rem Setup Variants Projects
+set variants_projects=Kingdom.Collections.Variants
 rem Setup Collections Projects
 set collections_projects=Kingdom.Collections.Bidirectionals
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Stacks
@@ -62,9 +65,9 @@ set bit_array_projects=Kingdom.Collections.ImmutableBitArray
 rem Setup Bidirectional Projects
 set bidi_projects=Kingdom.Collections.Bidirectionals
 
-
 :parse_args
 
+:set_destination
 if "%1" == "--nuget" (
     set destination=nuget
     goto :next_arg
@@ -109,7 +112,6 @@ if "%1" == "--enums" (
     )
     goto :next_arg
 )
-
 if "%1" == "--enumerations" (
     rem Prepare to publish Enumerations Projects.
     if "%projects%" == "" (
@@ -169,6 +171,26 @@ if "%1" == "--collections" (
         set projects=%collections_projects%
     ) else (
         set projects=%projects%%delim%%collections_projects%
+    )
+    goto :next_arg
+)
+
+:add_variants_projects
+if "%1" == "--variant" (
+    rem Prepare to publish Variants Projects.
+    if "%projects%" == "" (
+        set projects=%variants_projects%
+    ) else (
+        set projects=%projects%%delim%%variants_projects%
+    )
+    goto :next_arg
+)
+if "%1" == "--variants" (
+    rem Prepare to publish Variants Projects.
+    if "%projects%" == "" (
+        set projects=%variants_projects%
+    ) else (
+        set projects=%projects%%delim%%variants_projects%
     )
     goto :next_arg
 )
