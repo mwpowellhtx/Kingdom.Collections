@@ -10,6 +10,8 @@ You must provide *C#* *Variants* with an instance of [``IVariantConfigurationCol
 
 It is an imperfect analogy, of course, due to differences between that that the *C# dotnet* runtime nature of generic types.  The key contrast is that instead of scaling horizontally in the runtime type information itself, *Variants* scales vertically, in particular depending on the sort of configuration your application requires.
 
+The following example illustrates a configuration supporting strongly typed ``int`` as well as ``bool`` based ``IVariant<T>`` assets. What ``T`` is, exactly, depends entirely upon what you provide, as long as it supports some notion analogous to ``IEquatable<T>`` and ``IComparable<T>``.
+
 ```C#
 // This configuration supports Variants using Integer and Boolean strong types.
 // i.e. IVariant<int> x = Variant.Create(1), or IVariant<bool> y = Variant.Create(true)
