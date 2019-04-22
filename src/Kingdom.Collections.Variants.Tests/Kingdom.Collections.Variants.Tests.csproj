@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Kingdom.Collections.Variants</RootNamespace>
+    <Version>1.0.0.3</Version>
+    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <!-- ReSharper disable once UnknownProperty -->
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <!-- ReSharper disable once UnknownProperty -->
+    <PackageReference Include="xunit.analyzers" Version="$(XunitAnalyzersVersion)" />
+    <!-- ReSharper disable once UnknownProperty -->
+    <PackageReference Include="xunit.assert" Version="$(XunitVersion)" />
+    <!-- ReSharper disable once UnknownProperty -->
+    <PackageReference Include="xunit.core" Version="$(XunitVersion)" />
+    <!-- ReSharper disable once UnknownProperty -->
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kingdom.Collections.Variants\Kingdom.Collections.Variants.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- TODO: TBD:Referencing $(ProjectFileName) works, however, I am not sure why this one cannot live in the Solution-based Directory.Build.props. -->
+    <None Remove="$(ProjectFileName).DotSettings" />
+  </ItemGroup>
+
+</Project>
