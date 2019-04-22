@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Provides a set of features making it possible to emulate C++ Variants for dotnet.</Description>
+    <PackageTags>Collections; IVariant; Variant; ToString; IEquatable; IComparable; Value; object; generic; Type; VariantConfiguration; IVariantConfiguration; configuration; ICollection; collection; add; enumerator; callback; callbacks; item; items</PackageTags>
+    <Version>1.0.0.9089</Version>
+    <FileVersion>1.0.0.9089</FileVersion>
+    <AssemblyVersion>1.0.0.9089</AssemblyVersion>
+    <PackageVersion>1.0.0.9089</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.Variants.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(MSBuildProjectName).Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Variant.*.cs">
+      <DependentUpon>Variant.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- TODO: TBD:Referencing $(ProjectFileName) works, however, I am not sure why this one cannot live in the Solution-based Directory.Build.props. -->
+    <None Remove="$(ProjectFileName).DotSettings" />
+  </ItemGroup>
+
+</Project>
