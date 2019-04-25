@@ -10,10 +10,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides a set of features making it possible to emulate C++ Variants for dotnet.</Description>
     <PackageTags>Collections; IVariant; Variant; ToString; IEquatable; IComparable; Value; object; generic; Type; VariantConfiguration; IVariantConfiguration; configuration; ICollection; collection; add; enumerator; callback; callbacks; item; items</PackageTags>
-    <Version>1.0.0.9089</Version>
-    <FileVersion>1.0.0.9089</FileVersion>
-    <AssemblyVersion>1.0.0.9089</AssemblyVersion>
-    <PackageVersion>1.0.0.9089</PackageVersion>
+    <Version>1.1.0.26740</Version>
+    <FileVersion>1.1.0.26740</FileVersion>
+    <AssemblyVersion>1.1.0.26740</AssemblyVersion>
+    <PackageVersion>1.1.0.26740</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
