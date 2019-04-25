@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>Kingdom.Collections.Variants</RootNamespace>
-    <Version>1.0.0.3</Version>
-    <FileVersion>1.0.0.3</FileVersion>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
+    <Version>1.0.0.5</Version>
+    <FileVersion>1.0.0.5</FileVersion>
+    <AssemblyVersion>1.0.0.5</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
