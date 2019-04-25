@@ -142,6 +142,7 @@ namespace Kingdom.Collections.Variants
             DerivedClass, BaseClass>((type, x, cfg) => new Variant<DerivedClass>(type, x, cfg)
             , null, VariantConfigurationCollection.Create(VariantConfiguration.Configure<BaseClass>())
         );
+
         /// <summary>
         /// In most cases, you want to specify the variant type equal to the default value
         /// actual type. However, Variant should also accept a value whose corresponding
@@ -177,5 +178,36 @@ namespace Kingdom.Collections.Variants
             DerivedClass, BaseClass>((type, x, cfg) => (Variant<DerivedClass>) Variant.Create(type, x, cfg)
             , new BaseClass(), VariantConfigurationCollection.Create(VariantConfiguration.Configure<BaseClass>())
         );
+
+        private static void VerifyDefaultConstructor<T>(VariantEquatableCallback equatableCallback
+            , VariantComparableCallback comparableCallback, Action<T> verify)
+        {
+            var instance = Variant.Create<T>(VariantConfigurationCollection.Create(
+                    VariantConfiguration.Configure<T>(equatableCallback, comparableCallback)
+                )
+            );
+
+            Assert.NotNull(instance);
+            verify(instance.Value);
+        }
+
+        [Fact]
+        public void Create_Default_Integer_Variant_Instance_Correct()
+            => VerifyDefaultConstructor(
+                (x, y) => (int) x == (int) y
+                , (x, y) => ((int) x).CompareTo((int) y)
+                , (int x) => Assert.Equal(default(int), x)
+            );
+
+        [Fact]
+        public void Create_Default_Class_Variant_Instance_Correct()
+            => VerifyDefaultConstructor(
+                (x, y) => ((BaseClass) x).Equals((BaseClass) y)
+                , (x, y) => ((BaseClass) x).CompareTo((BaseClass) y)
+                , (BaseClass x) =>
+                {
+                    Assert.NotNull(x);
+                    Assert.NotEqual(Guid.Empty, x.Id);
+                });
     }
 }
