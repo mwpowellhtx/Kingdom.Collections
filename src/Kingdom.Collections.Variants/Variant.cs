@@ -182,6 +182,33 @@ namespace Kingdom.Collections.Variants
         }
 
         /// <summary>
+        /// Creates a new <see cref="Variant{T}"/> given a default <typeparamref name="T"/>
+        /// instance. If possible, will invoke the default public constructor.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static Variant<T> Create<T>(IVariantConfigurationCollection configuration)
+        {
+            // ReSharper disable once IdentifierTypo
+            bool TryInvokeParameterlessConstructor(out T value)
+            {
+                value = default(T);
+                var type = typeof(T);
+                // ReSharper disable once InvertIf
+                if (type.IsClass && !(type.IsAbstract || type.IsInterface))
+                {
+                    var ctor = type.GetConstructor(new Type[] { });
+                    value = (T) ctor?.Invoke(new object[] { });
+                }
+
+                return value != null;
+            }
+
+            return Create(TryInvokeParameterlessConstructor(out var x) ? x : default(T), configuration);
+        }
+
+        /// <summary>
         /// Creates a new <see cref="Variant{T}"/> given the Strongly Typed
         /// <paramref name="value"/>.
         /// </summary>
