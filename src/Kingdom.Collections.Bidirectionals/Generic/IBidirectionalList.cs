@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     /// <summary>
     /// Bidirectional List interface.
@@ -12,21 +12,21 @@ namespace Kingdom.Collections
         /// <summary>
         /// Event raised prior to Adding an Item.
         /// </summary>
-        event BidirectionalCallback<T> AddingItem;
+        event BidirectionalListItemCallback<T> AddingItem;
 
         /// <summary>
         /// Event raised after an Item has been Added.
         /// </summary>
-        event BidirectionalCallback<T> AddedItem;
+        event BidirectionalListItemCallback<T> AddedItem;
 
         /// <summary>
         /// Event raised prior to Removing an Item.
         /// </summary>
-        event BidirectionalCallback<T> RemovingItem;
+        event BidirectionalListItemCallback<T> RemovingItem;
 
         /// <summary>
         /// Event raised after an Item has been Removed.
         /// </summary>
-        event BidirectionalCallback<T> RemovedItem;
+        event BidirectionalListItemCallback<T> RemovedItem;
     }
 }

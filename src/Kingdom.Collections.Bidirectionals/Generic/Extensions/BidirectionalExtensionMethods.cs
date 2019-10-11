@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     /// <summary>
     /// Provides several helpful extension methods akin to the
@@ -30,7 +30,7 @@ namespace Kingdom.Collections
         /// <param name="onRemoved"></param>
         /// <returns></returns>
         public static IBidirectionalList<T> ToBidirectionalList<T>(this IEnumerable<T> values
-            , BidirectionalCallback<T> onAdded, BidirectionalCallback<T> onRemoved)
+            , BidirectionalListItemCallback<T> onAdded, BidirectionalListItemCallback<T> onRemoved)
             => new BidirectionalList<T>(values, onAdded, onRemoved);
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace Kingdom.Collections
         /// <param name="onRemoving"></param>
         /// <returns></returns>
         public static IBidirectionalList<T> ToBidirectionalList<T>(this IEnumerable<T> values
-            , BidirectionalCallback<T> onAdded, BidirectionalCallback<T> onRemoved
-            , BidirectionalCallback<T> onAdding, BidirectionalCallback<T> onRemoving)
+            , BidirectionalListItemCallback<T> onAdded, BidirectionalListItemCallback<T> onRemoved
+            , BidirectionalListItemCallback<T> onAdding, BidirectionalListItemCallback<T> onRemoving)
             => new BidirectionalList<T>(values, onAdded, onRemoved, onAdding, onRemoving);
     }
 }
