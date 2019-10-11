@@ -6,19 +6,19 @@ setlocal
 set nuget_api_key=%MY_NUGET_API_KEY%
 
 rem We do not publish the API key as part of the script itself.
-if "%nuget_api_key%" == "" (
+if /i "%nuget_api_key%" equ "" (
     echo You are prohibited from making these sorts of changes.
     goto :end
 )
 
 rem Default list delimiter is Comma (,).
 :redefine_delim
-if "%delim%" == "" (
+if /i "%delim%" equ "" (
     set delim=,
 )
 rem Redefine the delimiter when a Dot (.) is discovered.
 rem Anticipates potentially accepting Delimiter as a command line arg.
-if "%delim%" == "." (
+if /i "%delim%" equ "." (
     set delim=
     goto :redefine_delim
 )
@@ -64,57 +64,63 @@ rem Setup Bit Array Projects
 set bit_array_projects=Kingdom.Collections.ImmutableBitArray
 rem Setup Bidirectional Projects
 set bidi_projects=Kingdom.Collections.Bidirectionals
+rem Setup All Collections Core Projects
+set collections_core_projects=Kingdom.Collections.Core
+set collections_core_projects=%collections_core_projects%%delim%Kingdom.Collections.Sets
+set collections_core_projects=%collections_core_projects%%delim%Kingdom.Collections.ConcurrentList
+rem Setup Set Projects
+set set_projects=Kingdom.Collections.Sets
+rem Setup ConcurrentList Projects
+set concurrent_list_projects=Kingdom.Collections.ConcurrentList
 
 :parse_args
 
 :set_destination
-if "%1" == "--nuget" (
+if /i "%1" equ "--nuget" (
     set destination=nuget
     goto :next_arg
 )
-if "%1" == "--local" (
+if /i "%1" equ "--local" (
     set destination=local
     goto :next_arg
 )
 
 :set_dry_run
-if "%1" == "--dry" (
+if /i "%1" equ "--dry" (
     set dry=true
     goto :next_arg
 )
-if "%1" == "--dry-run" (
+if /i "%1" equ "--dry-run" (
     set dry=true
     goto :next_arg
 )
-if "%1" == "--wet" (
+if /i "%1" equ "--wet" (
     set dry=false
     goto :next_arg
 )
-if "%1" == "--wet-run" (
+if /i "%1" equ "--wet-run" (
     set dry=false
     goto :next_arg
 )
 
 :set_config
-if "%1" == "--config" (
+if /i "%1" equ "--config" (
     set config=%2
     shift
     goto :next_arg
 )
 
 :add_enum_projects
-if "%1" == "--enums" (
-    rem Prepare to publish Enumerations Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--enums" (
+    if /i "%projects%" equ "" (
         set projects=%enum_projects%
     ) else (
         set projects=%projects%%delim%%enum_projects%
     )
     goto :next_arg
 )
-if "%1" == "--enumerations" (
-    rem Prepare to publish Enumerations Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--enumerations" (
+    if /i "%projects%" equ "" (
         set projects=%enum_projects%
     ) else (
         set projects=%projects%%delim%%enum_projects%
@@ -123,9 +129,8 @@ if "%1" == "--enumerations" (
 )
 
 :add_bit_array_projects
-if "%1" == "--bits" (
-    rem Prepare to publish Bit Array Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--bits" (
+    if /i "%projects%" equ "" (
         set projects=%bit_array_projects%
     ) else (
         set projects=%projects%%delim%%bit_array_projects%
@@ -133,9 +138,9 @@ if "%1" == "--bits" (
     goto :next_arg
 )
 
-if "%1" == "--bit-array" (
-    rem Prepare to publish Bit Array Projects.
-    if "%projects%" == "" (
+:add_bit_array_projects
+if /i "%1" equ "--bit-array" (
+    if /i "%projects%" equ "" (
         set projects=%bit_array_projects%
     ) else (
         set projects=%projects%%delim%%bit_array_projects%
@@ -144,9 +149,8 @@ if "%1" == "--bit-array" (
 )
 
 :add_bidi_projects
-if "%1" == "--bidi" (
-    rem Prepare to publish Bidirectional Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--bidi" (
+    if /i "%projects%" equ "" (
         set projects=%bidi_projects%
     ) else (
         set projects=%projects%%delim%%bidi_projects%
@@ -154,20 +158,42 @@ if "%1" == "--bidi" (
     goto :next_arg
 )
 
-if "%1" == "--bidirectional" (
-    rem Prepare to publish Bidirectional Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--bidirectional" (
+    if /i "%projects%" equ "" (
         set projects=%bidi_projects%
     ) else (
         set projects=%projects%%delim%%bidi_projects%
     )
     goto :next_arg
+)
+
+if /i "%1" equ "--all-collections-core" (
+    if /i "%projects%" equ "" (
+        set projects=%collections_core_projects%
+    ) else (
+        set projects=%projects%%delim%%collections_core_projects%
+    )
+)
+
+if /i "%1" equ "--sets" (
+    if /i "%projects%" equ "" (
+        set projects=%set_projects%
+    ) else (
+        set projects=%projects%%delim%%set_projects%
+    )
+)
+
+if /i "%1" equ "--concurrent-lists" (
+    if /i "%projects%" equ "" (
+        set projects=%concurrent_list_projects%
+    ) else (
+        set projects=%projects%%delim%%concurrent_list_projects%
+    )
 )
 
 :add_collections_projects
-if "%1" == "--collections" (
-    rem Prepare to publish Collections Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--collections" (
+    if /i "%projects%" equ "" (
         set projects=%collections_projects%
     ) else (
         set projects=%projects%%delim%%collections_projects%
@@ -176,18 +202,16 @@ if "%1" == "--collections" (
 )
 
 :add_variants_projects
-if "%1" == "--variant" (
-    rem Prepare to publish Variants Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--variant" (
+    if /i "%projects%" equ "" (
         set projects=%variants_projects%
     ) else (
         set projects=%projects%%delim%%variants_projects%
     )
     goto :next_arg
 )
-if "%1" == "--variants" (
-    rem Prepare to publish Variants Projects.
-    if "%projects%" == "" (
+if /i "%1" equ "--variants" (
+    if /i "%projects%" equ "" (
         set projects=%variants_projects%
     ) else (
         set projects=%projects%%delim%%variants_projects%
@@ -196,16 +220,14 @@ if "%1" == "--variants" (
 )
 
 :add_all_projects
-if "%1" == "--all" (
-    rem Prepare to publish All Projects.
+if /i "%1" equ "--all" (
     set projects=%all_projects%
     goto :next_arg
 )
 
 :add_project
-if "%1" == "--project" (
-    rem Add a Project to the Projects list.
-    if "%projects%" == "" (
+if /i "%1" equ "--project" (
+    if /i "%projects%" equ "" (
         set projects=%2
     ) else (
         set projects=%projects%%delim%%2
@@ -218,7 +240,7 @@ if "%1" == "--project" (
 
 shift
 
-if "%1" == "" goto :end_args
+if /i "%1" equ "" goto :end_args
 
 goto :parse_args
 
@@ -228,14 +250,14 @@ goto :parse_args
 
 :verify_dry
 rem Assumes we want a Live (Wet) Run when unspecified.
-if "%dry%" == "" set dry=false
+if /i "%dry%" equ "" set dry=false
 
 :verify_destination
-if "%destination%" == "" set destination=local
+if /i "%destination%" equ "" set destination=local
 
 :verify_config
 rem Assumes Release Configuration when not otherwise specified.
-if "%config%" == "" set config=Release
+if /i "%config%" equ "" set config=Release
 
 :publish_projects
 
@@ -259,11 +281,11 @@ set nuget_push_opts=%nuget_push_opts% -Source %nuget_api_src%
 rem Do the main areas here.
 pushd ..\..
 
-if not "%projects%" == "" (
+if not "%projects%" equ "" (
     echo Processing '%config%' configuration for '%projects%' ...
 )
 :next_project
-if not "%projects%" == "" (
+if not "%projects%" equ "" (
     for /f "tokens=1* delims=%delim%" %%p in ("%projects%") do (
         call :publish_pkg %%p
         set projects=%%q
@@ -278,21 +300,21 @@ goto :end
 :publish_pkg
 for %%f in ("%1\bin\%config%\%1*%nupkg_ext%") do (
 
-    if "%destination%-%dry%" == "local-true" (
+    if /i "%destination%-%dry%" equ "local-true" (
         echo Set to copy "%%f" to "%publish_local_dir%".
     )
 
-    if "%destination%-%dry%" == "local-false" (
+    if /i "%destination%-%dry%" equ "local-false" (
         if not exist "%publish_local_dir%" mkdir "%publish_local_dir%"
         echo Copying "%%f" package to local directory "%publish_local_dir%" ...
         %xcopy_exe% /q /y "%%f" "%publish_local_dir%"
     )
 
-    if "%destination%-%dry%" == "nuget-true" (
+    if /i "%destination%-%dry%" equ "nuget-true" (
         echo Dry run: %nuget_exe% push "%%f"%nuget_push_opts%
     )
 
-    if "%destination%-%dry%" == "nuget-false" (
+    if /i "%destination%-%dry%" equ "nuget-false" (
         echo Running: %nuget_exe% push "%%f"%nuget_push_opts%
         %nuget_exe% push "%%f"%nuget_push_opts%
     )
