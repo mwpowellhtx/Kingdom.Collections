@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     using Xunit;
 
@@ -13,7 +13,8 @@ namespace Kingdom.Collections
         where T : IEquatable<T>
     {
         protected override void ConnectCallbacks(IBidirectionalList<T> list
-            , BidirectionalCallback<T> onCallingBack, BidirectionalCallback<T> onCalledBack)
+            , BidirectionalListItemCallback<T> onCallingBack
+            , BidirectionalListItemCallback<T> onCalledBack)
         {
             Assert.NotNull(onCallingBack);
             Assert.NotNull(onCalledBack);
@@ -26,7 +27,7 @@ namespace Kingdom.Collections
             => new BidirectionalList<T>(getValues());
 
         protected override IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues
-            , BidirectionalCallback<T> beforeCallback, BidirectionalCallback<T> afterCallback)
+            , BidirectionalListItemCallback<T> beforeCallback, BidirectionalListItemCallback<T> afterCallback)
             => new BidirectionalList<T>(getValues(), onAdded: afterCallback, onAdding: beforeCallback);
 
         [Fact]

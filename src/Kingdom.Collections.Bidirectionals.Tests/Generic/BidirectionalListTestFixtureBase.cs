@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     using Xunit;
 
@@ -60,7 +60,7 @@ namespace Kingdom.Collections
         /// <param name="afterCallback"></param>
         /// <returns></returns>
         protected abstract IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues
-            , BidirectionalCallback<T> beforeCallback, BidirectionalCallback<T> afterCallback);
+            , BidirectionalListItemCallback<T> beforeCallback, BidirectionalListItemCallback<T> afterCallback);
 
         /// <summary>
         /// Gets or Sets the Target List given a couple of extensible hooks.
@@ -89,7 +89,7 @@ namespace Kingdom.Collections
         }
 
         protected abstract void ConnectCallbacks(IBidirectionalList<T> list
-            , BidirectionalCallback<T> onCallingBack, BidirectionalCallback<T> onCalledBack);
+            , BidirectionalListItemCallback<T> onCallingBack, BidirectionalListItemCallback<T> onCalledBack);
 
         protected override void Dispose(bool disposing)
         {
