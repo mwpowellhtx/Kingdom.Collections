@@ -1,0 +1,26 @@
+<Project>
+
+  <PropertyGroup>
+    <XunitVersion>2.4.1</XunitVersion>
+    <XunitAbstractionsVersion>2.0.3</XunitAbstractionsVersion>
+    <XunitAnalyzersVersion>0.10.0</XunitAnalyzersVersion>
+    <XunitCombinatorialVersion>1.2.7</XunitCombinatorialVersion>
+    <XunitFluentlyVersion>*</XunitFluentlyVersion>
+  </PropertyGroup>
+
+  <!-- ReSharper disable UnknownProperty -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.analyzers" Version="$(XunitAnalyzersVersion)" />
+    <PackageReference Include="xunit.assert" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.core" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.fluently.assert" Version="$(XunitFluentlyVersion)" />
+  </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
+
+</Project>

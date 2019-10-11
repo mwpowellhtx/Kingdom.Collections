@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     // ReSharper disable once IdentifierTypo
     internal static class Randomizer

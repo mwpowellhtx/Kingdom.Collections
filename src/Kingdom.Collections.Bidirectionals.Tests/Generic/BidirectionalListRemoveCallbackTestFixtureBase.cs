@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     using Xunit;
 
@@ -14,7 +14,7 @@ namespace Kingdom.Collections
         where T : IEquatable<T>
     {
         protected override void ConnectCallbacks(IBidirectionalList<T> list
-            , BidirectionalCallback<T> onCallingBack, BidirectionalCallback<T> onCalledBack)
+            , BidirectionalListItemCallback<T> onCallingBack, BidirectionalListItemCallback<T> onCalledBack)
         {
             Assert.NotNull(onCallingBack);
             Assert.NotNull(onCalledBack);
@@ -27,7 +27,7 @@ namespace Kingdom.Collections
             => new BidirectionalList<T>(getValues());
 
         protected override IBidirectionalList<T> CreateBidirectionalList(Func<IEnumerable<T>> getValues
-            , BidirectionalCallback<T> beforeCallback, BidirectionalCallback<T> afterCallback)
+            , BidirectionalListItemCallback<T> beforeCallback, BidirectionalListItemCallback<T> afterCallback)
             => new BidirectionalList<T>(getValues(), onRemoved: afterCallback, onRemoving: beforeCallback);
 
         protected override void PrepareList(IList<T> list, T expectedItem)

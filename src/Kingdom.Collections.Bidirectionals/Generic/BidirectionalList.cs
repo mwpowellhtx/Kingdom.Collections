@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     // ReSharper disable once UnusedMember.Global
     /// <summary>
@@ -22,19 +22,19 @@ namespace Kingdom.Collections
 
         private void ListAction(ListActionCallback callback) => callback(_collection);
 
-        private static BidirectionalCallback<T> DefaultCallback() => _ => { };
+        private static BidirectionalListItemCallback<T> DefaultCallback() => _ => { };
 
         /// <inheritdoc />
-        public event BidirectionalCallback<T> AddingItem;
+        public event BidirectionalListItemCallback<T> AddingItem;
 
         /// <inheritdoc />
-        public event BidirectionalCallback<T> AddedItem;
+        public event BidirectionalListItemCallback<T> AddedItem;
 
         /// <inheritdoc />
-        public event BidirectionalCallback<T> RemovingItem;
+        public event BidirectionalListItemCallback<T> RemovingItem;
 
         /// <inheritdoc />
-        public event BidirectionalCallback<T> RemovedItem;
+        public event BidirectionalListItemCallback<T> RemovedItem;
 
         // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
         /// <summary>
@@ -49,15 +49,17 @@ namespace Kingdom.Collections
         // ReSharper disable once RedundantEmptyObjectOrCollectionInitializer
         /// <summary>
         /// Construct a <see cref="IBidirectionalList{T}"/> given the set of
-        /// <see cref="BidirectionalCallback{T}"/>.
+        /// <see cref="BidirectionalListItemCallback{T}"/>.
         /// </summary>
         /// <param name="onAdded"></param>
         /// <param name="onRemoved"></param>
         /// <param name="onAdding"></param>
         /// <param name="onRemoving"></param>
         /// <inheritdoc />
-        public BidirectionalList(BidirectionalCallback<T> onAdded, BidirectionalCallback<T> onRemoved
-            , BidirectionalCallback<T> onAdding = null, BidirectionalCallback<T> onRemoving = null)
+        public BidirectionalList(BidirectionalListItemCallback<T> onAdded
+            , BidirectionalListItemCallback<T> onRemoved
+            , BidirectionalListItemCallback<T> onAdding = null
+            , BidirectionalListItemCallback<T> onRemoving = null)
             : this(new List<T> { }, onAdded, onRemoved, onAdding, onRemoving)
         {
         }
@@ -72,8 +74,10 @@ namespace Kingdom.Collections
         /// <param name="onRemoving"></param>
         /// <inheritdoc />
         public BidirectionalList(IEnumerable<T> values
-            , BidirectionalCallback<T> onAdded = null, BidirectionalCallback<T> onRemoved = null
-            , BidirectionalCallback<T> onAdding = null, BidirectionalCallback<T> onRemoving = null)
+            , BidirectionalListItemCallback<T> onAdded = null
+            , BidirectionalListItemCallback<T> onRemoved = null
+            , BidirectionalListItemCallback<T> onAdding = null
+            , BidirectionalListItemCallback<T> onRemoving = null)
             : this(values.ToList(), onAdded, onRemoved, onAdding, onRemoving)
         {
         }
@@ -87,8 +91,10 @@ namespace Kingdom.Collections
         /// <param name="onAdding"></param>
         /// <param name="onRemoving"></param>
         public BidirectionalList(IList<T> values
-            , BidirectionalCallback<T> onAdded = null, BidirectionalCallback<T> onRemoved = null
-            , BidirectionalCallback<T> onAdding = null, BidirectionalCallback<T> onRemoving = null)
+            , BidirectionalListItemCallback<T> onAdded = null
+            , BidirectionalListItemCallback<T> onRemoved = null
+            , BidirectionalListItemCallback<T> onAdding = null
+            , BidirectionalListItemCallback<T> onRemoving = null)
         {
             AddedItem += onAdded ?? DefaultCallback();
             AddingItem += onAdding ?? DefaultCallback();
@@ -133,11 +139,11 @@ namespace Kingdom.Collections
             // We need to maintain a Local Collection for this one.
             var clearing = new List<T>(_collection);
 
-            void ReportClearing(BidirectionalCallback<T> callback)
+            void ReportClearing(BidirectionalListItemCallback<T> callback)
             {
                 foreach (var x in clearing)
                 {
-                    callback(x);
+                    callback.Invoke(x);
                 }
             }
 

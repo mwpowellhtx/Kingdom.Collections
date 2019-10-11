@@ -1,4 +1,6 @@
-﻿namespace Kingdom.Collections
+﻿using System.Collections.Generic;
+
+namespace Kingdom.Collections.Generic
 {
     using static Randomizer;
 
@@ -7,9 +9,8 @@
     /// approach here.
     /// </summary>
     /// <inheritdoc />
-    public class IntegerBidirectionalListRemoveCallbackTests : BidirectionalListRemoveCallbackTestFixtureBase<int>
+    public class IntegerBidirectionalListAddCallbackTests : BidirectionalListAddCallbackTestFixtureBase<int>
     {
         protected override int NewItem => Rnd.Next();
-
     }
 }

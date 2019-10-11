@@ -6,6 +6,14 @@ Attendance for my talk was less than I had hoped, and I was not happy with the r
 
 For lack of a better name, I opted to rename the suite *"Collections"*, which includes ``ImmutableBitArray``, and the derivational work, ``Enumerations``.
 
+## Breaking Changes
+
+### Bidirectionals Refactored
+
+We refactored the `BidirectionalList` to the `Kingdom.Collections.Generic` namespace instead of `Kingdom.Collections` where it was before.
+
+We also added a `BidirectionalDictionary` in addition to the `BidirectionalList`. This operates along similar lines as the list except that your *Add* and *Remove* callbacks accept both a *key* as well as the *value*.
+
 ## ImmutableBitArray
 
 Initially I wanted to use the .NET Framework [System.Collections.BitArray](http://msdn.microsoft.com/en-us/library/system.collections.bitarray.aspx) for a couple of my applications, but soon discovered that it was neither [immutable](http://en.wikipedia.org/wiki/Immutable_object) nor [idempotent](http://en.wikipedia.org/wiki/Idempotence) under certain circumstances, especially for some key bitwise operations. Effectively, some operations that should return a new instance do not, which is incorrect behavior. I may rename the collection, and consequently the assembly, after all, to better reflect the *Idempotent* attribute that I found was the most critical; but for now, I am running with the name *Immutable*.

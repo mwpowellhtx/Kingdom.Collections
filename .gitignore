@@ -15,3 +15,5 @@ _ReSharper.Caches/
 
 *.old/
 !.nuget/
+
+LICENSE.txt

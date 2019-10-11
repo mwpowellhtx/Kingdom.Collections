@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Generic
 {
     using static Randomizer;
 
@@ -19,7 +19,7 @@ namespace Kingdom.Collections
             => getValues().ToBidirectionalList();
 
         protected override IBidirectionalList<int> CreateBidirectionalList(Func<IEnumerable<int>> getValues
-            , BidirectionalCallback<int> beforeCallback, BidirectionalCallback<int> afterCallback)
+            , BidirectionalListItemCallback<int> beforeCallback, BidirectionalListItemCallback<int> afterCallback)
             => getValues().ToBidirectionalList(onAdded: null, onRemoved: afterCallback
                 , onAdding: null, onRemoving: beforeCallback);
     }
