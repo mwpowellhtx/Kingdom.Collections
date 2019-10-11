@@ -4,18 +4,19 @@
     <Authors>Michael W. Powell</Authors>
     <Company>Kingdom Software</Company>
     <Product>Kingdom.Collections</Product>
-    <Copyright>Copyright © 2016, 2018, 2019</Copyright>
+    <Copyright>Copyright &#169; 2016, 2018-2019</Copyright>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/mwpowellhtx/Kingdom.Collections/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <PropertyGroup>
     <RootNamespace>Kingdom.Collections</RootNamespace>
   </PropertyGroup>
 
+  <!-- TODO: TBD: repositioning the unit testing bits to the Unit.Testing.props definitions... -->
+  <!-- TODO: TBD: not ready for broader solution wide adoption just yet, working on a couple of specific packages... -->
   <PropertyGroup>
     <!-- We define this ubiquitously in order to keep the version numbers properly aligned throughout. -->
     <CodeGenerationRoslynPackagesVersion>0.4.88</CodeGenerationRoslynPackagesVersion>
@@ -24,30 +25,46 @@
     <XunitAbstractionsVersion>2.0.3</XunitAbstractionsVersion>
     <XunitAnalyzersVersion>0.10.0</XunitAnalyzersVersion>
     <XunitCombinatorialVersion>1.2.7</XunitCombinatorialVersion>
+    <BumpAssemblyVersionsVersion>1.4.0</BumpAssemblyVersionsVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BumpAssemblyVersions" Version="1.2.0">
+    <PackageReference Include="BumpAssemblyVersions" Version="$(BumpAssemblyVersionsVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\1.2.0\build\BumpAssemblyVersions.targets')">
+  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
     <!--<BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
     <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
     <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
     <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />-->
 
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
+    <!-- ReSharper disable UnknownProperty -->
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
+
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <!-- ReSharper restore UnknownProperty -->
 
     <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
     <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
     <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
     <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
+
+  <!-- ReSharper disable UnknownProperty -->
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <!-- Depending on `PackageOutputPath´ is still the right thing to do, as is `PackageId´.
+     Where we run into difficulty is when we try to deliver into a single location, especially for similarly named packages. -->
+    <Exec Command="if exist &quot;$(PackageOutputPath)$(PackageId).*.nupkg&quot; del /f &quot;$(PackageOutputPath)$(PackageId).*.nupkg&quot;" />
+  </Target>
+  <!-- ReSharper restore UnknownProperty -->
 
 </Project>
