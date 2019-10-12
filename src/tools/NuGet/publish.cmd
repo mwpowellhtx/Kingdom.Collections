@@ -49,6 +49,8 @@ set collections_projects=Kingdom.Collections.Bidirectionals
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Stacks
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Queues
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Deques
+rem Setup Deques Projects
+set deques_projects=Kingdom.Collections.Deques
 rem Setup Enumerations Projects
 set enum_projects=Kingdom.Collections.ImmutableBitArray
 set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Attributes
@@ -172,6 +174,14 @@ if /i "%1" equ "--all-collections-core" (
         set projects=%collections_core_projects%
     ) else (
         set projects=%projects%%delim%%collections_core_projects%
+    )
+)
+
+if /i "%1" equ "--deques" (
+    if /i "%projects%" equ "" (
+        set projects=%deques_projects%
+    ) else (
+        set projects=%projects%%delim%%deques_projects%
     )
 )
 

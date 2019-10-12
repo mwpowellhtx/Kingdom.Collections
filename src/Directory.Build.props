@@ -47,10 +47,15 @@
     <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
     <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
 
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+
+    <!--<BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
     <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
     <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />-->
     <!-- ReSharper restore UnknownProperty -->
 
     <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
