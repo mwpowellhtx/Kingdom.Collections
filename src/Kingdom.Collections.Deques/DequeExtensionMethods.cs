@@ -1,212 +1,132 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Kingdom.Collections
 {
     /// <summary>
-    /// Provides the set of Double-ended Queue, or Deque, operations on <see cref="IList{T}"/>.
+    /// Provides helpful extension methods facilitating the Deque question.
     /// </summary>
-    /// <see cref="!:https://en.wikipedia.org/wiki/Double-ended_queue"/>
     public static class DequeExtensionMethods
     {
         /// <summary>
-        /// Enqueues the <paramref name="item"/> onto the Front of the <paramref name="list"/>.
-        /// May Enqueue <paramref name="additionalItems"/> onto the Front of the list in Enqueue
-        /// order.
+        /// Returns the <paramref name="values"/> as an <see cref="Deque"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="item"></param>
-        /// <param name="additionalItems"></param>
+        /// <param name="values"></param>
         /// <returns></returns>
-        public static TList EnqueueFront<T, TList>(this TList list, T item, params T[] additionalItems)
-            where TList : IList<T>
-        {
-            list.Insert(0, item);
+        public static Deque ToDeque(this IEnumerable values) => new Deque(values);
 
-            foreach (var additionalItem in additionalItems)
+        /// <summary>
+        /// Enqueue the <paramref name="items"/> onto the Front of the <paramref name="deque"/>
+        /// on a first come first serve <see cref="Generic.IDeque{T}.EnqueueFront"/> basis.
+        /// </summary>
+        /// <typeparam name="TDeque"></typeparam>
+        /// <param name="deque"></param>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static TDeque EnqueueFrontMany<TDeque>(this TDeque deque, params object[] items)
+            where TDeque : IDeque
+        {
+            foreach (var item in items)
             {
-                list.EnqueueFront(additionalItem);
+                deque.EnqueueFront(item);
             }
 
-            return list;
+            return deque;
         }
 
         /// <summary>
-        /// Enqueues the <paramref name="item"/> onto the Back of the <paramref name="list"/>.
-        /// May Enqueue <paramref name="additionalItems"/> onto the Back of the list in Enqueue
-        /// order.
+        /// Enqueue the <paramref name="items"/> onto the Back of the <paramref name="deque"/>
+        /// on a first come first serve <see cref="Generic.IDeque{T}.EnqueueBack"/> basis.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="item"></param>
-        /// <param name="additionalItems"></param>
+        /// <typeparam name="TDeque"></typeparam>
+        /// <param name="deque"></param>
+        /// <param name="items"></param>
         /// <returns></returns>
-        public static TList EnqueueBack<T, TList>(this TList list, T item, params T[] additionalItems)
-            where TList : IList<T>
+        public static TDeque EnqueueBackMany<TDeque>(this TDeque deque, params object[] items)
+            where TDeque : IDeque
         {
-            list.Add(item);
-
-            foreach (var additionalItem in additionalItems)
+            foreach (var item in items)
             {
-                list.EnqueueBack(additionalItem);
+                deque.EnqueueBack(item);
             }
 
-            return list;
+            return deque;
         }
 
         /// <summary>
-        /// Returns the Dequeued Item from the Front of the List.
+        /// Returns an <see cref="IEnumerable{T}"/> of Dequeued Items from the Front of the
+        /// <paramref name="deque"/>. The returned items will be in
+        /// <see cref="Generic.IDeque{T}.DequeueFront"/> order and there may be as many as
+        /// up to <paramref name="count"/> items.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        public static T DequeueFront<T, TList>(this TList list)
-            where TList : IList<T>
-        {
-            var item = list[0];
-            list.RemoveAt(0);
-            return item;
-        }
-
-        /// <summary>
-        /// Returns the Dequeued Item from the Back of the List.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        public static T DequeueBack<T, TList>(this TList list)
-            where TList : IList<T>
-        {
-            var count = list.Count;
-            var item = list[count - 1];
-            list.RemoveAt(count - 1);
-            return item;
-        }
-
-        /// <summary>
-        /// Tries to Dequeue the <paramref name="item"/> from the Front of the
-        /// <paramref name="list"/>. Returns whether this operation was successful.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public static bool TryDequeueFront<T, TList>(this TList list, out T item)
-            where TList : IList<T>
-        {
-            var count = list.Count;
-            item = list.Any() ? list.DequeueFront<T, TList>() : default(T);
-            return count != list.Count;
-        }
-
-        /// <summary>
-        /// Tries to Dequeue the <paramref name="item"/> from the Back of the
-        /// <paramref name="list"/>. Returns whether this operation was successful.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public static bool TryDequeueBack<T, TList>(this TList list, out T item)
-            where TList : IList<T>
-        {
-            var count = list.Count;
-            item = list.Any() ? list.DequeueBack<T, TList>() : default(T);
-            return count != list.Count;
-        }
-
-        /// <summary>
-        /// Returns an <see cref="IEnumerable{T}"/> of Dequeued items from the Front of the
-        /// <paramref name="list"/>. The returned items will be in
-        /// <see cref="DequeueFront{T,TList}"/> order and there may be as many as up to
-        /// <paramref name="count"/> items.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
+        /// <param name="deque"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public static IEnumerable<T> DequeueFrontMany<T, TList>(this TList list, int count = 1)
-            where TList : IList<T>
+        public static IEnumerable<object> DequeueFrontMany(this IDeque deque, int count = 1)
         {
-            while (count-- > 0 && list.Any())
+            while (count-- > 0 && deque.Count > 0)
             {
-                yield return list.DequeueFront<T, TList>();
+                yield return deque.DequeueFront();
             }
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerable{T}"/> of Dequeued items from the Back of the
-        /// <paramref name="list"/>. The returned items will be in
-        /// <see cref="DequeueBack{T,TList}"/> order and there may be as many as up to
-        /// <paramref name="count"/> items.
+        /// Returns an <see cref="IEnumerable{T}"/> of Dequeued Items from the Back of the
+        /// <paramref name="deque"/>. The returned items will be in
+        /// <see cref="Generic.IDeque{T}.DequeueBack"/> order and there may be as many as
+        /// up to <paramref name="count"/> items.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
+        /// <param name="deque"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public static IEnumerable<T> DequeueBackMany<T, TList>(this TList list, int count = 1)
-            where TList : IList<T>
+        public static IEnumerable<object> DequeueBackMany(this IDeque deque, int count = 1)
         {
-            while (count-- > 0 && list.Any())
+            while (count-- > 0 && deque.Count > 0)
             {
-                yield return list.DequeueBack<T, TList>();
+                yield return deque.DequeueBack();
             }
         }
 
         /// <summary>
-        /// Tries to Dequeue as Many <typeparamref name="T"/> items as possible. May return with
+        /// Tries to Dequeue as Many <see cref="object"/> Items as possible. May return with
         /// a <paramref name="result"/> that contains up to <paramref name="count"/> number of
         /// them. The returned <paramref name="result"/> will be in
-        /// <see cref="DequeueFront{T,TList}"/> order.
+        /// <see cref="Generic.IDeque{T}.DequeueFront"/> order.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
+        /// <param name="deque"></param>
         /// <param name="result"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public static bool TryDequeueFrontMany<T, TList>(this TList list, out IEnumerable<T> result, int count = 1)
-            where TList : IList<T>
+        public static bool TryDequeueFrontMany(this IDeque deque, out IEnumerable<object> result, int count = 1)
         {
-            result = new List<T>();
+            result = new List<object>();
 
-            while (count-- > 0 && list.Any())
+            while (count-- > 0 && deque.Count > 0)
             {
-                ((IList<T>) result).Add(list.DequeueFront<T, TList>());
+                ((IList<object>) result).Add(deque.DequeueFront());
             }
 
             return result.Any();
         }
 
         /// <summary>
-        /// Tries to Dequeue as Many <typeparamref name="T"/> items as possible. May return with
+        /// Tries to Dequeue as Many <see cref="object"/> Items as possible. May return with
         /// a <paramref name="result"/> that contains up to <paramref name="count"/> number of
         /// them. The returned <paramref name="result"/> will be in
-        /// <see cref="DequeueBack{T,TList}"/> order.
+        /// <see cref="Generic.IDeque{T}.DequeueBack"/> order.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TList"></typeparam>
-        /// <param name="list"></param>
+        /// <param name="deque"></param>
         /// <param name="result"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public static bool TryDequeueBackMany<T, TList>(this TList list, out IEnumerable<T> result, int count = 1)
-            where TList : IList<T>
+        public static bool TryDequeueBackMany(this IDeque deque, out IEnumerable<object> result, int count = 1)
         {
-            result = new List<T>();
+            result = new List<object>();
 
-            while (count-- > 0 && list.Any())
+            while (count-- > 0 && deque.Count > 0)
             {
-                ((IList<T>) result).Add(list.DequeueBack<T, TList>());
+                ((IList<object>) result).Add(deque.DequeueBack());
             }
 
             return result.Any();

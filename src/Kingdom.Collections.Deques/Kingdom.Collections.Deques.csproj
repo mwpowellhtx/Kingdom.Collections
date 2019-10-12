@@ -3,25 +3,38 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageProjectUrl>http://github.com/mwpowellhtx/Kingdom.Collections</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides a simple set of list based extensions for Double-ended Queue, or Deque, operation.</Description>
-    <PackageTags>Collections; IList; List; IEnumerable; enqueue; dequeue; front; back; try; many; item; additional; count; any; onto</PackageTags>
-    <Version>1.1.1.21</Version>
-    <FileVersion>1.1.1.21</FileVersion>
-    <AssemblyVersion>1.1.1.21</AssemblyVersion>
+    <PackageTags>Collections; IDeque; Deque; IEnumerable; enqueue; dequeue; front; back; try; many; item; additional; count; any; onto</PackageTags>
+    <Version>1.1.1.33</Version>
+    <FileVersion>1.1.1.33</FileVersion>
+    <AssemblyVersion>1.1.1.33</AssemblyVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.Deques.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Kingdom.Collections.Deques.nuspec" />
+    <None Remove="Kingdom.Collections.Deques.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Kingdom.Collections.DataStructures.Tests</_Parameter1>
+    </AssemblyAttribute>
+    <!-- The following GUID is for the ID of the typelib if this project is exposed to COM. -->
+    <AssemblyAttribute Include="System.Runtime.InteropServices.GuidAttribute">
+      <_Parameter1>8609ee45-7e9f-4aee-950c-85d60474fb04</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>
