@@ -14,9 +14,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides a simple set of list based extensions for Double-ended Queue, or Deque, operation.</Description>
     <PackageTags>Collections; IDeque; Deque; IEnumerable; enqueue; dequeue; front; back; try; many; item; additional; count; any; onto</PackageTags>
-    <Version>1.1.1.33</Version>
-    <FileVersion>1.1.1.33</FileVersion>
-    <AssemblyVersion>1.1.1.33</AssemblyVersion>
+    <Version>1.2.0.26245</Version>
+    <FileVersion>1.2.0.26245</FileVersion>
+    <AssemblyVersion>1.2.0.26245</AssemblyVersion>
+    <PackageVersion>1.2.0.26245</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
