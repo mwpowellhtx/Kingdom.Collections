@@ -8,10 +8,10 @@ namespace Kingdom.Collections
     using Xunit;
     using static String;
 
-    public abstract class DataStructureTestsBase<T, TList> : IDisposable
-        where TList : class, IList<T>, new()
+    public abstract class DataStructureTestsBase<T, TDataStructure> : IDisposable
+        where TDataStructure : class, new()
     {
-
+        // TODO: TBD: what was the point of this one? I'm not sure we need a stringifying ItemList any longer...
         public class ItemList : IList<T>
         {
             private readonly IList<T> _list;
@@ -64,18 +64,17 @@ namespace Kingdom.Collections
             public override string ToString() => Join(Join(", ", from x in _list select $"{x}"), "{", "}");
         }
 
-        protected TList Subject { get; private set; }
+        protected TDataStructure Subject { get; private set; }
 
         protected DataStructureTestsBase()
         {
-            Subject = new TList();
+            Subject = new TDataStructure();
         }
 
-        protected static TList Verify(TList subject, Action<TList> verify = null)
+        protected static TDataStructure Verify(TDataStructure subject, Action<TDataStructure> verify = null)
         {
-            verify = verify ?? (x => { });
-            Assert.NotNull(subject);
-            verify(subject);
+            subject.AssertNotNull();
+            verify?.Invoke(subject);
             return subject;
         }
 

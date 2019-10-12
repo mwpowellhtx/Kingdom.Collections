@@ -16,7 +16,9 @@ namespace Kingdom.Collections
     /// discovery, but this is a minor point by comparison. The hard work of actually defining
     /// the test cases is also provided.
     /// </summary>
-    public abstract class IntegerBasedDataStructureTestsBase : DataStructureTestsBase<int, List<int>>
+    public abstract class IntegerBasedDataStructureTestsBase<TDataStructure>
+        : DataStructureTestsBase<int, TDataStructure>
+        where TDataStructure : class, new()
     {
         static IntegerBasedDataStructureTestsBase()
         {
@@ -24,34 +26,27 @@ namespace Kingdom.Collections
             ManyItemsTestCases = ProtectedManyItemsTestCases;
         }
 
-        protected delegate IList<int> AddCallback(List<int> subject, int item, params int[] additionalItems);
+        protected abstract TDataStructure ToDataStructure(IEnumerable<int> values);
 
-        protected abstract AddCallback Add { get; }
+        //protected abstract bool GetDataStructureEquals(TDataStructure a, TDataStructure b);
 
-        protected delegate int RemoveCallback(IList<int> subject);
+        protected abstract int GetCount(TDataStructure subject);
 
-        protected delegate int GetRemoveExpectedCallback(int item, IList<int> additionalItems);
+        protected abstract TDataStructure Add(TDataStructure subject, int item, params int[] additionalItems);
 
-        protected abstract GetRemoveExpectedCallback GetRemoveExpected { get; }
+        protected abstract int Remove(TDataStructure subject);
 
-        protected abstract RemoveCallback Remove { get; }
+        protected abstract int GetRemoveExpected(int item, IList<int> additionalItems);
 
-        protected delegate bool TryRemoveCallback(IList<int> subject, out int result);
+        protected abstract bool TryRemove(TDataStructure subject, out int result);
 
-        protected abstract TryRemoveCallback TryRemove { get; }
+        protected abstract IEnumerable<int> GetRemoveManyExpected(int item, IList<int> additionalItems, int count);
 
-        protected delegate IEnumerable<int> GetRemoveManyExpectedCallback(int item, IList<int> additionalItems
-            , int count);
+        protected abstract IEnumerable<int> RemoveMany(TDataStructure subject, int count);
 
-        protected abstract GetRemoveManyExpectedCallback GetRemoveManyExpected { get; }
+        protected abstract bool TryRemoveMany(TDataStructure subject, out IEnumerable<int> result, int count);
 
-        protected delegate IEnumerable<int> RemoveManyCallback(IList<int> subject, int count);
-
-        protected abstract RemoveManyCallback RemoveMany { get; }
-
-        protected delegate bool TryRemoveManyCallback(IList<int> subject, out IEnumerable<int> result, int count);
-
-        protected abstract TryRemoveManyCallback TryRemoveMany { get; }
+        protected abstract void VerifyInternalList(TDataStructure subject, IEnumerable<int> expected);
 
         protected static IEnumerable<object[]> ProtectedBasicTestCases
         {
@@ -66,50 +61,51 @@ namespace Kingdom.Collections
 
         public static IEnumerable<object[]> BasicTestCases { get; protected set; }
 
-        [Theory]
-        [MemberData(nameof(BasicTestCases))]
+        [Theory, MemberData(nameof(BasicTestCases))]
         public virtual void Verify_can_Add(int item, ItemList additionalItems)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            Assert.Equal(additionalItems.Count + 1, sub.Count);
-            var expected = new[] {item}.Concat(additionalItems).Reverse().ToList();
-            Assert.Equal(expected, sub);
+            GetCount(sub).AssertEqual(additionalItems.Count + 1);
+            VerifyInternalList(sub, new[] {item}.Concat(additionalItems).Reverse());
         }
 
-        [Theory]
-        [MemberData(nameof(BasicTestCases))]
+        [Theory, MemberData(nameof(BasicTestCases))]
         public void Verify_can_Remove(int item, ItemList additionalItems)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            Assert.Equal(additionalItems.Count + 1, sub.Count);
+            GetCount(sub).AssertEqual(additionalItems.Count + 1);
             var expected = GetRemoveExpected(item, additionalItems);
-            Assert.Equal(expected, Remove(sub));
+            Remove(sub).AssertEqual(expected);
         }
-
 
         [Fact]
         public void Verify_that_Remove_empty_throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Remove(Subject));
+            Action Get() => () => Remove(Subject);
+            const string index = nameof(index);
+            const string list = nameof(list);
+            var paramNames = new[] {index, list}.ToList();
+            Get().AssertThrows<ArgumentOutOfRangeException>().Verify(
+                ex => ex.ParamName.AssertTrue(x => paramNames.Contains(x))
+            );
         }
 
-        [Theory]
-        [MemberData(nameof(BasicTestCases))]
+        [Theory, MemberData(nameof(BasicTestCases))]
         public void Verify_that_TryRemove_correct(int item, ItemList additionalItems)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            Assert.Equal(additionalItems.Count + 1, sub.Count);
+            GetCount(sub).AssertEqual(additionalItems.Count + 1);
             var expected = GetRemoveExpected(item, additionalItems);
             // Wow for C# 7 ...
-            Assert.True(TryRemove(sub, out var actual));
-            Assert.Equal(expected, actual);
+            TryRemove(sub, out var actual).AssertTrue();
+            actual.AssertEqual(expected);
         }
 
         [Fact]
         public void Verify_that_TryRemove_empty_false()
         {
-            Assert.False(TryRemove(Verify(Subject), out var actual));
-            Assert.Equal(default(int), actual);
+            TryRemove(Verify(Subject), out var actual).AssertFalse();
+            actual.AssertEqual(default(int));
         }
 
         protected static IEnumerable<object[]> ProtectedManyItemsTestCases
@@ -130,24 +126,22 @@ namespace Kingdom.Collections
         public static IEnumerable<object[]> ManyItemsTestCases { get; protected set; }
 
 
-        [Theory]
-        [MemberData(nameof(ManyItemsTestCases))]
+        [Theory, MemberData(nameof(ManyItemsTestCases))]
         public void Verify_that_RemoveMany_correct(int item, ItemList additionalItems, int count)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
             var actual = RemoveMany(sub, count).ToArray();
             var expected = GetRemoveManyExpected(item, additionalItems, count).ToArray();
-            Assert.Equal(expected, actual);
+            actual.AssertEqual(expected);
         }
 
-        [Theory]
-        [MemberData(nameof(ManyItemsTestCases))]
+        [Theory, MemberData(nameof(ManyItemsTestCases))]
         public void Verify_that_TryRemoveMany_correct(int item, ItemList additionalItems, int count)
         {
             var sub = Add(Subject, item, additionalItems.ToArray());
-            Assert.Equal(count > 0, TryRemoveMany(sub, out var actual, count));
+            TryRemoveMany(sub, out var actual, count).AssertEqual(count > 0);
             var expected = GetRemoveManyExpected(item, additionalItems, count);
-            Assert.Equal(expected, actual);
+            actual.AssertEqual(expected);
         }
     }
 }

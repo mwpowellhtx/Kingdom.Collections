@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
+    using Generic;
+    using Xunit;
     using static Math;
 
     /// <summary>
@@ -12,32 +14,43 @@ namespace Kingdom.Collections
     /// for test coverage purposes.
     /// </summary>
     /// <inheritdoc />
-    public class DequeAddBackRemoveFrontDataStructureTests : IntegerBasedDataStructureTestsBase
+    public class DequeAddBackRemoveFrontDataStructureTests : IntegerBasedDataStructureTestsBase<Deque<int>>
     {
-        protected override AddCallback Add { get; }
+        // ReSharper disable once RedundantTypeArgumentsOfMethod
+        protected override Deque<int> ToDataStructure(IEnumerable<int> values)
+            => values.ToDeque<int>();
 
-        protected override GetRemoveExpectedCallback GetRemoveExpected { get; }
-
-        protected override RemoveCallback Remove { get; }
-
-        protected override TryRemoveCallback TryRemove { get; }
-
-        protected override GetRemoveManyExpectedCallback GetRemoveManyExpected { get; }
-
-        protected override RemoveManyCallback RemoveMany { get; }
-
-        protected override TryRemoveManyCallback TryRemoveMany { get; }
-
-        public DequeAddBackRemoveFrontDataStructureTests()
+        protected override Deque<int> Add(Deque<int> subject, int item, params int[] additionalItems)
         {
-            Add = (s, i, j) => Verify(s).EnqueueFront(i, j);
-            GetRemoveExpected = (i, j) => i;
-            Remove = s => s.DequeueBack<int, IList<int>>();
-            TryRemove = (IList<int> s, out int result) => s.TryDequeueBack(out result);
-            GetRemoveManyExpected = (i, j, count) => new[] {i}.Concat(j)
-                .Take(Min(j.Count + 1, count > 0 ? count : 0));
-            RemoveMany = (s, count) => s.DequeueBackMany<int, IList<int>>(count);
-            TryRemoveMany = (IList<int> s, out IEnumerable<int> result, int count) => s.TryDequeueBackMany(out result, count);
+            subject.EnqueueBack(item);
+            // ReSharper disable once RedundantTypeArgumentsOfMethod
+            subject.EnqueueBackMany<int, Deque<int>>(additionalItems);
+            return subject;
         }
+
+        protected override int GetCount(Deque<int> subject)
+            => subject.Count;
+
+        protected override int GetRemoveExpected(int item, IList<int> additionalItems)
+            => item;
+
+        protected override int Remove(Deque<int> subject)
+            => subject.DequeueFront();
+
+        protected override bool TryRemove(Deque<int> subject, out int result)
+            => subject.TryDequeueFront(out result);
+
+        protected override IEnumerable<int> GetRemoveManyExpected(int item, IList<int> additionalItems, int count)
+            => new[] {item}.Concat(additionalItems)
+                .Take(Min(additionalItems.Count + 1, count > 0 ? count : 0));
+
+        protected override IEnumerable<int> RemoveMany(Deque<int> subject, int count)
+            => subject.DequeueFrontMany(count);
+
+        protected override bool TryRemoveMany(Deque<int> subject, out IEnumerable<int> result, int count)
+            => subject.TryDequeueFrontMany(out result, count);
+
+        protected override void VerifyInternalList(Deque<int> subject, IEnumerable<int> expected)
+            => subject.InternalList.AssertEqual(expected.Reverse());
     }
 }

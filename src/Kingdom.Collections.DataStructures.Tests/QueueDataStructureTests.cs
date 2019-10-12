@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Kingdom.Collections
 {
+    using Xunit;
     using static Math;
 
     /// <summary>
@@ -11,32 +12,37 @@ namespace Kingdom.Collections
     /// unit tests.
     /// </summary>
     /// <inheritdoc />
-    public class QueueDataStructureTests : IntegerBasedDataStructureTestsBase
+    public class QueueDataStructureTests : IntegerBasedDataStructureTestsBase<List<int>>
     {
-        protected override AddCallback Add { get; }
+        protected override List<int> Add(List<int> subject, int item, params int[] additionalItems)
+            => Verify(subject).Enqueue(item, additionalItems);
 
-        protected override GetRemoveExpectedCallback GetRemoveExpected { get; }
+        protected override List<int> ToDataStructure(IEnumerable<int> values)
+            => values.ToList();
 
-        protected override RemoveCallback Remove { get; }
+        protected override int GetCount(List<int> subject)
+            => subject.Count;
 
-        protected override TryRemoveCallback TryRemove { get; }
+        protected override int GetRemoveExpected(int item, IList<int> additionalItems)
+            => item;
 
-        protected override GetRemoveManyExpectedCallback GetRemoveManyExpected { get; }
+        protected override int Remove(List<int> subject)
+            => subject.Dequeue<int, IList<int>>();
 
-        protected override RemoveManyCallback RemoveMany { get; }
+        protected override bool TryRemove(List<int> subject, out int result)
+            => subject.TryDequeue(out result);
 
-        protected override TryRemoveManyCallback TryRemoveMany { get; }
+        protected override IEnumerable<int> GetRemoveManyExpected(int item, IList<int> additionalItems, int count)
+            => new[] {item}.Concat(additionalItems)
+                .Take(Min(additionalItems.Count + 1, count > 0 ? count : 0));
 
-        public QueueDataStructureTests()
-        {
-            Add = (s, i, j) => Verify(s).Enqueue(i, j);
-            GetRemoveExpected = (i, j) => i;
-            Remove = s => s.Dequeue<int, IList<int>>();
-            TryRemove = (IList<int> s, out int result) => s.TryDequeue(out result);
-            GetRemoveManyExpected = (i, j, count) => new[] { i }.Concat(j)
-                .Take(Min(j.Count + 1, count > 0 ? count : 0));
-            RemoveMany = (s, count) => s.DequeueMany<int, IList<int>>(count);
-            TryRemoveMany = (IList<int> s, out IEnumerable<int> result, int count) => s.TryDequeueMany(out result, count);
-        }
+        protected override IEnumerable<int> RemoveMany(List<int> subject, int count)
+            => subject.DequeueMany<int, IList<int>>(count);
+
+        protected override bool TryRemoveMany(List<int> subject, out IEnumerable<int> result, int count)
+            => subject.TryDequeueMany(out result, count);
+
+        protected override void VerifyInternalList(List<int> subject, IEnumerable<int> expected)
+            => subject.AssertEqual(expected);
     }
 }
