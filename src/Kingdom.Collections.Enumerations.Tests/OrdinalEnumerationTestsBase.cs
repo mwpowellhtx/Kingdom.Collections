@@ -93,7 +93,7 @@ namespace Kingdom.Collections
             var result = OrdinalEnumeration<T>.FromOrdinal(ordinal);
             Assert.NotNull(result);
             Assert.Equal(ordinal, result.Ordinal);
-            return result.Verify(verify);
+            return result.VerifyEnumeration(verify);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Kingdom.Collections
         /// to be separate, so we can do some independent verification of different good, bad, or
         /// ugly use cases. Returns whether the type <typeparamref name="T"/> Has the Expected
         /// Constructors. That is, there is One <see cref="NonPublic"/>, <see cref="Instance"/>
-        /// Constructor accepting a single <see cref="int"/> paramter. The Constructor must also be
+        /// Constructor accepting a single <see cref="int"/> parameter. The Constructor must also be
         /// <see cref="MethodBase.IsPrivate"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -119,7 +119,8 @@ namespace Kingdom.Collections
         internal static void HasExpectedOrdinalCtors<T>(this T value)
             where T : OrdinalEnumeration<T>
         {
-            var ctor = typeof(T).GetConstructor(NonPublic | Instance, DefaultBinder, new[] {typeof(int)}, null);
+            var ctor = typeof(T).GetConstructor(NonPublic | Instance
+                , DefaultBinder, new[] {typeof(int)}, null);
             Assert.NotNull(ctor);
             Assert.True(ctor.IsPrivate);
         }

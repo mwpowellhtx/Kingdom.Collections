@@ -77,7 +77,7 @@ namespace Kingdom.Collections
         /// <returns></returns>
         /// <exception cref="NotNullException">Thrown when the <paramref name="value"/> is
         /// Null.</exception>
-        public static T Verify<T>(this T value, Action<T> verify = null)
+        public static T VerifyEnumeration<T>(this T value, Action<T> verify = null)
             where T : Enumeration
         {
             Assert.NotNull(value);
