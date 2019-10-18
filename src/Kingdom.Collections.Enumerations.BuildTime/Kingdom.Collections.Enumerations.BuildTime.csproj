@@ -6,15 +6,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <PackageVersion>1.2.0</PackageVersion>
-    <AssemblyVersion>1.2.0.1</AssemblyVersion>
-    <FileVersion>1.2.0.1</FileVersion>
+    <AssemblyVersion>1.2.0.4</AssemblyVersion>
+    <FileVersion>1.2.0.4</FileVersion>
+    <PackageVersion>1.2.0.4</PackageVersion>
   </PropertyGroup>
 
+  <!-- TODO: TBD: are these bits really that necessary? let's compare notes with the other BuildTime projects we've done recently... -->
   <PropertyGroup>
     <NuspecFile>Kingdom.Collections.Enumerations.BuildTime.nuspec</NuspecFile>
     <!-- ReSharper disable UnknownProperty disabled once and for all -->
     <NuspecProperties>version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);copyright=$(Copyright);licenseUrl=$(PackageLicenseUrl);versionOfCodegenRoslyn=$(CodeGenerationRoslynPackagesVersion);requireLicenseAcceptance=true</NuspecProperties>
   </PropertyGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Licensing.props" />
+  </ImportGroup>
 
 </Project>

@@ -9,15 +9,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Description>Provides the [FlagsEnumeration] attribute for use when signaling when bitwise operators and so forth are to be auto generated at build time.</Description>
-    <PackageTags>Enumerations; Enumeration; enumerated; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; attribute; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
-    <Version>1.0.2.2561</Version>
-    <AssemblyVersion>1.0.2.2561</AssemblyVersion>
-    <FileVersion>1.0.2.2561</FileVersion>
-    <PackageVersion>1.0.2.2561</PackageVersion>
+    <Version>1.0.2.2565</Version>
+    <AssemblyVersion>1.0.2.2565</AssemblyVersion>
+    <FileVersion>1.0.2.2565</FileVersion>
+    <PackageVersion>1.0.2.2565</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup>
+    <Description>Provides the [FlagsEnumeration] attribute for use when signaling when bitwise operators and so forth are to be auto generated at build time.</Description>
+    <PackageTags>Enumerations;Enumeration;enumerated;values;Ordinal;Bitwise;Java;dotnet;bitwise;shift;left;right;and;or;xor;not;ones;twos;complement;Flags;attribute;Boolean;bool;ICollection;ICloneable;Roslyn;Analyzer;Analyzers;Code;Fix;Fixes</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.Collections.Enumerations.Attributes.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -25,5 +28,9 @@
     <!-- ReSharper disable once UnknownProperty should be found in Directory.Build.props -->
     <PackageReference Include="CodeGeneration.Roslyn.Attributes" Version="$(CodeGenerationRoslynPackagesVersion)" />
   </ItemGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Licensing.props" />
+  </ImportGroup>
 
 </Project>

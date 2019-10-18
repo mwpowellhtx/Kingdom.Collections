@@ -3,20 +3,23 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>The framework BitArray is helpful but it has a serious flaw in the fact that it is not immutable. This is the primary motivation for working on this package in order to achieve just such an ImmutableBitArray. Reflexive operations can modify an instance but otherwise bitwise operations should yield a wholely new instance.</Description>
-    <PackageTags>immutable; idempotent; bit; bits; array; uint; byte; bytes; bool; IEnumerable; ICollection; IClonable; bitwise; and; or; xor; not; ones; complement; shift; elasticity; none; expansion; contraction; both; shrink; expand</PackageTags>
-    <Version>2.0.0.2564</Version>
-    <AssemblyVersion>2.0.0.2564</AssemblyVersion>
-    <FileVersion>2.0.0.2564</FileVersion>
-    <PackageVersion>2.0.0.2564</PackageVersion>
+    <Version>2.0.0.2583</Version>
+    <AssemblyVersion>2.0.0.2583</AssemblyVersion>
+    <FileVersion>2.0.0.2583</FileVersion>
+    <PackageVersion>2.0.0.2583</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup>
+    <Description>The framework BitArray is helpful but it has a serious flaw in the fact that it is not immutable. This is the primary motivation for working on this package in order to achieve just such an ImmutableBitArray. Reflexive operations can modify an instance but otherwise bitwise operations should yield a wholely new instance.</Description>
+    <PackageTags>immutable;idempotent;bit;bits;array;uint;byte;bytes;bool;IEnumerable;ICollection;IClonable;bitwise;and;or;xor;not;ones;complement;shift;elasticity;none;expansion;contraction;both;shrink;expand</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.ImmutableBitArray.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -25,5 +28,9 @@
       <DependentUpon>ImmutableBitArray.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Licensing.props" />
+  </ImportGroup>
 
 </Project>

@@ -10,15 +10,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Description>Provides the build time generators that respond to the [FlagsEnumeration] partial class attribute.</Description>
-    <PackageTags>Enumerations; Enumeration; enumerated; generator; generators; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable; Roslyn; Analyzer; Analyzers; Code; Fix; Fixes</PackageTags>
-    <Version>1.1.1.2561</Version>
-    <AssemblyVersion>1.1.1.2561</AssemblyVersion>
-    <FileVersion>1.1.1.2561</FileVersion>
-    <PackageVersion>1.1.1.2561</PackageVersion>
+    <Version>1.1.1.2564</Version>
+    <AssemblyVersion>1.1.1.2564</AssemblyVersion>
+    <FileVersion>1.1.1.2564</FileVersion>
+    <PackageVersion>1.1.1.2564</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup>
+    <Description>Provides the build time generators that respond to the [FlagsEnumeration] partial class attribute.</Description>
+    <PackageTags>Enumerations;Enumeration;enumerated;generator;generators;values;Ordinal;Bitwise;Java;dotnet;bitwise;shift;left;right;and;or;xor;not;ones;twos;complement;Flags;Boolean;bool;ICollection;ICloneable;Roslyn;Analyzer;Analyzers;Code;Fix;Fixes</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.Collections.Enumerations.Generators.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -32,5 +35,9 @@
     <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="$(MicrosoftCodeAnalysisCSharpVersion)" />
   </ItemGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Licensing.props" />
+  </ImportGroup>
 
 </Project>

@@ -10,15 +10,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Description>Provides a re-factoring and re-imagining of the Code Fixes elements deployed in the default Analysis and Code Fixes project template. This particular assembly focuses on Code Fixes only as part of that re-factoring effort.</Description>
-    <PackageTags>dotnet; code; analysis; csharp; Roslyn; fix; fixes; helpers; event; arguments; handler; verify; verifier; verifiers; verifying; provider; required; assert; success; language; source; given; expected; diagnostic; diagnostics; allowed; document; project</PackageTags>
-    <Version>1.0.1.2575</Version>
-    <AssemblyVersion>1.0.1.2575</AssemblyVersion>
-    <FileVersion>1.0.1.2575</FileVersion>
-    <PackageVersion>1.0.1.2575</PackageVersion>
+    <Version>1.0.1.2579</Version>
+    <AssemblyVersion>1.0.1.2579</AssemblyVersion>
+    <FileVersion>1.0.1.2579</FileVersion>
+    <PackageVersion>1.0.1.2579</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup>
+    <Description>Provides a re-factoring and re-imagining of the Code Fixes elements deployed in the default Analysis and Code Fixes project template. This particular assembly focuses on Code Fixes only as part of that re-factoring effort.</Description>
+    <PackageTags>dotnet;code;analysis;csharp;Roslyn;fix;fixes;helpers;event;arguments;handler;verify;verifier;verifiers;verifying;provider;required;assert;success;language;source;given;expected;diagnostic;diagnostics;allowed;document;project</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard1.6\Kingdom.CodeAnalysis.Verifiers.CodeFixes.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -30,5 +33,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.CodeAnalysis.Verifiers.Diagnostics\Kingdom.CodeAnalysis.Verifiers.Diagnostics.csproj" />
   </ItemGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Licensing.props" />
+  </ImportGroup>
 
 </Project>
