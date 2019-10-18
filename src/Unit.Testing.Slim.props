@@ -1,0 +1,22 @@
+<Project>
+
+  <PropertyGroup>
+    <XunitVersion>[2.4.1,3)</XunitVersion>
+    <XunitAnalyzersVersion>[0.10,1)</XunitAnalyzersVersion>
+    <XunitCombinatorialVersion>1.2.7</XunitCombinatorialVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <XunitFluentlyVersion>*</XunitFluentlyVersion>
+  </PropertyGroup>
+
+  <!-- ReSharper disable UnknownProperty -->
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.analyzers" Version="$(XunitAnalyzersVersion)" />
+    <PackageReference Include="xunit.fluently.assert" Version="$(XunitFluentlyVersion)" />
+    <PackageReference Include="xunit.fluently.assert.exceptionally" Version="$(XunitFluentlyVersion)" />
+  </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
+
+</Project>
