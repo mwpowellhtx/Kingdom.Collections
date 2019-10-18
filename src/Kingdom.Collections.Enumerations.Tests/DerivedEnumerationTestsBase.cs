@@ -109,7 +109,7 @@ namespace Kingdom.Collections
             var result = Enumeration<T>.FromName(name);
             Assert.NotNull(result);
             Assert.Equal(name, result.Name);
-            return result.Verify(verify);
+            return result.VerifyEnumeration(verify);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Kingdom.Collections
             var result = Enumeration<T>.FromDisplayName(displayName);
             Assert.NotNull(result);
             Assert.Equal(displayName, result.DisplayName);
-            return result.Verify(verify);
+            return result.VerifyEnumeration(verify);
         }
 
         /// <summary>
