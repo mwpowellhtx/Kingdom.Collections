@@ -8,13 +8,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{7FD4A0ED-4
 		tools\Common\CommonAssemblyInfo.cs = tools\Common\CommonAssemblyInfo.cs
 		Directory.Build.props = Directory.Build.props
 		Unit.Testing.props = Unit.Testing.props
+		Unit.Testing.Slim.props = Unit.Testing.Slim.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{E1374B06-2C96-40BE-8AE0-DAB8F37808A8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CF1D8556-4E2C-4721-B8CC-9407A92465ED}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{1D03AD33-02D2-406C-B4FE-361773F67D8E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".tools", ".tools", "{1D03AD33-02D2-406C-B4FE-361773F67D8E}"
 	ProjectSection(SolutionItems) = preProject
 		tools\NuGet\clean.cmd = tools\NuGet\clean.cmd
 		tools\NuGet\copy-local.cmd = tools\NuGet\copy-local.cmd
@@ -37,9 +38,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Collections.DataStr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.ImmutableBitArray.Tests", "Kingdom.Collections.ImmutableBitArray.Tests\Kingdom.Collections.ImmutableBitArray.Tests.csproj", "{8445544B-9AA8-49D6-A307-F889BD403477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.Enumerations.Tests", "Kingdom.Collections.Enumerations.Tests\Kingdom.Collections.Enumerations.Tests.csproj", "{A27772AB-A31B-435E-8ED5-EEE5BC53129B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Collections.Enumerations.Tests", "Kingdom.Collections.Enumerations.Tests\Kingdom.Collections.Enumerations.Tests.csproj", "{A27772AB-A31B-435E-8ED5-EEE5BC53129B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdom.Collections.Enumerations.Tests.Tests", "Kingdom.Collections.Enumerations.Tests.Tests\Kingdom.Collections.Enumerations.Tests.Tests.csproj", "{D04761DE-26D2-4B52-B514-0E609DC7E71D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Collections.Enumerations.Tests.Tests", "Kingdom.Collections.Enumerations.Tests.Tests\Kingdom.Collections.Enumerations.Tests.Tests.csproj", "{D04761DE-26D2-4B52-B514-0E609DC7E71D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tooling", "Tooling", "{2C619AB2-210F-4B53-8432-316AC141EE78}"
 EndProject
@@ -85,6 +86,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kingdom.Collections.Sets.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AAB99074-A57F-4F5C-A5C1-9D5AE934A10E}"
 	ProjectSection(SolutionItems) = preProject
+		NuGet.Config = NuGet.Config
 		tools\NuGet\publish.cmd = tools\NuGet\publish.cmd
 	EndProjectSection
 EndProject
@@ -241,7 +243,6 @@ Global
 		{DCA3ED7C-38F1-4DFE-B0E0-6DA28946CBF6} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
 		{1D2163E2-B0F9-4A00-A253-036A6399E218} = {E1374B06-2C96-40BE-8AE0-DAB8F37808A8}
 		{C4ADF218-F902-4B39-8B01-8D691FDD6219} = {CF1D8556-4E2C-4721-B8CC-9407A92465ED}
-		{AAB99074-A57F-4F5C-A5C1-9D5AE934A10E} = {7FD4A0ED-49CB-41C8-8E65-CCAB6E652E8E}
 		{36FE803C-D7B1-4F76-9C44-22A31B14639F} = {7FD4A0ED-49CB-41C8-8E65-CCAB6E652E8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
