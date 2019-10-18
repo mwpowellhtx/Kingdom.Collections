@@ -3,26 +3,25 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>The framework Enumerations provides a solid baseline of features emulating Java's enumeration structure for .NET. Simple Ordinal based Enumerations are supported, as are more complex Flags-like Bitwise Enumerations.</Description>
-    <PackageTags>Enumerations; Enumeration; enumerated; values; Ordinal; Bitwise; Java; dotnet; bitwise; shift; left; right; and; or; xor; not; ones; twos; complement; Flags; Boolean; bool; ICollection; ICloneable</PackageTags>
-    <Version>1.3.0.3150</Version>
-    <AssemblyVersion>1.3.0.3150</AssemblyVersion>
-    <FileVersion>1.3.0.3150</FileVersion>
-    <PackageVersion>1.3.0.3150</PackageVersion>
+    <Version>1.3.0.3172</Version>
+    <AssemblyVersion>1.3.0.3172</AssemblyVersion>
+    <FileVersion>1.3.0.3172</FileVersion>
+    <PackageVersion>1.3.0.3172</PackageVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
+  <PropertyGroup>
+    <Description>The framework Enumerations provides a solid baseline of features emulating a Java style enumeration structure for .NET. Simple Ordinal based Enumerations are supported, as are more complex Flags-like Bitwise Enumerations.</Description>
+    <PackageTags>Enumerations;Enumeration;enumerated;values;Ordinal;Bitwise;Java;dotnet;bitwise;shift;left;right;and;or;xor;not;ones;twos;complement;Flags;Boolean;bool;ICollection;ICloneable</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.Enumerations.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Kingdom.Collections.Enumerations.nuspec" />
-  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Enumeration.*.cs">
@@ -33,5 +32,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.Collections.ImmutableBitArray\Kingdom.Collections.ImmutableBitArray.csproj" />
   </ItemGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Licensing.props" />
+  </ImportGroup>
 
 </Project>

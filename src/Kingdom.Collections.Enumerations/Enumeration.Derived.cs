@@ -33,7 +33,7 @@ namespace Kingdom.Collections
         /// <summary>
         /// Gets the DebuggerDisplayName.
         /// </summary>
-        /// <see cref="Enumeration.DisplayName"/>
+        /// <see cref="BaseEnumeration.DisplayName"/>
         /// <see cref="Enumeration.Bits"/>
         /// <remarks>This one really should be sealed, but for the fact that we further
         /// extend from here in order to achieve Ordinal Enumerations.</remarks>
