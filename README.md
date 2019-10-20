@@ -34,7 +34,7 @@ Initially, we wanted to use the .NET Framework [System.Collections.BitArray](htt
 
 The operations are fairly self explanatory. The goals were clear getting started: we wanted to establish a basic moral equivalence, so-called, but for the afore mentioned immutability and idempotency concerns. We will continue adding new operations, and will continue to flesh it out, or as issues and requests are submitted, or contributors want to add to the body of effort.
 
-I took a little time to improve performance by representing the *Immutable Bit Array* in terms of a collection of `Byte`. This took a bit of effort, but we think the performance is about as strong as can be at present. Chiefly, there was also a trade off in terms of *Shift* capability involved in that there is no advantage spending the calories on figuring out the byte-wise shifts involved. Instead, we opted to simply treat the Shift in terms of a `Boolean` collection, which works out pretty well performance-wise.
+We took a little time to improve performance by representing the *Immutable Bit Array* in terms of a collection of `Byte`. This took a bit of effort, but we think the performance is about as strong as can be at present. Chiefly, there was also a trade off in terms of *Shift* capability involved in that there is no advantage spending the calories on figuring out the byte-wise shifts involved. Instead, we opted to simply treat the Shift in terms of a `Boolean` collection, which works out pretty well performance-wise.
 
 Eventually, we may reconsider whether the application of the term *idempotent* is really that accurate. Upon further analysis, it seems to me the focus of whether something is idempotent has to do with the function itself not mutating the thing it is operating on, regardless of the outcome. And, while true, the *ones complement* operator, indeed *any* such operators, should leave the original *operand* untouched, this is not really the same thing, we think. We will need to study the issue a bit further to better name it, we think.
 
@@ -50,13 +50,13 @@ This version of the framework saw a major recasting of the framework in order to
 
 Instead of containing unit testing within the suite as a done deal, we opted to expose a robust set of unit tests for purposes of vetting ***your*** applications of ``Enumeration` or `Enumeration<T>`. This is key, because a lot can be told by the story of your own applications.
 
-The testing framework is fairly robust and does depend upon [NUnit](http://nunit.org/) [2.6.4](http://www.nuget.org/packages/NUnit/2.6.4), at least for the time being. We may pursue a migration path, or add additional support, into [xunit](http://xunit.github.io/), for example, but this will depend heavily upon there being competent provisional [combinatorial](http://github.com/AArnott/Xunit.Combinatorial/) support. That, or firing the combinatorial author altogether and forge out own combinatorial path; however, bandwidth is the key contraint where these ambitions are concerned.
+We decided to drop [NUnit](http://nunit.org/) support from the project altogether in favor of [xunit](http://xunit.github.io/). We are are also employing our xunit extension methods quite effectively throughout the solution.
 
 ### FlagsEnumerationAttribute enabled Code Generation
 
-My motivation here was to establish an seamless `Enumeration<T>` experience that looks and feels more or less like the language leven `enum` and `FlagsAttribute`. As such, we wanted to enable automatic code generation of the boilerplate code that is necessary to override the bitwise operators with appropriate `Enumeration<T>` based counterparts.
+Our motivation here was to establish an seamless `Enumeration<T>` experience that looks and feels more or less like the language leven `enum` and `FlagsAttribute`. As such, we wanted to enable automatic code generation of the boilerplate code that is necessary to override the bitwise operators with appropriate `Enumeration<T>` based counterparts.
 
-I wanted to pursue this in terms of a *Visual Studio Extension* at first, but soon discovered that the better choice was to do so in terms of a *.NET Standard Analyzer and Code Fix*. As the name implies, this heavily depended upon first making the transition into *.NET Core/Standard*. As it turns out, this is doable, but not so simple on the surface, not least of all with respect to *Core/Standard* confusion throughout the industry today. Less so for me today, but the migration paths even within *Core/Standard* versions are still a bit muddy waters for me.
+We wanted to pursue this in terms of a *Visual Studio Extension* at first, but soon discovered that the better choice was to do so in terms of a *.NET Standard Analyzer and Code Fix*. As the name implies, this heavily depended upon first making the transition into *.NET Core/Standard*. As it turns out, this is doable, but not so simple on the surface, not least of all with respect to *Core/Standard* confusion throughout the industry today. Less so for me today, but the migration paths even within *Core/Standard* versions are still a bit muddy waters for me.
 
 At the present time, there are a couple of aspects in the delivery. First, there is a *Code Fix* enabled by the *Analyzer* when the `FlagsEnumerationAttribute` is applied. This determines whether the target `Enumeration<T> class` is declared `partial`, and provides a corresponding fix for when it has not.
 
@@ -66,7 +66,7 @@ At the time of this writing, *CodeGeneration.Roslyn* integration nuances were no
 
 ### .NET Code Analysis, Code Fixes, and other fallout
 
-My pursuit of the *Analyzer and Code Fix* extensibility solution also led me to discover a couple of areas that deserved serious refactoring, thereby improving upon the boilerplate project template. Chiefly, [*Analyzer Diagnostics*](/mwpowellhtx/Kingdom.Collections/tree/master/src/Kingdom.CodeAnalysis.Verifiers.Diagnostics) and [*Code Fixes*](/mwpowellhtx/Kingdom.Collections/tree/master/src/Kingdom.CodeAnalysis.Verifiers.CodeFixes), their helpers, etc, deserve their own projects with separately delivered packages. This is especially true for code generation unit testing, which depends solely upon the analyzer diagnostics alone, wholely separate from the code fixes themselves.
+Our pursuit of the *Analyzer and Code Fix* extensibility solution also led me to discover a couple of areas that deserved serious refactoring, thereby improving upon the boilerplate project template. Chiefly, [*Analyzer Diagnostics*](/mwpowellhtx/Kingdom.Collections/tree/master/src/Kingdom.CodeAnalysis.Verifiers.Diagnostics) and [*Code Fixes*](/mwpowellhtx/Kingdom.Collections/tree/master/src/Kingdom.CodeAnalysis.Verifiers.CodeFixes), their helpers, etc, deserve their own projects with separately delivered packages. This is especially true for code generation unit testing, which depends solely upon the analyzer diagnostics alone, wholely separate from the code fixes themselves.
 
 In addition, there were [also a couple of extension methods](/mwpowellhtx/Kingdom.Collections/tree/master/src/Kingdom.CodeAnalysis.Verification) that We found helpful to more *fluently* verify that the code is properly generated. We intentionally steered clear of assuming any dependencies on [*xunit*](/xunit/xunit), or any other, test framework, at this level. Although, we left things fairly open to inject assertions via extension method *predicates*.
 
@@ -82,6 +82,6 @@ This being said, we decided to implement our `Deque` solution as a first class i
 
 Re-writing any of these assemblies in terms of [*C++ CLI*](https://en.wikipedia.org/wiki/C%2B%2B/CLI) may be a non-starter at least in the near and medium term after all. From reading various blogs, etc, it seems as though it is not on the *Microsoft* agenda to migrate any *C++ CLI* support in terms of *.NET Core* or *.NET Standard* support.
 
-I do still want to consider furnishing first class collection objects, not just syntactic sugar in the form of collection extension methods, but this effort is not high on our list of priorities at the moment. It is a work in progress at the time of this posting.
+We do still want to consider furnishing first class collection objects, not just syntactic sugar in the form of collection extension methods, but this effort is not high on our list of priorities at the moment. It is a work in progress at the time of this posting.
 
 Thank you so much and enjoy!
