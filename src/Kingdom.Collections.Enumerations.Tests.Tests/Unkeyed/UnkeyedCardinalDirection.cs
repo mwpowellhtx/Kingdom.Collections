@@ -1,6 +1,6 @@
 ﻿namespace Kingdom.Collections.Unkeyed
 {
-    public class UnkeyedCardinalDirection : UnkeyedEnumeration<UnkeyedCardinalDirection>
+    public class UnkeyedCardinalDirection : Enumeration<UnkeyedCardinalDirection>
     {
         public static readonly UnkeyedCardinalDirection North = new UnkeyedCardinalDirection();
 
