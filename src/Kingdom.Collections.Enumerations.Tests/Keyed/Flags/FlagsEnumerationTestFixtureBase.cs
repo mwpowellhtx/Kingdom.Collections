@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed.Flags
 {
     using Xunit;
     using Xunit.Abstractions;
 
     /// <inheritdoc cref="KeyedEnumerationTestFixtureBase{TKey,T}" />
-    /// <see cref="FlagsEnumerationBase{T}"/>
+    /// <see cref="Enumeration{T}"/>
     public abstract class FlagsEnumerationTestFixtureBase<T> : KeyedEnumerationTestFixtureBase<ImmutableBitArray, T>
-        where T : FlagsEnumerationBase<T>
+        where T : Enumeration<T>
     {
         /// <summary>
         /// Protected Constructor.

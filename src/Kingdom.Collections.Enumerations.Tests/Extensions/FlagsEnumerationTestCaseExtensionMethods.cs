@@ -15,27 +15,27 @@ namespace Kingdom.Collections
     public static class FlagsEnumerationTestCaseExtensionMethods
     {
         /// <summary>
-        /// Returns the <see cref="FlagsEnumerationBase{T}"/> <typeparamref name="T"/> Value
+        /// Returns the <see cref="Keyed.Flags.Enumeration{T}"/> <typeparamref name="T"/> Value
         /// by its <paramref name="bytes"/>. <paramref name="_"/> is provided to connect the
-        /// caller with the <see cref="FlagsEnumerationBase{T}"/> <typeparamref name="T"/>,
+        /// caller with the <see cref="Keyed.Flags.Enumeration{T}"/> <typeparamref name="T"/>,
         /// nothing more, nothing less.
         /// </summary>
         /// <param name="_">Given an anchor value identifying the Type <typeparamref name="T"/>.</param>
         /// <param name="bytes">The Bytes correlating to the <see cref="ImmutableBitArray"/>.</param>
         /// <returns></returns>
         /// <see cref="ImmutableBitArray"/>
-        /// <see cref="FlagsEnumerationBase{T}.FromBitArray"/>
+        /// <see cref="Keyed.Flags.Enumeration{T}.FromBitArray"/>
         public static T GetValueByBytes<T>(this T _, byte[] bytes)
-            where T : FlagsEnumerationBase<T>
+            where T : Keyed.Flags.Enumeration<T>
         {
             var key = new ImmutableBitArray(bytes);
-            var value = FlagsEnumerationBase<T>.FromBitArray(key).AssertNotNull();
+            var value = Keyed.Flags.Enumeration<T>.FromBitArray(key).AssertNotNull();
             value.Key.AssertNotNull().AssertEqual(key);
             return value;
         }
 
         /// <summary>
-        /// Connect the verification with the <see cref="FlagsEnumerationBase{T}"/>
+        /// Connect the verification with the <see cref="Keyed.Flags.Enumeration{T}"/>
         /// <paramref name="_"/> only. We do not require the connection with the test class
         /// itself. In fact, we want that to be separate and distinct in order so that we may
         /// do some independent verification of good, bad, or ugly test cases. Returns whether
@@ -53,7 +53,7 @@ namespace Kingdom.Collections
         /// <see cref="Instance"/>
         /// <see cref="T:byte[]"/>
         internal static void HasExpectedFlagsCtors<T>(this T _, IEnumerationCoverageReporter<T> reporter = null)
-            where T : FlagsEnumerationBase<T>
+            where T : Keyed.Flags.Enumeration<T>
         {
             if (reporter != null)
             {
@@ -68,11 +68,11 @@ namespace Kingdom.Collections
 
         /// <summary>
         /// <paramref name="value"/> is used to connect the caller with the underlying
-        /// <see cref="FlagsEnumerationBase{T}"/> type only. Additionally, we are making
+        /// <see cref="Keyed.Flags.Enumeration{T}"/> type only. Additionally, we are making
         /// the assumption that <see cref="Enumeration.GetValues{T}"/> are unique not only
-        /// in <see cref="Enumeration.Name"/>, but also in <see cref="Enumeration{TKey}.Key"/>
-        /// value. In truth, this could go either way, but for now I will expect that there
-        /// must be uniqueness throughout.
+        /// in <see cref="Enumeration.Name"/>, but also in
+        /// <see cref="Keyed.Enumeration{TKey}.Key"/> value. In truth, this could go either
+        /// way, but for now I will expect that there must be uniqueness throughout.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
@@ -82,7 +82,7 @@ namespace Kingdom.Collections
         public static void KeysShallBeUniquelyAssigned<T>(this T value
             , IEnumerationCoverageReporter<T> reporter = null
             , ITestOutputHelper outputHelper = null)
-            where T : FlagsEnumerationBase<T>
+            where T : Keyed.Flags.Enumeration<T>
             => value.KeysShallBeUniquelyAssigned<ImmutableBitArray, uint, T>(
                 x => x.ToInts().Single(), reporter, outputHelper
             );
