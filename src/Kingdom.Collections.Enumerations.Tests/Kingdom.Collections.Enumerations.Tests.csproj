@@ -8,10 +8,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.5.3177</Version>
-    <AssemblyVersion>1.1.5.3177</AssemblyVersion>
-    <FileVersion>1.1.5.3177</FileVersion>
-    <PackageVersion>1.1.5.3177</PackageVersion>
+    <Version>1.1.5.3213</Version>
+    <AssemblyVersion>1.1.5.3213</AssemblyVersion>
+    <FileVersion>1.1.5.3213</FileVersion>
+    <PackageVersion>1.1.5.3213</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -22,6 +22,10 @@
   <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.Enumerations.Tests.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Kingdom.Collections.Enumerations.Tests.csproj.DotSettings" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Kingdom.Collections.Enumerations\Kingdom.Collections.Enumerations.csproj" />
