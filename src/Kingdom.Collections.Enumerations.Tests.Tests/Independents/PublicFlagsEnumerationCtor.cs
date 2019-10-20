@@ -1,6 +1,7 @@
 ﻿namespace Kingdom.Collections.Independents
 {
-    public class PublicFlagsEnumerationCtor : FlagsEnumerationBase<PublicFlagsEnumerationCtor>
+    // ReSharper disable UnusedMember.Global
+    public class PublicFlagsEnumerationCtor : Keyed.Flags.Enumeration<PublicFlagsEnumerationCtor>
     {
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local
         public PublicFlagsEnumerationCtor(byte[] bytes)
@@ -21,4 +22,5 @@
 
         public static readonly PublicFlagsEnumerationCtor Second = new PublicFlagsEnumerationCtor(new byte[] {2, 3});
     }
+    // ReSharper restore UnusedMember.Global
 }

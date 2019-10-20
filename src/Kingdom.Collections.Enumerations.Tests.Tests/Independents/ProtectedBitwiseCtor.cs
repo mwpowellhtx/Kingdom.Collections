@@ -1,6 +1,6 @@
 ﻿namespace Kingdom.Collections.Independents
 {
-    public class ProtectedBitwiseCtor : FlagsEnumerationBase<ProtectedBitwiseCtor>
+    public class ProtectedBitwiseCtor : Keyed.Flags.Enumeration<ProtectedBitwiseCtor>
     {
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local
         protected ProtectedBitwiseCtor(byte[] bytes)

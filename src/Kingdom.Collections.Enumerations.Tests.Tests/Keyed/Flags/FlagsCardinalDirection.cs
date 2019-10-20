@@ -2,7 +2,8 @@
 
 namespace Kingdom.Collections.Keyed.Flags
 {
-    public partial class FlagsCardinalDirection : FlagsEnumerationBase<FlagsCardinalDirection>
+    // ReSharper disable UnusedMember.Global
+    public partial class FlagsCardinalDirection : Enumeration<FlagsCardinalDirection>
     {
         public static readonly FlagsCardinalDirection North = new FlagsCardinalDirection();
 
@@ -32,4 +33,5 @@ namespace Kingdom.Collections.Keyed.Flags
         /// <inheritdoc />
         public override IEnumerable<FlagsCardinalDirection> EnumeratedValues => GetValues<FlagsCardinalDirection>();
     }
+    // ReSharper restore UnusedMember.Global
 }
