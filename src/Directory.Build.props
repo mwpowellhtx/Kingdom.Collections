@@ -26,6 +26,7 @@
     <XunitAnalyzersVersion>0.10.0</XunitAnalyzersVersion>
     <XunitCombinatorialVersion>1.2.7</XunitCombinatorialVersion>
     <BumpAssemblyVersionsVersion>1.4.0</BumpAssemblyVersionsVersion>
+    <BumpAssemblyVersionsTargetsPath>..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets</BumpAssemblyVersionsTargetsPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,33 +36,35 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('..\packages\BumpAssemblyVersions\$(BumpAssemblyVersionsVersion)\build\BumpAssemblyVersions.targets')">
-    <!--<BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release'" />-->
+  <ItemGroup Condition="'$(Configuration)' == 'Debug' And Exists('$(BumpAssemblyVersionsTargetsPath)')">
+    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" />
+    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" />
+  </ItemGroup>
 
-    <!-- ReSharper disable UnknownProperty -->
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == 'true'" />
+  <!-- ReSharper disable once UnknownProperty -->
+  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(BumpInitialRelease)' == 'true' And Exists('$(BumpAssemblyVersionsTargetsPath)')">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" BuildProviderTemplate="SecondsSinceMidnight" />
+  </ItemGroup>
 
-    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
+  <!-- ReSharper disable once UnknownProperty -->
+  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(BumpPatchRelease)' == 'true' And Exists('$(BumpAssemblyVersionsTargetsPath)')">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+  </ItemGroup>
 
-    <!--<BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
-    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
-    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />
-    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" Condition="'$(Configuration)'=='Release' And '$(BumpInitialRelease)' == ''" />-->
-    <!-- ReSharper restore UnknownProperty -->
-
-    <BumpVersionSpec Include="Version" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
-    <BumpVersionSpec Include="AssemblyVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
-    <BumpVersionSpec Include="FileVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
-    <BumpVersionSpec Include="PackageVersion" BuildProviderTemplate="Increment" Condition="'$(Configuration)'=='Debug'" />
+  <!-- ReSharper disable once UnknownProperty -->
+  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(BumpMinorRelease)' == 'true' And Exists('$(BumpAssemblyVersionsTargetsPath)')">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
   </ItemGroup>
 
   <!-- ReSharper disable UnknownProperty -->
