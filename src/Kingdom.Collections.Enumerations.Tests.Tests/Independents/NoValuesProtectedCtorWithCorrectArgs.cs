@@ -1,6 +1,7 @@
 ﻿namespace Kingdom.Collections.Independents
 {
-    public class NoValuesProtectedCtorWithCorrectArgs : IntegerOrdinalEnumeration<NoValuesProtectedCtorWithCorrectArgs>
+    // ReSharper disable once UnusedMember.Global
+    public class NoValuesProtectedCtorWithCorrectArgs : Keyed.Ordinals.IntegerOrdinalEnumeration<NoValuesProtectedCtorWithCorrectArgs>
     {
         // TODO: TBD: reminding us that the intermediate class ctors also need to be present...
         /// <summary>

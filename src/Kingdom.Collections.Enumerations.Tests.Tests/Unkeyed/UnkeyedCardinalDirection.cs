@@ -1,6 +1,8 @@
 ﻿namespace Kingdom.Collections.Unkeyed
 {
-    public class UnkeyedCardinalDirection : Enumeration<UnkeyedCardinalDirection>
+    // ReSharper disable once PartialTypeWithSinglePart
+    // ReSharper disable UnusedMember.Global
+    public partial class UnkeyedCardinalDirection : Enumeration<UnkeyedCardinalDirection>
     {
         public static readonly UnkeyedCardinalDirection North = new UnkeyedCardinalDirection();
 
@@ -14,4 +16,5 @@
         {
         }
     }
+    // ReSharper restore UnusedMember.Global
 }

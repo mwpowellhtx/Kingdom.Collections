@@ -10,7 +10,7 @@ namespace Kingdom.Collections.Independents
     /// <summary>
     /// This set of unit tests asserts several negative consequences of a badly formed
     /// <see cref="Enumeration"/> pattern. Chiefly, the <see cref="NoValuesNoPrivateCtors"/>
-    /// <see cref="UnkeyedEnumeration{T}"/> Has No values, Does Not Have an Expected Private
+    /// <see cref="Unkeyed.Enumeration{T}"/> Has No values, Does Not Have an Expected Private
     /// Constructor, and Does Have a Public Constructor.
     /// </summary>
     public class NoValuesNoPrivateCtorsTests : IndependentEnumerationTestFixtureBase<NoValuesNoPrivateCtors>

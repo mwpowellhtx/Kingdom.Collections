@@ -2,6 +2,8 @@
 
 namespace Kingdom.Collections.Keyed.Ordinals
 {
+    // ReSharper disable once PartialTypeWithSinglePart
+    // ReSharper disable UnusedMember.Global
     public partial class IntegerCardinalDirection : IntegerOrdinalEnumeration<IntegerCardinalDirection>
     {
         public static readonly IntegerCardinalDirection North = new IntegerCardinalDirection();
@@ -32,4 +34,5 @@ namespace Kingdom.Collections.Keyed.Ordinals
         /// <inheritdoc />
         public override IEnumerable<IntegerCardinalDirection> EnumeratedValues => GetValues<IntegerCardinalDirection>();
     }
+    // ReSharper restore UnusedMember.Global
 }
