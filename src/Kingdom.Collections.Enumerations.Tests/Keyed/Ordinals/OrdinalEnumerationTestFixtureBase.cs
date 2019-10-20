@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed.Ordinals
 {
     using Xunit.Abstractions;
 
     /// <inheritdoc cref="KeyedEnumerationTestFixtureBase{TKey,T}" />
-    /// <see cref="OrdinalEnumeration{TKey,T}"/>
+    /// <see cref="Enumeration{TKey,T}"/>
     public abstract class OrdinalEnumerationTestFixtureBase<TKey, T> : KeyedEnumerationTestFixtureBase<TKey, T>
-        where T : OrdinalEnumeration<TKey, T>
+        where T : Enumeration<TKey, T>
         where TKey : struct, IComparable<TKey>, IEquatable<TKey>
     {
         /// <summary>
