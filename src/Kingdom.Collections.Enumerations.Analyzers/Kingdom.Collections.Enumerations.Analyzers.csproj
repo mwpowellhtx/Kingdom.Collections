@@ -9,10 +9,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.2.2566</Version>
-    <AssemblyVersion>1.0.2.2566</AssemblyVersion>
-    <FileVersion>1.0.2.2566</FileVersion>
-    <PackageVersion>1.0.2.2566</PackageVersion>
+    <Version>1.0.2.2572</Version>
+    <AssemblyVersion>1.0.2.2572</AssemblyVersion>
+    <FileVersion>1.0.2.2572</FileVersion>
+    <PackageVersion>1.0.2.2572</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Kingdom.Collections.Enumerations.Analyzers.csproj.DotSettings" />
   </ItemGroup>
 
   <ItemGroup>

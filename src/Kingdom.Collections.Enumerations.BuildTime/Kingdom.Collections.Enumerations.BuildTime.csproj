@@ -1,22 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyVersion>1.2.0.4</AssemblyVersion>
-    <FileVersion>1.2.0.4</FileVersion>
-    <PackageVersion>1.2.0.4</PackageVersion>
+    <AssemblyVersion>1.2.0.9</AssemblyVersion>
+    <FileVersion>1.2.0.9</FileVersion>
+    <PackageVersion>1.2.0.9</PackageVersion>
   </PropertyGroup>
 
-  <!-- TODO: TBD: are these bits really that necessary? let's compare notes with the other BuildTime projects we've done recently... -->
   <PropertyGroup>
-    <NuspecFile>Kingdom.Collections.Enumerations.BuildTime.nuspec</NuspecFile>
-    <!-- ReSharper disable UnknownProperty disabled once and for all -->
-    <NuspecProperties>version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);copyright=$(Copyright);licenseUrl=$(PackageLicenseUrl);versionOfCodegenRoslyn=$(CodeGenerationRoslynPackagesVersion);requireLicenseAcceptance=true</NuspecProperties>
+    <!-- TODO: TBD: https://github.com/NuGet/Home/wiki/DevelopmentDependency-support-for-PackageReference / DevelopmentDependency support for PackageReference -->
+    <!-- TODO: TBD: https://github.com/NuGet/Home/issues/4125 / PackageReference should support DevelopmentDependency metadata -->
+    <Description>Code generator for [FlagsEnumeration]-decorated types. Automatically generates bitwise operator overloads corresponding with your derived Enumeration assets. This package references all required and recommended analyzer packages. See project site for installation instructions and more details.</Description>
+    <PackageTags>Collections;Enumeration;Build;Time;bitwise;operator;overload;ones;complement;and;or;exclusive;xor;attribute;generator;flags;code;generator;generation;codegen;codegenerator;codegeneration</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kingdom.Collections.Enumerations.Attributes\Kingdom.Collections.Enumerations.Attributes.csproj" />
+    <ProjectReference Include="..\Kingdom.Collections.Enumerations.Analyzers\Kingdom.Collections.Enumerations.Analyzers.csproj" />
+    <ProjectReference Include="..\Kingdom.Collections.Enumerations.Generators\Kingdom.Collections.Enumerations.Generators.csproj" />
+  </ItemGroup>
+
+  <!-- ReSharper disable UnknownProperty -->
+  <ItemGroup>
+    <PackageReference Include="CodeGeneration.Roslyn.BuildTime" Version="$(CodeGenerationRoslynPackagesVersion)" />
+  </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ImportGroup>
     <Import Project="..\..\Licensing.props" />

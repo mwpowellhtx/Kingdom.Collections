@@ -9,10 +9,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.2.2565</Version>
-    <AssemblyVersion>1.0.2.2565</AssemblyVersion>
-    <FileVersion>1.0.2.2565</FileVersion>
-    <PackageVersion>1.0.2.2565</PackageVersion>
+    <Version>1.0.2.2571</Version>
+    <AssemblyVersion>1.0.2.2571</AssemblyVersion>
+    <FileVersion>1.0.2.2571</FileVersion>
+    <PackageVersion>1.0.2.2571</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
