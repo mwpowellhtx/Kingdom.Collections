@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace Kingdom.Collections.Unkeyed
 {
-    // ReSharper disable once CommentTypo
     /// <summary>
     /// Sometimes a strongly typed <see cref="Enumeration"/> may be required apart from
-    /// <see cref="Enumeration{TKey,T}"/> Key details. Keyed <see cref="Enumeration{TKey,T}"/>
-    /// are the natural course of utilizing the Enumerations framework. However, Unkeyed are
-    /// the exception to the rule. So we present these in their own namespace.
+    /// <see cref="Keyed.Enumeration{TKey,T}"/> Key details. Keyed
+    /// <see cref="Keyed.Enumeration{TKey,T}"/> are the natural course of utilizing the
+    /// Enumerations framework. However, <see cref="Enumeration{T}"/> are the exception
+    /// to the rule. So we present these in their own namespace.
     /// </summary>
     /// <typeparam name="T">Represents the Derived Enumeration Type.</typeparam>
     public abstract class Enumeration<T> : Enumeration

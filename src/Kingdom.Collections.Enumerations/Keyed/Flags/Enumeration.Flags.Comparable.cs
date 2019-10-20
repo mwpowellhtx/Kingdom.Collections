@@ -1,7 +1,7 @@
-﻿namespace Kingdom.Collections
+﻿namespace Kingdom.Collections.Keyed.Flags
 {
     // ReSharper disable once UnusedTypeParameter
-    public abstract partial class FlagsEnumerationBase<T>
+    public abstract partial class Enumeration<T>
     {
         /// <inheritdoc />
         /// <remarks>Comparable and Equality is already implemented at the base class

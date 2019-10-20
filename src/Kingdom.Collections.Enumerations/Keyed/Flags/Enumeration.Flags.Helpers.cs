@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed.Flags
 {
     using static Type;
     using static BindingFlags;
 
-    public abstract partial class FlagsEnumerationBase<T>
+    public abstract partial class Enumeration<T>
     {
         /// <summary>
         /// Initializes the <see cref="Enumeration{TKey}.Key" /> in the <paramref name="values"/>.

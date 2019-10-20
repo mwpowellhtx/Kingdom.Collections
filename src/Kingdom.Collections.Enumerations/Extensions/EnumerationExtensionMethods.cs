@@ -21,7 +21,7 @@ namespace Kingdom.Collections
         {
             var returned = false;
 
-            var enumerationTypes = new[] {typeof(Enumeration), typeof(Enumeration<>)};
+            var enumerationTypes = new[] {typeof(Enumeration)};
 
             // It is far easier to reason about this one than to recurse.
             for (var current = type;
@@ -57,10 +57,10 @@ namespace Kingdom.Collections
         /// <remarks>We cannot find any Bitwise Operators that might have been defined
         /// at the derived level from this angle, but we can see the member functions
         /// just fine.</remarks>
-        /// <see cref="FlagsEnumerationBase{T}.BitwiseAnd"/>
-        /// <see cref="Enumeration{TKey}.Equals(TKey)"/>
+        /// <see cref="Keyed.Flags.Enumeration{T}.BitwiseAnd"/>
+        /// <see cref="Keyed.Enumeration{TKey}.Equals(TKey)"/>
         public static bool Contains<T>(this T value, params T[] mask)
-            where T : FlagsEnumerationBase<T>
+            where T : Keyed.Flags.Enumeration<T>
             => mask.Any(x => value.BitwiseAnd(value).Equals(x));
     }
 }

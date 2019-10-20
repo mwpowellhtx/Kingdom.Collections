@@ -9,7 +9,7 @@ namespace Kingdom.Collections.Keyed.Ordinals
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public abstract partial class Enumeration<TKey, T> : Collections.Enumeration<TKey, T>
+    public abstract partial class Enumeration<TKey, T> : Keyed.Enumeration<TKey, T>
         where T : Enumeration<TKey, T>
         where TKey : struct, IComparable<TKey>, IEquatable<TKey>
     {

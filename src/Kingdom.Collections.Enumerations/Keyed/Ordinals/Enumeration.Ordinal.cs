@@ -21,7 +21,7 @@ namespace Kingdom.Collections.Keyed.Ordinals
         }
 
         /// <summary>
-        /// Returns the FirstOrDefault <see cref="Collections.Enumeration{TKey,T}.Values"/>
+        /// Returns the FirstOrDefault <see cref="Keyed.Enumeration{TKey,T}.Values"/>
         /// value corresponding to the given <paramref name="ordinal"/>.
         /// </summary>
         /// <param name="ordinal"></param>

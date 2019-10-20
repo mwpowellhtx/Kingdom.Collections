@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed
 {
     using static Enumeration.CompareToResults;
 

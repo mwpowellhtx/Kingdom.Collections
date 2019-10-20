@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed.Flags
 {
     // ReSharper disable once UnusedTypeParameter
-    public abstract partial class FlagsEnumerationBase<T>
+    public abstract partial class Enumeration<T>
     {
         /// <summary>
         /// 8

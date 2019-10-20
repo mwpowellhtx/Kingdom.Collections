@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed.Flags
 {
     /// <summary>
     /// Provides an <see cref="ImmutableBitArray"/> based <see cref="Enumeration{TKey,T}"/>
@@ -8,8 +8,8 @@ namespace Kingdom.Collections
     /// we plan to offer later on.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract partial class FlagsEnumerationBase<T> : Enumeration<ImmutableBitArray, T>
-        where T : FlagsEnumerationBase<T>
+    public abstract partial class Enumeration<T> : Enumeration<ImmutableBitArray, T>
+        where T : Enumeration<T>
     {
         /// <summary>
         /// Gets the DefaultKeyBytes, a One Byte Array bearing a single Default Byte value.
@@ -34,7 +34,7 @@ namespace Kingdom.Collections
         /// <summary>
         /// Protected Default Constructor.
         /// </summary>
-        protected FlagsEnumerationBase()
+        protected Enumeration()
             : this(DefaultKey, null, null)
         {
         }
@@ -43,7 +43,7 @@ namespace Kingdom.Collections
         /// Protected Constructor.
         /// </summary>
         /// <param name="name"></param>
-        protected FlagsEnumerationBase(string name)
+        protected Enumeration(string name)
             : base(DefaultKey, name, null)
         {
         }
@@ -53,7 +53,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="name"></param>
         /// <param name="displayName"></param>
-        protected FlagsEnumerationBase(string name, string displayName)
+        protected Enumeration(string name, string displayName)
             : base(DefaultKey, name, displayName)
         {
         }
@@ -62,7 +62,7 @@ namespace Kingdom.Collections
         /// Protected Default Constructor.
         /// </summary>
         /// <param name="bytes"></param>
-        protected FlagsEnumerationBase(IEnumerable<byte> bytes)
+        protected Enumeration(IEnumerable<byte> bytes)
             : base(GetDefaultKey(bytes), null, null)
         {
         }
@@ -72,7 +72,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="name"></param>
-        protected FlagsEnumerationBase(IEnumerable<byte> bytes, string name)
+        protected Enumeration(IEnumerable<byte> bytes, string name)
             : base(GetDefaultKey(bytes), name, null)
         {
         }
@@ -83,7 +83,7 @@ namespace Kingdom.Collections
         /// <param name="bytes"></param>
         /// <param name="name"></param>
         /// <param name="displayName"></param>
-        protected FlagsEnumerationBase(IEnumerable<byte> bytes, string name, string displayName)
+        protected Enumeration(IEnumerable<byte> bytes, string name, string displayName)
             : base(GetDefaultKey(bytes), name, displayName)
         {
         }
@@ -92,7 +92,7 @@ namespace Kingdom.Collections
         /// Protected Default Constructor.
         /// </summary>
         /// <param name="bits"></param>
-        protected FlagsEnumerationBase(ImmutableBitArray bits)
+        protected Enumeration(ImmutableBitArray bits)
             : base(bits ?? DefaultKey, null, null)
         {
         }
@@ -102,7 +102,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="bits"></param>
         /// <param name="name"></param>
-        protected FlagsEnumerationBase(ImmutableBitArray bits, string name)
+        protected Enumeration(ImmutableBitArray bits, string name)
             : base(bits ?? DefaultKey, name, null)
         {
         }
@@ -113,7 +113,7 @@ namespace Kingdom.Collections
         /// <param name="bits"></param>
         /// <param name="name"></param>
         /// <param name="displayName"></param>
-        protected FlagsEnumerationBase(ImmutableBitArray bits, string name, string displayName)
+        protected Enumeration(ImmutableBitArray bits, string name, string displayName)
             : base(bits ?? DefaultKey, name, displayName)
         {
         }

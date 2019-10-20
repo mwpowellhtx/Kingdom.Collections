@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed.Flags
 {
     using static Math;
 
-    public abstract partial class FlagsEnumerationBase<T>
+    public abstract partial class Enumeration<T>
     {
         /// <summary>
         /// Returns the BitwiseNot value from this instance.
