@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Kingdom.Collections
 {
     /// <summary>
-    /// Bit array extension methods provided for purposes of supporting Enumeration behavior.
+    /// Extension methods provided for purposes of supporting Enumeration behavior.
     /// </summary>
     public static class EnumerationExtensionMethods
     {
@@ -57,10 +57,10 @@ namespace Kingdom.Collections
         /// <remarks>We cannot find any Bitwise Operators that might have been defined
         /// at the derived level from this angle, but we can see the member functions
         /// just fine.</remarks>
-        /// <see cref="Enumeration{T}.BitwiseAnd"/>
-        /// <see cref="Enumeration{T}.Equals(T)"/>
+        /// <see cref="FlagsEnumerationBase{T}.BitwiseAnd"/>
+        /// <see cref="Enumeration{TKey}.Equals(TKey)"/>
         public static bool Contains<T>(this T value, params T[] mask)
-            where T : Enumeration<T>
-            => mask.Any(m => value.BitwiseAnd(value).Equals(m));
+            where T : FlagsEnumerationBase<T>
+            => mask.Any(x => value.BitwiseAnd(value).Equals(x));
     }
 }
