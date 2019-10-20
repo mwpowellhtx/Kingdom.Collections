@@ -1,14 +1,9 @@
-﻿//using System.Collections.Generic;
-//using System.Collections.Immutable;
-using System.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace Kingdom.Collections
+﻿namespace Kingdom.Collections
 {
-    using static SyntaxFactory;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+    // ReSharper disable once PartialTypeWithSinglePart
     internal partial class FlagsEnumerationDescriptor
     {
         internal NamespaceDeclarationSyntax NamespaceDecl { get; }
@@ -50,70 +45,5 @@ namespace Kingdom.Collections
         }
 #pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved
 
-        //internal abstract class Entry
-        //{
-        //    protected Entry(SyntaxToken identifier, TypeSyntax type, PropertyDeclarationSyntax syntax)
-        //    {
-        //        Identifier = identifier.WithoutTrivia();
-        //        Type = type.WithoutTrivia();
-        //        Syntax = syntax.WithoutTrivia();
-        //    }
-        //    internal SyntaxToken Identifier { get; }
-        //    internal TypeSyntax Type { get; }
-        //    internal PropertyDeclarationSyntax Syntax { get; }
-        //}
-
-        //internal class SimpleEntry : Entry
-        //{
-        //    public SimpleEntry(SyntaxToken identifier, TypeSyntax type, PropertyDeclarationSyntax syntax)
-        //        : base(identifier, type, syntax)
-        //    {
-        //    }
-        //}
-    }
-
-    internal static class FlagsEnumerationDescriptorExtensions
-    {
-        //public static FlagsEnumerationDescriptor.Entry ToFlagsEnumerationEntry(this PropertyDeclarationSyntax property)
-        //    => new FlagsEnumerationDescriptor.SimpleEntry(property.Identifier, property.Type, property);
-
-        public static FlagsEnumerationDescriptor ToFlagsEnumerationDescriptor(this ClassDeclarationSyntax classDecl)
-            => FlagsEnumerationDescriptor.Create(classDecl);
-
-        //// TODO: TBD: is "struct" really necessary? in this case, probably not, but will factor it out as I close in on an appropriate Enumerations solution...
-        //public static FlagsEnumerationDescriptor ToFlagsEnumerationDescriptor(this StructDeclarationSyntax structDecl)
-        //{
-        //    return new FlagsEnumerationDescriptor(
-        //        structDecl.GetTypeSyntax().WithoutTrivia()
-        //        , structDecl.Identifier.WithoutTrivia()
-        //        //, structDecl.GetRecordProperties()
-        //        , structDecl.WithoutTrivia()
-        //    );
-        //}
-
-        //private static ImmutableArray<FlagsEnumerationDescriptor.Entry> GetRecordProperties(
-        //    this TypeDeclarationSyntax typeDecl)
-        //    => typeDecl.Members.GetRecordProperties().AsRecordEntries();
-
-        //private static ImmutableArray<PropertyDeclarationSyntax> GetRecordProperties(
-        //    this SyntaxList<MemberDeclarationSyntax> members)
-        //    => members.OfType<PropertyDeclarationSyntax>()
-        //        .Where(propSyntax => propSyntax.IsPropertyViable()).ToImmutableArray();
-
-        //private static ImmutableArray<FlagsEnumerationDescriptor.Entry> AsRecordEntries(
-        //this IEnumerable<PropertyDeclarationSyntax> properties)
-        //=> properties
-        //    .Select(p => p.ToFlagsEnumerationEntry()).ToImmutableArray();
-
-        public static QualifiedNameSyntax ToNestedBuilderType(this NameSyntax type)
-            => QualifiedName(type, IdentifierName(Names.Builder));
-
-        public static SyntaxToken ToLowerFirstLetter(this SyntaxToken identifier)
-            => Identifier(identifier.Text.ToLowerFirstLetter());
-
-        public static string ToLowerFirstLetter(this string name)
-            => string.IsNullOrEmpty(name)
-                ? name
-                : $"{char.ToLowerInvariant(name.First())}{name.Substring(1)}";
     }
 }

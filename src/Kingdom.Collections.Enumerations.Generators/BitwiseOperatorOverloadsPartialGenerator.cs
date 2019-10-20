@@ -1,13 +1,14 @@
 ﻿using System.Threading;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace Kingdom.Collections
 {
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using static SyntaxFactory;
-    using static SyntaxTokenList;
-    using static SyntaxKind;
+    using static Microsoft.CodeAnalysis.SyntaxTokenList;
+    using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+    using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
+    using static BitwiseOperatorOverloadsPartialGenerator.OperatorMemberNames;
 
     internal class BitwiseOperatorOverloadsPartialGenerator : PartialGeneratorBase
     {
@@ -15,6 +16,29 @@ namespace Kingdom.Collections
             , CancellationToken cancellationToken)
             : base(descriptor, cancellationToken)
         {
+        }
+
+        internal static class OperatorMemberNames
+        {
+            /// <summary>
+            /// &quot;BitwiseNot&quot;
+            /// </summary>
+            public const string BitwiseNot = nameof(BitwiseNot);
+
+            /// <summary>
+            /// &quot;BitwiseAnd&quot;
+            /// </summary>
+            public const string BitwiseAnd = nameof(BitwiseAnd);
+
+            /// <summary>
+            /// &quot;BitwiseOr&quot;
+            /// </summary>
+            public const string BitwiseOr = nameof(BitwiseOr);
+
+            /// <summary>
+            /// &quot;BitwiseXor&quot;
+            /// </summary>
+            public const string BitwiseXor = nameof(BitwiseXor);
         }
 
         public static MemberDeclarationSyntax Generate(FlagsEnumerationDescriptor descriptor
@@ -29,21 +53,11 @@ namespace Kingdom.Collections
              Kingdom.Collections.Enumerations, etc, project(s). Then I may be able to leverage things like
              nameof(BitwiseNot) instead of hard-coding the concerns here... */
 
-            return SingletonList(
-                        GeneratePrivateBytesCtor(Descriptor)
-                    )
-                    .Add(
-                        GenerateUnaryOperatorOverload(Descriptor, "BitwiseNot", TildeToken)
-                    )
-                    .Add(
-                        GenerateBinaryOperatorOverload(Descriptor, "BitwiseAnd", AmpersandToken)
-                    )
-                    .Add(
-                        GenerateBinaryOperatorOverload(Descriptor, "BitwiseOr", BarToken)
-                    )
-                    .Add(
-                        GenerateBinaryOperatorOverload(Descriptor, "BitwiseXor", CaretToken)
-                    )
+            return SingletonList(GeneratePrivateBytesCtor(Descriptor))
+                    .Add(GenerateUnaryOperatorOverload(Descriptor, BitwiseNot, TildeToken))
+                    .Add(GenerateBinaryOperatorOverload(Descriptor, BitwiseAnd, AmpersandToken))
+                    .Add(GenerateBinaryOperatorOverload(Descriptor, BitwiseOr, BarToken))
+                    .Add(GenerateBinaryOperatorOverload(Descriptor, BitwiseXor, CaretToken))
                 ;
 
             //// TODO: TBD: So, we can generate a UsingDeclarationSyntax, however, we may want to fully qualify any base classes...

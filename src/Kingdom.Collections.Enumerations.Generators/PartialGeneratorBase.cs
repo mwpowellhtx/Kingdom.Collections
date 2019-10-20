@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using System.Threading;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace Kingdom.Collections
 {
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using static SyntaxFactory;
-    using static SyntaxKind;
+    using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+    using static Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
     internal abstract class PartialGeneratorBase
     {
@@ -15,6 +14,9 @@ namespace Kingdom.Collections
 
         protected CancellationToken CancellationToken { get; }
 
+        // TODO: TBD: could reconsider CodeGeneration.Roslyn dependency here...
+        // TODO: TBD: perhaps in favor of a fit-for-purpose code generation?
+        // TODO: TBD: or shift gears and sort out our Code.Generation.Roslyn package...
         protected PartialGeneratorBase(FlagsEnumerationDescriptor descriptor
             , CancellationToken cancellationToken)
         {
@@ -57,17 +59,17 @@ namespace Kingdom.Collections
 
         protected virtual SyntaxTokenList GenerateModifiers(FlagsEnumerationDescriptor descriptor)
         {
-            /* Start from the Given Modifiers. Class Declaration goes without saying,
-             but we will account for the conversion regardless. */
+            /* Start from the Given Modifiers. Class Declaration goes without saying, but we will
+             * account for the conversion regardless. */
 
             var modifiers = (descriptor.TypeDecl as ClassDeclarationSyntax)
                             ?.Modifiers.ToArray() ?? new SyntaxToken[0];
 
             var partialToken = $"{Token(PartialKeyword)}";
 
-            /* If Partial is already among them, as it should be, no worries. The Analyzer
-             Code Fix should take care of this instance, but in the event that is does not,
-             or has not yet, then go ahead and account for Partial correctly, regardless. */
+            /* If Partial is already among them, as it should be, no worries. The Analyzer Code Fix
+             * should take care of this instance, but in the event that is does not, or has not yet,
+             * then go ahead and account for Partial correctly, regardless. */
 
             if (modifiers.All(token => $"{token}" != partialToken))
             {
@@ -75,8 +77,7 @@ namespace Kingdom.Collections
                 modifiers = modifiers.Concat(new[] {Token(PartialKeyword)}).ToArray();
             }
 
-            /* But which should include any other Modifiers of interest:
-             i.e. internal, public, etc. */
+            // But which should include any other Modifiers of interest: i.e. internal, public, etc.
 
             return TokenList(modifiers);
         }

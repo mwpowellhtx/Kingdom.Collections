@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using CodeGeneration.Roslyn;
-using Validation;
 
 namespace Kingdom.Collections
 {
+    // TODO: TBD: use our Code.Generation.Roslyn instead?
+    using CodeGeneration.Roslyn;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Validation;
     using static BitwiseOperatorOverloadsPartialGenerator;
-    using static Diagnostic;
-    using static Requires;
-    using static SyntaxFactory;
+    using static Microsoft.CodeAnalysis.Diagnostic;
+    using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
     using static Category;
-    using static DiagnosticSeverity;
+    using static Microsoft.CodeAnalysis.DiagnosticSeverity;
 
     /// <summary>
     ///
@@ -29,7 +28,7 @@ namespace Kingdom.Collections
         // ReSharper disable once UnusedMember.Global, UnusedParameter.Local
         public FlagsEnumerationGenerator(AttributeData attributeData)
         {
-            NotNull(attributeData, nameof(attributeData));
+            attributeData.RequiresNotNull(nameof(attributeData));
         }
 
         private const string IdPrefix = "KingdomCollectionsEnumerations";
@@ -63,8 +62,7 @@ namespace Kingdom.Collections
                 , context.ProcessingNode.GetLocation()));
 
             // We do not just expect a Member, but the Type, returned here.
-            MemberDeclarationSyntax GenerateFlagsEnumerationPartial(FlagsEnumerationDescriptor d)
-                => Generate(d, cancellationToken);
+            MemberDeclarationSyntax GenerateFlagsEnumerationPartial(FlagsEnumerationDescriptor d) => Generate(d, cancellationToken);
 
             return Task.Run(() =>
             {
