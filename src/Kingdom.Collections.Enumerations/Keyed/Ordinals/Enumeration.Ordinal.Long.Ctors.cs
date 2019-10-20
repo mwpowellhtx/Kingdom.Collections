@@ -1,10 +1,10 @@
-﻿namespace Kingdom.Collections
+﻿namespace Kingdom.Collections.Keyed.Ordinals
 {
     /// <summary>
-    /// Provides a <see cref="long"/> based <see cref="OrdinalEnumeration{TKey,T}"/> base class.
+    /// Provides a <see cref="long"/> based <see cref="Enumeration{TKey,T}"/> base class.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract partial class LongOrdinalEnumeration<T> : OrdinalEnumeration<long, T>
+    public abstract partial class LongOrdinalEnumeration<T> : Enumeration<long, T>
         where T : LongOrdinalEnumeration<T>
     {
         /// <summary>

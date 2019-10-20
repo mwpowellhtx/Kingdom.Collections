@@ -1,22 +1,22 @@
 ﻿using System;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Keyed.Ordinals
 {
     /// <summary>
-    /// Provides a <see cref="OrdinalEnumeration{TKey,T}"/> base class. Common
-    /// specializations include <see cref="IntegerOrdinalEnumeration{T}"/> and
-    /// <see cref="LongOrdinalEnumeration{T}"/>, for starters.
+    /// Provides a <see cref="Enumeration{TKey,T}"/> base class. Common specializations include
+    /// <see cref="IntegerOrdinalEnumeration{T}"/> and <see cref="LongOrdinalEnumeration{T}"/>,
+    /// for starters.
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public abstract partial class OrdinalEnumeration<TKey, T> : Enumeration<TKey, T>
-        where T : OrdinalEnumeration<TKey, T>
+    public abstract partial class Enumeration<TKey, T> : Collections.Enumeration<TKey, T>
+        where T : Enumeration<TKey, T>
         where TKey : struct, IComparable<TKey>, IEquatable<TKey>
     {
         /// <summary>
         /// Protected Default Constructor.
         /// </summary>
-        protected OrdinalEnumeration()
+        protected Enumeration()
         {
         }
 
@@ -24,7 +24,7 @@ namespace Kingdom.Collections
         /// Protected Constructor.
         /// </summary>
         /// <param name="name"></param>
-        protected OrdinalEnumeration(string name)
+        protected Enumeration(string name)
             : base(name)
         {
         }
@@ -34,7 +34,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="name"></param>
         /// <param name="displayName"></param>
-        protected OrdinalEnumeration(string name, string displayName)
+        protected Enumeration(string name, string displayName)
             : base(name, displayName)
         {
         }
@@ -43,7 +43,7 @@ namespace Kingdom.Collections
         /// Protected Constructor.
         /// </summary>
         /// <param name="key"></param>
-        protected OrdinalEnumeration(TKey key)
+        protected Enumeration(TKey key)
             : base(key)
         {
         }
@@ -53,7 +53,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="key"></param>
         /// <param name="name"></param>
-        protected OrdinalEnumeration(TKey key, string name)
+        protected Enumeration(TKey key, string name)
             : base(key, name)
         {
         }
@@ -64,7 +64,7 @@ namespace Kingdom.Collections
         /// <param name="key"></param>
         /// <param name="name"></param>
         /// <param name="displayName"></param>
-        protected OrdinalEnumeration(TKey key, string name, string displayName)
+        protected Enumeration(TKey key, string name, string displayName)
             : base(key, name, displayName)
         {
         }

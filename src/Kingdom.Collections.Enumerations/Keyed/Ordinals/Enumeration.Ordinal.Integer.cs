@@ -1,4 +1,4 @@
-﻿namespace Kingdom.Collections
+﻿namespace Kingdom.Collections.Keyed.Ordinals
 {
     // ReSharper disable once UnusedTypeParameter
     public abstract partial class IntegerOrdinalEnumeration<T>

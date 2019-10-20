@@ -1,10 +1,10 @@
-﻿namespace Kingdom.Collections
+﻿namespace Kingdom.Collections.Keyed.Ordinals
 {
     /// <summary>
-    /// Provides an <see cref="int"/> based <see cref="OrdinalEnumeration{TKey,T}"/> base class.
+    /// Provides an <see cref="int"/> based <see cref="Enumeration{TKey,T}"/> base class.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract partial class IntegerOrdinalEnumeration<T> : OrdinalEnumeration<int, T>
+    public abstract partial class IntegerOrdinalEnumeration<T> : Enumeration<int, T>
         where T : IntegerOrdinalEnumeration<T>
     {
         /// <summary>
