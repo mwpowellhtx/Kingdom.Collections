@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Kingdom.Collections
+namespace Kingdom.Collections.Unkeyed
 {
+    // ReSharper disable once CommentTypo
     /// <summary>
-    /// Sometimes a strongly typed <see cref="Enumeration"/> may be required
-    /// apart from <see cref="Enumeration{TKey,T}"/> Key details.
+    /// Sometimes a strongly typed <see cref="Enumeration"/> may be required apart from
+    /// <see cref="Enumeration{TKey,T}"/> Key details. Keyed <see cref="Enumeration{TKey,T}"/>
+    /// are the natural course of utilizing the Enumerations framework. However, Unkeyed are
+    /// the exception to the rule. So we present these in their own namespace.
     /// </summary>
     /// <typeparam name="T">Represents the Derived Enumeration Type.</typeparam>
-    public abstract class UnkeyedEnumeration<T> : Enumeration
-        where T : UnkeyedEnumeration<T>
+    public abstract class Enumeration<T> : Enumeration
+        where T : Enumeration<T>
     {
         /// <summary>
         /// Protected Default Constructor.
         /// </summary>
-        protected UnkeyedEnumeration()
+        protected Enumeration()
         {
         }
 
@@ -22,7 +25,7 @@ namespace Kingdom.Collections
         /// Protected Constructor.
         /// </summary>
         /// <param name="name"></param>
-        protected UnkeyedEnumeration(string name)
+        protected Enumeration(string name)
             : base(name)
         {
         }
@@ -32,7 +35,7 @@ namespace Kingdom.Collections
         /// </summary>
         /// <param name="name"></param>
         /// <param name="displayName"></param>
-        protected UnkeyedEnumeration(string name, string displayName)
+        protected Enumeration(string name, string displayName)
             : base(name, displayName)
         {
         }
