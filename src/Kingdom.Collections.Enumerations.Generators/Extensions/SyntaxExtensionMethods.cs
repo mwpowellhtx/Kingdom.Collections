@@ -1,18 +1,17 @@
 ﻿using System.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Kingdom.Collections
 {
-    using static SyntaxFactory;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
     /* TODO: TBD: this is pretty much copied/pasted from
-      https://github.com/amis92/RecordGenerator/blob/master/src/Amadevus.RecordGenerator.Generators/SyntaxExtensions.cs
-      As such, not sure we would use any of these, may use some of them, and may discover a need for others better suited
-      to the task at hand... */
+      * https://github.com/amis92/RecordGenerator/blob/master/src/Amadevus.RecordGenerator.Generators/SyntaxExtensions.cs
+      * As such, not sure we would use any of these, may use some of them, and may discover a need for others better suited
+      * to the task at hand... */
     // TODO: TBD: so, likely need very few of these, perhaps; will keep them commented, and there may be one or two that end up being useful, like for semi-colon tokens, etc...
-    internal static class SyntaxExtensions
+    internal static class SyntaxExtensionMethods
     {
         //public static MethodDeclarationSyntax AddModifiers(this MethodDeclarationSyntax methodDecl
         //    , params SyntaxKind[] modifier)
