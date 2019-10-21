@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -8,10 +8,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.5.3220</Version>
-    <AssemblyVersion>1.1.5.3220</AssemblyVersion>
-    <FileVersion>1.1.5.3220</FileVersion>
-    <PackageVersion>1.1.5.3220</PackageVersion>
+    <Version>2.0.0.23630</Version>
+    <AssemblyVersion>2.0.0.23630</AssemblyVersion>
+    <FileVersion>2.0.0.23630</FileVersion>
+    <PackageVersion>2.0.0.23630</PackageVersion>
+    <!--<BumpMajorRelease>true</BumpMajorRelease>-->
   </PropertyGroup>
 
   <PropertyGroup>
@@ -19,11 +20,22 @@
     <PackageTags>Enumerations;Enumeration;enumerated;values;Ordinal;Bitwise;Java;dotnet;bitwise;shift;left;right;and;or;xor;not;ones;twos;complement;Flags;Boolean;bool;ICollection;ICloneable;xUnit;framework;unit;tests;testing;base;boilerplate</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Several key points here:
+     1) Apparently some projects, i.e. with xunit references, are no longer packable by default.
+     2) Additionally, we must also relay additional details into a custom Nuspec file.
+     3) Also note the appropriate timing of the `SetNuspecProperties´ Target. -->
+    <NuspecFilePath>.nuget\$(MSBuildProjectName).nuspec</NuspecFilePath>
+    <NuspecFile>$(NuspecFilePath)</NuspecFile>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\netstandard2.0\Kingdom.Collections.Enumerations.Tests.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="$(NuspecFilePath)" />
     <None Remove="Kingdom.Collections.Enumerations.Tests.csproj.DotSettings" />
   </ItemGroup>
 
@@ -31,15 +43,60 @@
     <ProjectReference Include="..\Kingdom.Collections.Enumerations\Kingdom.Collections.Enumerations.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Kingdom.Collections.Enumerations.Tests.Tests</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
-
   <ImportGroup>
     <Import Project="..\Unit.Testing.Slim.props" />
     <Import Project="..\..\Licensing.props" />
   </ImportGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(MSBuildProjectName).Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <KingdomCollectionsEnumerationsVersion>[2,3)</KingdomCollectionsEnumerationsVersion>
+    <KingdomCollectionsImmutableBitArrayVersion>[2.1,3)</KingdomCollectionsImmutableBitArrayVersion>
+  </PropertyGroup>
+
+  <!-- TODO: TBD: could potentially capture some of these bits in a separate build properties, for things like core properties... -->
+  <!-- Disable once to make it abundantly clear which properties are defined elsewhere in the build pipeline. -->
+  <Target Name="SetNuspecProperties" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <NuGetPackageSummary>Enumerations unit test framework.</NuGetPackageSummary>
+      <!-- We do this because `csproj´ specifications are different from those of `nuspec´. -->
+      <NuspecTags>$([System.String]::Copy('$(PackageTags)').Replace(';', ' '))</NuspecTags>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <NuspecProperties>$(NuspecProperties);id=$(AssemblyName)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);config=$(Configuration)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);version=$(PackageVersion)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);description=$(Description)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);tags=$(NuspecTags)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);authors=$(Authors)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);projectUrl=$(PackageProjectUrl)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);summary=$(NuGetPackageSummary)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);licenseFile=$(InternalLicenseFileName)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);requireLicenseAcceptance=$(PackageRequireLicenseAcceptance)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);kingdomCollectionsEnumerationsVersion=$(KingdomCollectionsEnumerationsVersion)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);kingdomCollectionsImmutableBitArrayVersion=$(KingdomCollectionsImmutableBitArrayVersion)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);xunitVersion=$(XunitVersion)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);xunitAnalyzersVersion=$(XunitAnalyzersVersion)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);xunitFluentlyAssertVersion=$(XunitFluentlyAssertVersion)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);xunitFluentlyAssertExceptionallyVersion=$(XunitFluentlyAssertExceptionallyVersion)</NuspecProperties>
+    </PropertyGroup>
+
+    <Message Text="NuspecFile: $(NuspecFile)" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
+    <Message Text="NuspecTags: $(NuspecTags)" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
+    <Message Text="NuspecProperties: $(NuspecProperties)" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
+  </Target>
 
 </Project>
