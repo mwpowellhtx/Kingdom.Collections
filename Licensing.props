@@ -6,14 +6,14 @@
   <PropertyGroup>
     <_LicenseFileDirectory>..\..\</_LicenseFileDirectory>
     <_DesiredLicenseFileName>LICENSE.</_DesiredLicenseFileName>
-    <_InternalLicenseFileName>LICENSE.txt</_InternalLicenseFileName>
+    <InternalLicenseFileName>LICENSE.txt</InternalLicenseFileName>
     <_DesiredFilePath>$(_LicenseFileDirectory)$(_DesiredLicenseFileName)</_DesiredFilePath>
-    <_LicenseFilePath>$(_LicenseFileDirectory)$(_InternalLicenseFileName)</_LicenseFilePath>
+    <_LicenseFilePath>$(_LicenseFileDirectory)$(InternalLicenseFileName)</_LicenseFilePath>
   </PropertyGroup>
 
   <!-- TODO: TBD: specify one or the other, the LICENSE file is preferred, we think. -->
   <PropertyGroup>
-    <PackageLicenseFile>$(_InternalLicenseFileName)</PackageLicenseFile>
+    <PackageLicenseFile>$(InternalLicenseFileName)</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(_LicenseFilePath)" Pack="true" PackagePath="$(_InternalLicenseFileName)">
+    <None Include="$(_LicenseFilePath)" Pack="true" PackagePath="$(InternalLicenseFileName)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
