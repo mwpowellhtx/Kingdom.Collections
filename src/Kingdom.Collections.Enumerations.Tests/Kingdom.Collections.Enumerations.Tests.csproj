@@ -80,6 +80,8 @@
       <NuspecProperties>$(NuspecProperties);projectUrl=$(PackageProjectUrl)</NuspecProperties>
       <NuspecProperties>$(NuspecProperties);summary=$(NuGetPackageSummary)</NuspecProperties>
       <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);copyright=$(Copyright)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
       <NuspecProperties>$(NuspecProperties);licenseFile=$(InternalLicenseFileName)</NuspecProperties>
       <NuspecProperties>$(NuspecProperties);requireLicenseAcceptance=$(PackageRequireLicenseAcceptance)</NuspecProperties>
       <NuspecProperties>$(NuspecProperties);kingdomCollectionsEnumerationsVersion=$(KingdomCollectionsEnumerationsVersion)</NuspecProperties>
