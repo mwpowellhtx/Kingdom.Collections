@@ -10,10 +10,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.1.1.2570</Version>
-    <AssemblyVersion>1.1.1.2570</AssemblyVersion>
-    <FileVersion>1.1.1.2570</FileVersion>
-    <PackageVersion>1.1.1.2570</PackageVersion>
+    <Version>1.1.2.8081</Version>
+    <AssemblyVersion>1.1.2.8081</AssemblyVersion>
+    <FileVersion>1.1.2.8081</FileVersion>
+    <PackageVersion>1.1.2.8081</PackageVersion>
+    <!--<BumpPatchRelease>true</BumpPatchRelease>-->
   </PropertyGroup>
 
   <PropertyGroup>
@@ -37,13 +38,13 @@
     <ValidateFluentlyVersion>[1,2)</ValidateFluentlyVersion>
   </PropertyGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="CodeGeneration.Roslyn" Version="$(CodeGenerationRoslynPackagesVersion)" PrivateAssets="all" />
-    <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="$(MicrosoftCodeAnalysisCSharpVersion)" />
     <PackageReference Include="Validate.Fluently" Version="$(ValidateFluentlyVersion)" />
   </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ImportGroup>
     <Import Project="..\..\Licensing.props" />

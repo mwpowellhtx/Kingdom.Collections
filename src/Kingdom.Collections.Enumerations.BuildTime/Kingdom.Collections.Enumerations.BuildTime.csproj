@@ -7,10 +7,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyVersion>1.2.0.9</AssemblyVersion>
-    <FileVersion>1.2.0.9</FileVersion>
-    <PackageVersion>1.2.0.9</PackageVersion>
+    <AssemblyVersion>1.2.1.11325</AssemblyVersion>
+    <FileVersion>1.2.1.11325</FileVersion>
+    <PackageVersion>1.2.1.11325</PackageVersion>
+    <!--<BumpPatchRelease>true</BumpPatchRelease>-->
   </PropertyGroup>
+
+  <PropertyGroup>
+    <NuGetSpecificationFilePath>.nuget/$(MSBuildProjectName).nuspec</NuGetSpecificationFilePath>
+    <NuspecFile>$(NuGetSpecificationFilePath)</NuspecFile>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(NuGetSpecificationFilePath)" />
+  </ItemGroup>
 
   <PropertyGroup>
     <!-- TODO: TBD: https://github.com/NuGet/Home/wiki/DevelopmentDependency-support-for-PackageReference / DevelopmentDependency support for PackageReference -->
@@ -20,6 +31,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- We do need to leave the project connection there because the projects are connected. -->
     <ProjectReference Include="..\Kingdom.Collections.Enumerations.Attributes\Kingdom.Collections.Enumerations.Attributes.csproj" />
     <ProjectReference Include="..\Kingdom.Collections.Enumerations.Analyzers\Kingdom.Collections.Enumerations.Analyzers.csproj" />
     <ProjectReference Include="..\Kingdom.Collections.Enumerations.Generators\Kingdom.Collections.Enumerations.Generators.csproj" />
@@ -34,5 +46,52 @@
   <ImportGroup>
     <Import Project="..\..\Licensing.props" />
   </ImportGroup>
+
+  <Target Name="SetNuspecProperties" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <NuGetPackageSummary>Enumerations unit test framework.</NuGetPackageSummary>
+      <!-- We do this because `csproj´ specifications are different from those of `nuspec´. -->
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecTags>$([System.String]::Copy('$(PackageTags)').Replace(';', ' '))</NuspecTags>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <KingdomCollectionsEnumerationsAttributesVersion>[1.0.3,2)</KingdomCollectionsEnumerationsAttributesVersion>
+      <KingdomCollectionsEnumerationsAnalyzersVersion>[1.0.3,2)</KingdomCollectionsEnumerationsAnalyzersVersion>
+      <KingdomCollectionsEnumerationsGeneratorsVersion>[1.1.2,2)</KingdomCollectionsEnumerationsGeneratorsVersion>
+      <IsDevelopmentDependency>true</IsDevelopmentDependency>
+    </PropertyGroup>
+  
+    <PropertyGroup>
+      <NuspecProperties>$(NuspecProperties);id=$(AssemblyName)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);config=$(Configuration)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);version=$(PackageVersion)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);description=$(Description)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);tags=$(NuspecTags)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);authors=$(Authors)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);projectUrl=$(PackageProjectUrl)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);summary=$(NuGetPackageSummary)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);licenseFile=$(InternalLicenseFileName)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);requireLicenseAcceptance=$(PackageRequireLicenseAcceptance)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);copyright=$(Copyright)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);developmentDependency=$(IsDevelopmentDependency)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);kingdomCollectionsEnumerationsAttributesVersion=$(KingdomCollectionsEnumerationsAttributesVersion)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);kingdomCollectionsEnumerationsAnalyzersVersion=$(KingdomCollectionsEnumerationsAnalyzersVersion)</NuspecProperties>
+      <NuspecProperties>$(NuspecProperties);kingdomCollectionsEnumerationsGeneratorsVersion=$(KingdomCollectionsEnumerationsGeneratorsVersion)</NuspecProperties>
+      <!-- ReSharper disable once UnknownProperty -->
+      <NuspecProperties>$(NuspecProperties);codeGenerationRoslynVersion=$(CodeGenerationRoslynPackagesVersion)</NuspecProperties>
+    </PropertyGroup>
+
+    <Message Text="NuspecFile: $(NuspecFile)" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
+    <Message Text="NuspecTags: $(NuspecTags)" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
+    <Message Text="NuspecProperties: $(NuspecProperties)" Importance="high" Condition="'$(Configuration)' == 'Debug'" />
+  </Target>
 
 </Project>

@@ -9,10 +9,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <Version>1.0.2.2572</Version>
-    <AssemblyVersion>1.0.2.2572</AssemblyVersion>
-    <FileVersion>1.0.2.2572</FileVersion>
-    <PackageVersion>1.0.2.2572</PackageVersion>
+    <Version>1.0.3.8081</Version>
+    <AssemblyVersion>1.0.3.8081</AssemblyVersion>
+    <FileVersion>1.0.3.8081</FileVersion>
+    <PackageVersion>1.0.3.8081</PackageVersion>
+    <!--<BumpPatchRelease>true</BumpPatchRelease>-->
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,11 +36,12 @@
     <None Remove="Kingdom.Collections.Enumerations.Analyzers.csproj.DotSettings" />
   </ItemGroup>
 
+  <!-- ReSharper disable UnknownProperty -->
   <ItemGroup>
-    <!-- ReSharper disable once UnknownProperty defined in Directory.Build.props -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="$(MicrosoftCodeAnalysisCSharpVersion)" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
+  <!-- ReSharper restore UnknownProperty -->
 
   <ItemGroup>
     <Compile Update="Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
