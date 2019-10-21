@@ -51,19 +51,20 @@ set collections_projects=%collections_projects%%delim%Kingdom.Collections.Queues
 set collections_projects=%collections_projects%%delim%Kingdom.Collections.Deques
 rem Setup Deques Projects
 set deques_projects=Kingdom.Collections.Deques
-rem Setup Enumerations Projects
-set enum_projects=Kingdom.Collections.ImmutableBitArray
-set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Attributes
-set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Analyzers
-set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Generators
-set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.BuildTime
-set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verification
-set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
-set enum_projects=%enum_projects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
-set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations
-set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Tests
 rem Setup Bit Array Projects
 set bit_array_projects=Kingdom.Collections.ImmutableBitArray
+rem Setup Enumerations Projects
+set enum_projects=Kingdom.Collections.ImmutableBitArray
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations
+set enum_projects=%enum_projects%%delim%Kingdom.Collections.Enumerations.Tests
+rem Setup Enumeration Tooling Projects
+set enum_tooling_projects=Kingdom.Collections.Enumerations.Attributes
+set enum_tooling_projects=%enum_tooling_projects%%delim%Kingdom.Collections.Enumerations.Analyzers
+set enum_tooling_projects=%enum_tooling_projects%%delim%Kingdom.Collections.Enumerations.Generators
+set enum_tooling_projects=%enum_tooling_projects%%delim%Kingdom.Collections.Enumerations.BuildTime
+set enum_tooling_projects=%enum_tooling_projects%%delim%Kingdom.CodeAnalysis.Verification
+set enum_tooling_projects=%enum_tooling_projects%%delim%Kingdom.CodeAnalysis.Verifiers.CodeFixes
+set enum_tooling_projects=%enum_tooling_projects%%delim%Kingdom.CodeAnalysis.Verifiers.Diagnostics
 rem Setup Bidirectional Projects
 set bidi_projects=Kingdom.Collections.Bidirectionals
 rem Setup All Collections Core Projects
@@ -112,6 +113,24 @@ if /i "%1" equ "--config" (
     goto :next_arg
 )
 
+:add_bit_array_projects
+if /i "%1" equ "--bits" (
+    if /i "%projects%" equ "" (
+        set projects=%bit_array_projects%
+    ) else (
+        set projects=%projects%%delim%%bit_array_projects%
+    )
+    goto :next_arg
+)
+if /i "%1" equ "--bit-array" (
+    if /i "%projects%" equ "" (
+        set projects=%bit_array_projects%
+    ) else (
+        set projects=%projects%%delim%%bit_array_projects%
+    )
+    goto :next_arg
+)
+
 :add_enum_projects
 if /i "%1" equ "--enums" (
     if /i "%projects%" equ "" (
@@ -130,22 +149,20 @@ if /i "%1" equ "--enumerations" (
     goto :next_arg
 )
 
-:add_bit_array_projects
-if /i "%1" equ "--bits" (
+:add_enum_tooling_projects
+if /i "%1" equ "--enum-tools" (
     if /i "%projects%" equ "" (
-        set projects=%bit_array_projects%
+        set projects=%enum_tooling_projects%
     ) else (
-        set projects=%projects%%delim%%bit_array_projects%
+        set projects=%projects%%delim%%enum_tooling_projects%
     )
     goto :next_arg
 )
-
-:add_bit_array_projects
-if /i "%1" equ "--bit-array" (
+if /i "%1" equ "--enumeration-tools" (
     if /i "%projects%" equ "" (
-        set projects=%bit_array_projects%
+        set projects=%enum_tooling_projects%
     ) else (
-        set projects=%projects%%delim%%bit_array_projects%
+        set projects=%projects%%delim%%enum_tooling_projects%
     )
     goto :next_arg
 )
