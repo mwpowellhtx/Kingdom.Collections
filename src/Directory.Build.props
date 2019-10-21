@@ -67,6 +67,14 @@
     <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MinorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
   </ItemGroup>
 
+  <!-- ReSharper disable once UnknownProperty -->
+  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(BumpMajorRelease)' == 'true' And Exists('$(BumpAssemblyVersionsTargetsPath)')">
+    <BumpVersionSpec Include="Version" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="AssemblyVersion" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="FileVersion" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+    <BumpVersionSpec Include="PackageVersion" UseUtc="true" MayReset="true" MajorProviderTemplate="Increment" PatchProviderTemplate="Increment" BuildProviderTemplate="SecondsSinceMidnight" />
+  </ItemGroup>
+
   <!-- ReSharper disable UnknownProperty -->
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <!-- Depending on `PackageOutputPath´ is still the right thing to do, as is `PackageId´.
