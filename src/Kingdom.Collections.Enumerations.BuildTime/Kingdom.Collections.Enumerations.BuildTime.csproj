@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <NuGetSpecificationFilePath>.nuget/$(MSBuildProjectName).nuspec</NuGetSpecificationFilePath>
+    <NuGetSpecificationFilePath>.nuget\$(MSBuildProjectName).nuspec</NuGetSpecificationFilePath>
     <NuspecFile>$(NuGetSpecificationFilePath)</NuspecFile>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
